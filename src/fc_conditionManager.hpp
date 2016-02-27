@@ -68,12 +68,17 @@ public:
     void deleteAllDeviceConditions(int _deviceIndex);
     void getNumDevices();
     
+    string printCondition(int index);
+    void drawAllConditions(float x, float y);
+    
 private:
     vector < fc_condition* > conditions;
     vector < fc_device* > devices;
     
     int numberOfRelayChannels = 4;
     vector < bool > allRelayCounter;
+    
+    ofTrueTypeFont font;
 };
 
 #endif /* fc_conditionManager_hpp */

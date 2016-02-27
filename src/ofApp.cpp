@@ -5,11 +5,17 @@ void ofApp::setup(){
     conditionManager.setDevices(deviceManager.getDevices());
     
     ofBackground(ofColor::black);
+    ofToggleFullscreen();
+    
+    conditionManager.makeNewCondition(6, X, ABS, LT, 1300, 6, 1);
+    conditionManager.makeNewCondition(6, X, ABS, LT, 1300, 6, 3);
+    conditionManager.makeNewCondition(6, X, ABS, LT, 1200, 6, 0);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
     deviceManager.update();
+    conditionManager.checkAllConditions();
 
 }
 
@@ -17,6 +23,7 @@ void ofApp::update(){
 void ofApp::draw(){
     ofSetColor(ofColor::white);
     deviceManager.drawDeviceDebug(16, 16);
+    conditionManager.drawAllConditions(16, 500);
 }
 
 //--------------------------------------------------------------
@@ -40,6 +47,9 @@ void ofApp::keyPressed(int key){
     if(key == '7') devSel = 7;
     
     if(key == ' ') conditionManager.getNumDevices();
+    
+    if(key == '+') ofToggleFullscreen();
+    if(key == 'p') deviceManager.setPingAll(true, 0.075);
 }
 
 void ofApp::exit() {

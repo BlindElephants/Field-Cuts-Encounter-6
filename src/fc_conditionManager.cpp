@@ -11,6 +11,7 @@
 fc_conditionManager::fc_conditionManager() {
     conditions.clear();
     allRelayCounter.clear();
+    font.load("courier", 12);
 }
 
 void fc_conditionManager::setDevices(vector<fc_device *> _devices) {
@@ -157,4 +158,51 @@ void fc_conditionManager::deleteRandomCondition() {
 
 void fc_conditionManager::getNumDevices() {
     cout << devices.size() << endl;
+}
+
+string fc_conditionManager::printCondition(int index) {
+    string _s;
+    _s += "SOURCE: " + ofToString(conditions[index] -> sourceDevice);
+    _s += " | ";
+    
+    if(conditions[index] -> x_y_z == X) {
+        _s += "X";
+    } else if (conditions[index] -> x_y_z == Y) {
+        _s += "Y";
+    } else if (conditions[index] -> x_y_z == Z) {
+        _s += "Z";
+    }
+    
+    _s += " - ";
+    if(conditions[index] -> abs_del == ABS) {
+        _s += "ABS";
+    } else if (conditions[index] -> abs_del == DEL) {
+        _s += "DEL";
+    }
+    
+    _s += " ";
+    if(conditions[index] -> MT_LT == MT) {
+        _s += ">";
+    } else if(conditions[index] -> MT_LT == LT) {
+        _s += "<";
+    }
+    
+    _s += " ";
+    _s += ofToString(conditions[index] -> threshold);
+    
+    _s += " : ";
+    _s += ofToString(conditions[index] -> targetDevice);
+    _s += "-";
+    _s += ofToString(conditions[index] -> targetRelayChannel);
+    
+    return _s;
+}
+
+void fc_conditionManager::drawAllConditions(float x, float y) {
+    float _y = y;
+    
+    for(int i = 0 ; i < conditions.size() ; i ++ ) {
+        font.drawString(printCondition(i), x, _y);
+        _y += 16;
+    }
 }

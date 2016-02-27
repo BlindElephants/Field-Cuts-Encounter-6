@@ -23,11 +23,18 @@ public:
     vector < fc_device* > getDevices();
     
     void drawDeviceDebug(float x, float y);
+    void setPingAll(bool _pingAll, float _period);
+    
     
 private:
     vector < fc_device* > devices;
     fc_deviceAccelParser deviceAccelParser;
     ofTrueTypeFont font;
+    
+    bool pingAll = false;
+    bool shouldPing = false;
+    float pingAllTimer = 0.0;
+    float pingAllPeriod = 0.5;
 };
 
 

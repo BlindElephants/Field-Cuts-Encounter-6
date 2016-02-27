@@ -22,12 +22,22 @@ fc_deviceManager::fc_deviceManager() {
 
 
 void fc_deviceManager::update() {
+    if(pingAll) {
+        pingAllTimer += ofGetLastFrameTime();
+        if(pingAllTimer >= pingAllPeriod) {
+            shouldPing = true;
+            pingAllTimer = 0.0;
+        } else {
+            shouldPing = false;
+        }
+    }
     
     //receive and distribute any new accelerometer data to devices
     deviceAccelParser.update();
     
     //check each device for changes in relay channel states since last frame, if so, send message to device
     for(int i = 0 ; i < devices.size() ; i ++ ) {
+        if(shouldPing) devices[i] -> ping();
         devices[i] -> checkAndUpdateRelays();
     }
 }
@@ -46,4 +56,9 @@ void fc_deviceManager::drawDeviceDebug(float x, float y) {
         font.drawString(devices[i] -> getDebug(), x, _y);
         _y += font.getSize() + 2;
     }
+}
+
+void fc_deviceManager::setPingAll(bool _pingAll, float _period){
+    pingAll = _pingAll;
+    pingAllPeriod = _period;
 }
