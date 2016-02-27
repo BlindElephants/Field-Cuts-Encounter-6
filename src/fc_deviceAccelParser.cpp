@@ -13,6 +13,7 @@ fc_deviceAccelParser::fc_deviceAccelParser() {
     udp.Create();
     udp.Bind(8010);
     udp.SetNonBlocking(true);
+    
 }
 
 void fc_deviceAccelParser::setDevices(vector<fc_device* > devices) {

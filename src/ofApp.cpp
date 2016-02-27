@@ -4,6 +4,7 @@
 void ofApp::setup(){
     conditionManager.setDevices(deviceManager.getDevices());
     
+    ofBackground(ofColor::black);
 }
 
 //--------------------------------------------------------------
@@ -14,7 +15,8 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-
+    ofSetColor(ofColor::white);
+    deviceManager.drawDeviceDebug(16, 16);
 }
 
 //--------------------------------------------------------------

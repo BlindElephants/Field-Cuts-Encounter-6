@@ -24,7 +24,6 @@ private:
     ofxUDPManager udp;
     vector < fc_device* > deviceReferences;
     
-    
 };
 
 #endif /* fc_deviceAccelParser_hpp */

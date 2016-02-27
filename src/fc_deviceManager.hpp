@@ -22,9 +22,12 @@ public:
     void sendToDevice(int _device, int _relayChannel, bool _gate);
     vector < fc_device* > getDevices();
     
+    void drawDeviceDebug(float x, float y);
+    
 private:
     vector < fc_device* > devices;
     fc_deviceAccelParser deviceAccelParser;
+    ofTrueTypeFont font;
 };
 
 

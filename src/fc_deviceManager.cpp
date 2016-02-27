@@ -9,6 +9,8 @@
 #include "fc_deviceManager.hpp"
 
 fc_deviceManager::fc_deviceManager() {
+    font.load("courier", 12);
+    
     for(int i = 0 ; i < 8 ; i ++ ) {
         fc_device *_f = new fc_device();
         _f -> connect("10.0.1." + ofToString(i + 4));
@@ -36,6 +38,12 @@ void fc_deviceManager::sendToDevice(int _device, int _relayChannel, bool _gate) 
     }
 }
 
-vector < fc_device* > fc_deviceManager::getDevices() {
-    return devices;
+vector < fc_device* > fc_deviceManager::getDevices() {return devices;}
+
+void fc_deviceManager::drawDeviceDebug(float x, float y) {
+    float _y = y;
+    for(int i = 0 ; i < devices.size() ; i ++ ) {
+        font.drawString(devices[i] -> getDebug(), x, _y);
+        _y += font.getSize() + 2;
+    }
 }
