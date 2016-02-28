@@ -21,45 +21,10 @@ public:
     void setDevices(vector < fc_device* > _devices);
     void checkAllConditions();
     
-    void makeNewCondition(int _sourceDevice,
-                          Parameter _x_y_z,
-                          Parameter _abs_del,
-                          Parameter _MT_LT,
-                          float _threshold,
-                          int _targetDevice,
-                          int _targetRelay);
-    
-    void makeNewCondition(int _sourceDevice,
-                          Parameter _x_y_z,
-                          Parameter _abs_del,
-                          Parameter _MT_LT,
-                          float _threshold,
-                          int _targetDevice,
-                          int _targetRelay,
-                          TriggerType _triggerType,
-                          float _triggerSetDuration);
-    
-    void makeNewCondition(int _sourceDevice,
-                          Parameter _x_y_z,
-                          Parameter _abs_del,
-                          Parameter _MT_LT,
-                          float _threshold,
-                          int _targetDevice,
-                          int _targetRelay,
-                          Lifespan _conditionLifespan,
-                          float _conditionTimer);
-    
-    void makeNewCondition(int _sourceDevice,
-                          Parameter _x_y_z,
-                          Parameter _abs_del,
-                          Parameter _MT_LT,
-                          float _threshold,
-                          int _targetDevice,
-                          int _targetRelay,
-                          TriggerType _triggerType,
-                          float _triggerSetDuration,
-                          Lifespan _conditionLifespan,
-                          float _conditionTimer);
+    void makeNewCondition(int _sourceDevice, Parameter _x_y_z, Parameter _abs_del, Parameter _MT_LT, float _threshold, int _targetDevice, int _targetRelay);
+    void makeNewCondition(int _sourceDevice, Parameter _x_y_z, Parameter _abs_del, Parameter _MT_LT, float _threshold, int _targetDevice, int _targetRelay, TriggerType _triggerType, float _triggerSetDuration);
+    void makeNewCondition(int _sourceDevice, Parameter _x_y_z, Parameter _abs_del, Parameter _MT_LT, float _threshold, int _targetDevice, int _targetRelay, Lifespan _conditionLifespan, float _conditionTimer);
+    void makeNewCondition(int _sourceDevice, Parameter _x_y_z, Parameter _abs_del, Parameter _MT_LT, float _threshold, int _targetDevice, int _targetRelay, TriggerType _triggerType, float _triggerSetDuration, Lifespan _conditionLifespan, float _conditionTimer);
     
     void deleteCondition(int _conditionIndex);
     void deleteRandomCondition();
@@ -72,6 +37,8 @@ public:
     
     void deleteConditionsWithFewerThanHits(int _numHits);
     void deleteConditionsWithMoreThanHits(int _numHits);
+    
+    void setAllConditionDurations(TriggerType _durationType, float _durationLength);
     
     void getNumDevices();
     

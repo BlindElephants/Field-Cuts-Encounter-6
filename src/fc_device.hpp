@@ -31,6 +31,7 @@ public:
     float getLastAccelValue(Parameter ABS_DEL, Parameter X_Y_Z);
 
     void drawDebug(float _x, float _y);
+    void setHasRelay(bool _hasRelay);
     
 private:
     ofxUDPManager udp;
@@ -46,6 +47,8 @@ private:
         bool now;
         bool last; 
     };
+    
+    bool hasRelay;
     
     relayChannel relayDevice[4];
     string mAddress;

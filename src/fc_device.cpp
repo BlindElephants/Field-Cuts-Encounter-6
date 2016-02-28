@@ -57,25 +57,26 @@ void fc_device::ping() {
 }
 
 void fc_device::sendRelayMessage(int channel, bool set) {
-    if(channel >= 0 && channel < 4) {
+    if(hasRelay && channel >= 0 && channel < 4) {
         int m = channel * 2;
         if(!set) m += 1;
         udp.Send(ofToString(m).c_str(), 1);
-        cout << "msg sent" << endl;
     }
 }
 
 void fc_device::checkAndUpdateRelays() {
-    for(int i = 0 ; i < 4 ; i ++ ) {
-        if(relayDevice[i].now != relayDevice[i].last) {
-            sendRelayMessage(i, relayDevice[i].now);
-            relayDevice[i].last = relayDevice[i].now;
+    if(hasRelay) {
+        for(int i = 0 ; i < 4 ; i ++ ) {
+            if(relayDevice[i].now != relayDevice[i].last) {
+                sendRelayMessage(i, relayDevice[i].now);
+                relayDevice[i].last = relayDevice[i].now;
+            }
         }
     }
 }
 
 void fc_device::setRelay(int channel, bool set) {
-    if(channel >= 0 && channel < 4) {
+    if(hasRelay && channel >= 0 && channel < 4) {
         relayDevice[channel].now = set;
     }
 }
@@ -104,6 +105,7 @@ float fc_device::getLastAccelValue(Parameter ABS_DEL, Parameter X_Y_Z) {
 }
 
 void fc_device::drawDebug(float _x, float _y) {
+    ofSetColor(ofColor::white);
     ofPushMatrix();
     ofTranslate(_x, _y);
     font.drawString(mAddress, 0, 0);
@@ -113,16 +115,24 @@ void fc_device::drawDebug(float _x, float _y) {
     font.drawString("ACCEL DEL: ", 408, 0);
     font.drawString(ofToString(accelDel.back()), 512, 0);
     font.drawString(" | ", 692, 0);
-    font.drawString("RELAY: ", 722, 0);
-    for(int i = 0 ; i < 4 ; i ++ ) {
-        if(relayDevice[i].now) {
-            font.drawString("TRUE", 792 + (i * 60), 0);
-        } else {
-            font.drawString("FALSE", 792 + (i * 60), 0);
+    if(hasRelay) {
+        font.drawString("RELAY: ", 722, 0);
+        for(int i = 0 ; i < 4 ; i ++ ) {
+            if(relayDevice[i].now) {
+                ofSetColor(ofColor::red);
+                font.drawString("TRUE", 792 + (i * 60), 0);
+            } else {
+                ofSetColor(ofColor::white);
+                font.drawString("FALSE", 792 + (i * 60), 0);
+            }
         }
     }
     
     ofPopMatrix();
+}
+
+void fc_device::setHasRelay(bool _hasRelay) {
+    hasRelay = _hasRelay;
 }
 
 

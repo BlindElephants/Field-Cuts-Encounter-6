@@ -8,6 +8,8 @@
 #include "fc_deviceManager.hpp"
 #include "fc_conditionManager.hpp"
 
+#include "fc_scoreManager.hpp"
+
 class ofApp : public ofBaseApp{
 public:
     void setup();
@@ -27,4 +29,6 @@ public:
     void addConditionPressed();
     
     ofTrueTypeFont font;
+    
+    fc_scoreManager scoreManager;
 };

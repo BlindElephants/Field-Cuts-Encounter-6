@@ -13,6 +13,10 @@ void ofApp::setup(){
     
     gui.setup();
     gui.add(addCondition.setup("add condition"));
+    
+    for(int i = 0 ; i < 12 ; i ++ ) {
+        conditionManager.makeNewCondition((int)ofRandom(6), X, ABS, MT, ofRandom(1800, 3200), (int)ofRandom(4, 7), (int)ofRandom(4));
+    }
 
 }
 
@@ -20,6 +24,7 @@ void ofApp::setup(){
 void ofApp::update(){
     deviceManager.update();
     conditionManager.checkAllConditions();
+    scoreManager.update();
 
 }
 
@@ -29,6 +34,8 @@ void ofApp::draw(){
     deviceManager.drawDeviceDebug(16, 16);
     conditionManager.drawAllConditions(16, 500);
     gui.draw();
+    
+    scoreManager.draw(0, ofGetHeight() - 60, ofGetWidth(), 24);
     
     ofSetColor(ofColor::white);
     font.drawString(ofToString(ofGetFrameRate()), ofGetWidth() - 80, ofGetHeight() - 16);
@@ -59,6 +66,8 @@ void ofApp::keyPressed(int key){
     if(key == '+') ofToggleFullscreen();
     if(key == 'p') deviceManager.setPingAll(true, 0.075);
     if(key == 'c') conditionManager.deleteRandomCondition();
+    
+    if(key == 's') scoreManager.toggleRun();
 }
 
 void ofApp::exit() {

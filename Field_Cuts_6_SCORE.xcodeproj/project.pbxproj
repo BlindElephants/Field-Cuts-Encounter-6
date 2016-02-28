@@ -19,6 +19,7 @@
 		5CBB2AB3A60F65431D7B555D /* ofxButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C88333E71C9457E441C33474 /* ofxButton.cpp */; };
 		5D067CF087427621DD1E64B8 /* ofxAnimatableFloat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1C9E4AC6CF4626BA74F7E994 /* ofxAnimatableFloat.cpp */; };
 		603328B71C824D4D005D84A0 /* fc_performer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 603328B51C824D4D005D84A0 /* fc_performer.cpp */; };
+		60613A3B1C82A21D004BA026 /* fc_scoreManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60613A391C82A21D004BA026 /* fc_scoreManager.cpp */; };
 		60D69F351C7F8A21007C6A58 /* fc_device.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60D69F331C7F8A21007C6A58 /* fc_device.cpp */; };
 		60D69F391C7FB569007C6A58 /* fc_deviceManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60D69F371C7FB569007C6A58 /* fc_deviceManager.cpp */; };
 		60D69F3C1C7FB5E1007C6A58 /* fc_deviceAccelParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60D69F3A1C7FB5E1007C6A58 /* fc_deviceAccelParser.cpp */; };
@@ -111,6 +112,8 @@
 		5FCA34E402E9C3A0C48F9FA9 /* ofxAnimatableOfPoint.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxAnimatableOfPoint.h; path = ../../../addons/ofxAnimatable/src/ofxAnimatableOfPoint.h; sourceTree = SOURCE_ROOT; };
 		603328B51C824D4D005D84A0 /* fc_performer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fc_performer.cpp; sourceTree = "<group>"; };
 		603328B61C824D4D005D84A0 /* fc_performer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = fc_performer.hpp; sourceTree = "<group>"; };
+		60613A391C82A21D004BA026 /* fc_scoreManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fc_scoreManager.cpp; sourceTree = "<group>"; };
+		60613A3A1C82A21D004BA026 /* fc_scoreManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = fc_scoreManager.hpp; sourceTree = "<group>"; };
 		60D69F331C7F8A21007C6A58 /* fc_device.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fc_device.cpp; sourceTree = "<group>"; };
 		60D69F341C7F8A21007C6A58 /* fc_device.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = fc_device.hpp; sourceTree = "<group>"; };
 		60D69F371C7FB569007C6A58 /* fc_deviceManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fc_deviceManager.cpp; sourceTree = "<group>"; };
@@ -263,6 +266,15 @@
 				603328B61C824D4D005D84A0 /* fc_performer.hpp */,
 			);
 			name = performer_management;
+			sourceTree = "<group>";
+		};
+		60613A381C82A1E8004BA026 /* score_management */ = {
+			isa = PBXGroup;
+			children = (
+				60613A391C82A21D004BA026 /* fc_scoreManager.cpp */,
+				60613A3A1C82A21D004BA026 /* fc_scoreManager.hpp */,
+			);
+			name = score_management;
 			sourceTree = "<group>";
 		};
 		60D69F3E1C7FBCE2007C6A58 /* device_management */ = {
@@ -450,6 +462,7 @@
 				60D69F3E1C7FBCE2007C6A58 /* device_management */,
 				60D69F401C7FBD15007C6A58 /* condition_management */,
 				603328B41C824D40005D84A0 /* performer_management */,
+				60613A381C82A1E8004BA026 /* score_management */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -611,6 +624,7 @@
 				72A929D3561B8232A182ABFC /* ofxOscBundle.cpp in Sources */,
 				5864AD82E20F15536D054EA3 /* ofxOscMessage.cpp in Sources */,
 				4ADB88E2FB52E76A471065DE /* ofxOscParameterSync.cpp in Sources */,
+				60613A3B1C82A21D004BA026 /* fc_scoreManager.cpp in Sources */,
 				640279EE111671BD026CB013 /* ofxOscReceiver.cpp in Sources */,
 				8F5205AEF8861EF234F0651A /* ofxOscSender.cpp in Sources */,
 				ADE367465D2A8EBAD4C7A8D9 /* IpEndpointName.cpp in Sources */,

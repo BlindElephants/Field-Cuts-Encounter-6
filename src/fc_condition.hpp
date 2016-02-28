@@ -30,8 +30,6 @@ class fc_condition {
 public:
     fc_condition() {};
     
-    bool now;
-    
     int sourceDevice;
     Parameter x_y_z;
     Parameter abs_del;

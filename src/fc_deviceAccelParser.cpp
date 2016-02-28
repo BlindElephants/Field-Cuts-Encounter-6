@@ -13,7 +13,6 @@ fc_deviceAccelParser::fc_deviceAccelParser() {
     udp.Create();
     udp.Bind(8010);
     udp.SetNonBlocking(true);
-    
 }
 
 void fc_deviceAccelParser::setDevices(vector<fc_device* > devices) {
@@ -24,17 +23,18 @@ void fc_deviceAccelParser::setDevices(vector<fc_device* > devices) {
 
 void fc_deviceAccelParser::update() {
     char udpMsg[100000];
-    udp.Receive(udpMsg, 100000);
-    string msg = udpMsg;
-    
-    if(msg!="") {
-        vector < string > splitMsg;
-        splitMsg = ofSplitString(msg, " ");
-        int thisIndex = ofToInt(splitMsg[0]);
-        thisIndex -= 4;
-        deviceReferences[thisIndex] -> updateAccelerometer(ofToFloat(splitMsg[1]),
-                                                           ofToFloat(splitMsg[2]),
-                                                           ofToFloat(splitMsg[3]));
-        deviceReferences[thisIndex] -> updateAccelAverages();
+    while(udp.Receive(udpMsg, 100000)) {
+        string msg = udpMsg;
+        
+        if(msg!="") {
+            vector < string > splitMsg;
+            splitMsg = ofSplitString(msg, " ");
+            int thisIndex = ofToInt(splitMsg[0]);
+            thisIndex -= 4;
+            deviceReferences[thisIndex] -> updateAccelerometer(ofToFloat(splitMsg[1]),
+                                                               ofToFloat(splitMsg[2]),
+                                                               ofToFloat(splitMsg[3]));
+            deviceReferences[thisIndex] -> updateAccelAverages();
+        }
     }
 }

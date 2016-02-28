@@ -13,7 +13,12 @@ fc_deviceManager::fc_deviceManager() {
     
     for(int i = 0 ; i < 8 ; i ++ ) {
         fc_device *_f = new fc_device();
-        _f -> connect("10.0.1." + ofToString(i + 4));
+            _f -> connect("10.0.1." + ofToString(i + 4));
+//            _f -> setHasRelay(false);
+//            _f -> connect("10.0.1." + ofToString(i + 5));
+            _f -> setHasRelay(true);
+        
+        
         devices.push_back(_f);
     }
     

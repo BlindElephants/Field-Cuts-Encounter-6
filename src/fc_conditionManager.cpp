@@ -27,7 +27,6 @@ void fc_conditionManager::setDevices(vector<fc_device *> _devices) {
         
         hasConditionsToUpdate.push_back(false);
     }
-    cout << "number of relay counters: " << allRelayCounter.size() << endl;
 }
 
 void fc_conditionManager::checkAllConditions() {
@@ -48,13 +47,7 @@ void fc_conditionManager::checkAllConditions() {
     }
 }
 
-void fc_conditionManager::makeNewCondition(int _sourceDevice,
-                                           Parameter _x_y_z,
-                                           Parameter _abs_del,
-                                           Parameter _MT_LT,
-                                           float _threshold,
-                                           int _targetDevice,
-                                           int _targetRelay) {
+void fc_conditionManager::makeNewCondition(int _sourceDevice, Parameter _x_y_z, Parameter _abs_del, Parameter _MT_LT, float _threshold, int _targetDevice, int _targetRelay) {
     fc_condition * c = new fc_condition();
     c -> sourceDevice = _sourceDevice;
     c -> x_y_z = _x_y_z;
@@ -70,16 +63,7 @@ void fc_conditionManager::makeNewCondition(int _sourceDevice,
     
     conditions.push_back(c);
 }
-
-void fc_conditionManager::makeNewCondition(int _sourceDevice,
-                                           Parameter _x_y_z,
-                                           Parameter _abs_del,
-                                           Parameter _MT_LT,
-                                           float _threshold,
-                                           int _targetDevice,
-                                           int _targetRelay,
-                                           TriggerType _triggerType,
-                                           float _triggerSetDuration) {
+void fc_conditionManager::makeNewCondition(int _sourceDevice, Parameter _x_y_z, Parameter _abs_del, Parameter _MT_LT, float _threshold, int _targetDevice, int _targetRelay, TriggerType _triggerType, float _triggerSetDuration) {
     fc_condition * c = new fc_condition();
     c -> sourceDevice = _sourceDevice;
     c -> x_y_z = _x_y_z;
@@ -95,16 +79,7 @@ void fc_conditionManager::makeNewCondition(int _sourceDevice,
     
     conditions.push_back(c);
 }
-
-void fc_conditionManager::makeNewCondition(int _sourceDevice,
-                                           Parameter _x_y_z,
-                                           Parameter _abs_del,
-                                           Parameter _MT_LT,
-                                           float _threshold,
-                                           int _targetDevice,
-                                           int _targetRelay,
-                                           Lifespan _conditionLifespan,
-                                           float _conditionTimer) {
+void fc_conditionManager::makeNewCondition(int _sourceDevice, Parameter _x_y_z, Parameter _abs_del, Parameter _MT_LT, float _threshold, int _targetDevice, int _targetRelay, Lifespan _conditionLifespan, float _conditionTimer) {
     fc_condition * c = new fc_condition();
     c -> sourceDevice = _sourceDevice;
     c -> x_y_z = _x_y_z;
@@ -120,18 +95,7 @@ void fc_conditionManager::makeNewCondition(int _sourceDevice,
     
     conditions.push_back(c);
 }
-
-void fc_conditionManager::makeNewCondition(int _sourceDevice,
-                                           Parameter _x_y_z,
-                                           Parameter _abs_del,
-                                           Parameter _MT_LT,
-                                           float _threshold,
-                                           int _targetDevice,
-                                           int _targetRelay,
-                                           TriggerType _triggerType,
-                                           float _triggerSetDuration,
-                                           Lifespan _conditionLifespan,
-                                           float _conditionTimer) {
+void fc_conditionManager::makeNewCondition(int _sourceDevice, Parameter _x_y_z, Parameter _abs_del, Parameter _MT_LT, float _threshold, int _targetDevice, int _targetRelay, TriggerType _triggerType, float _triggerSetDuration, Lifespan _conditionLifespan, float _conditionTimer) {
     fc_condition * c = new fc_condition();
     c -> sourceDevice = _sourceDevice;
     c -> x_y_z = _x_y_z;
@@ -153,7 +117,6 @@ void fc_conditionManager::deleteCondition(int _conditionIndex) {
         conditions.erase(conditions.begin() + _conditionIndex);
     }
 }
-
 void fc_conditionManager::deleteRandomCondition() {
     if(conditions.size() > 0) conditions.erase(conditions.begin() + (int) ofRandom(conditions.size()));
 }
@@ -190,14 +153,22 @@ string fc_conditionManager::printCondition(int index) {
     _s += " ";
     _s += ofToString(conditions[index] -> threshold);
     
-    _s += " : ";
+    _s += " | TARGET: ";
     _s += ofToString(conditions[index] -> targetDevice);
     _s += "-";
     _s += ofToString(conditions[index] -> targetRelayChannel);
     
+    _s += " | ";
+    _s += "TRIGTYPE: ";
+    if(conditions[index] -> triggerType == OPEN) {
+        _s += "OPEN";
+    } else {
+        _s += "LOCKED DURATION";
+        _s += " - " + ofToString(conditions[index] -> triggerSetDuration);
+    }
+    
     return _s;
 }
-
 void fc_conditionManager::drawAllConditions(float x, float y) {
     float _y = y;
     
@@ -206,7 +177,6 @@ void fc_conditionManager::drawAllConditions(float x, float y) {
         _y += 16;
     }
 }
-
 void fc_conditionManager::deleteConditionsOlderThan(float _age) {
     if(conditions.size() > 0) {
         for(int i = conditions.size() - 1 ; i >= 0 ; i -- ) {
@@ -214,7 +184,6 @@ void fc_conditionManager::deleteConditionsOlderThan(float _age) {
         }
     }
 }
-
 void fc_conditionManager::deleteConditionsYoungerThan(float _age) {
     if(conditions.size() > 0) {
         for(int i = conditions.size() - 1 ; i >= 0 ; i -- ) {
@@ -222,19 +191,26 @@ void fc_conditionManager::deleteConditionsYoungerThan(float _age) {
         }
     }
 }
-
 void fc_conditionManager::deleteConditionsWithFewerThanHits(int _numHits) {
     if(conditions.size() > 0) {
         for(int i = conditions.size() - 1 ; i >= 0 ; i -- ) {
-            if(conditions[i] -> numberHits < _numHits) conditions.erase(conditions.begin() + i);
+            if(conditions[i] -> conditionActiveNum < _numHits) conditions.erase(conditions.begin() + i);
+        }
+    }
+}
+void fc_conditionManager::deleteConditionsWithMoreThanHits(int _numHits) {
+    if(conditions.size() > 0) {
+        for(int i = conditions.size() - 1 ; i >= 0 ; i -- ) {
+            if(conditions[i] -> conditionActiveNum > _numHits) conditions.erase(conditions.begin() + i);
+        }
+    }
+}
+void fc_conditionManager::setAllConditionDurations(TriggerType _durationType, float _durationLength) {
+    if(conditions.size() > 0) {
+        for(int i = 0 ; i < conditions.size() ; i ++ ) {
+            conditions[i] -> triggerType = _durationType;
+            conditions[i] -> triggerSetDuration = _durationLength;
         }
     }
 }
 
-void fc_conditionManager::deleteConditionsWithMoreThanHits(int _numHits) {
-    if(conditions.size() > 0) {
-        for(int i = conditions.size() - 1 ; i >= 0 ; i -- ) {
-            if(conditions[i] -> numberHits > _numHits) conditions.erase(conditions.begin() + i);
-        }
-    }
-}
