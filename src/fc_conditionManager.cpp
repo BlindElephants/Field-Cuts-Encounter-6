@@ -24,14 +24,16 @@ void fc_conditionManager::setDevices(vector<fc_device *> _devices) {
         allRelayCounter.push_back(b);
         allRelayCounter.push_back(b);
         allRelayCounter.push_back(b);
+        
+        hasConditionsToUpdate.push_back(false);
     }
     cout << "number of relay counters: " << allRelayCounter.size() << endl;
-
 }
 
 void fc_conditionManager::checkAllConditions() {
     if(conditions.size() > 0) {
         for(int i = 0 ; i < conditions.size() ; i ++ ) {
+            conditions[i] -> conditionTimer += ofGetLastFrameTime();
             float val = devices.at(conditions[i] -> sourceDevice) -> getLastAccelValue(conditions[i] -> abs_del, conditions[i] -> x_y_z);
             if(conditions[i] -> MT_LT == MT) {
                 if(val > conditions[i] -> threshold) allRelayCounter[(conditions[i] -> targetDevice * 4) + (conditions[i] -> targetRelayChannel)] = true;
@@ -153,12 +155,10 @@ void fc_conditionManager::deleteCondition(int _conditionIndex) {
 }
 
 void fc_conditionManager::deleteRandomCondition() {
-    conditions.erase(conditions.begin() + (int) ofRandom(conditions.size()));
+    if(conditions.size() > 0) conditions.erase(conditions.begin() + (int) ofRandom(conditions.size()));
 }
 
-void fc_conditionManager::getNumDevices() {
-    cout << devices.size() << endl;
-}
+void fc_conditionManager::getNumDevices() {cout << devices.size() << endl;}
 
 string fc_conditionManager::printCondition(int index) {
     string _s;
@@ -204,5 +204,37 @@ void fc_conditionManager::drawAllConditions(float x, float y) {
     for(int i = 0 ; i < conditions.size() ; i ++ ) {
         font.drawString(printCondition(i), x, _y);
         _y += 16;
+    }
+}
+
+void fc_conditionManager::deleteConditionsOlderThan(float _age) {
+    if(conditions.size() > 0) {
+        for(int i = conditions.size() - 1 ; i >= 0 ; i -- ) {
+            if(conditions[i] -> conditionTimer >= _age) conditions.erase(conditions.begin() + i);
+        }
+    }
+}
+
+void fc_conditionManager::deleteConditionsYoungerThan(float _age) {
+    if(conditions.size() > 0) {
+        for(int i = conditions.size() - 1 ; i >= 0 ; i -- ) {
+            if(conditions[i] -> conditionTimer <= _age) conditions.erase(conditions.begin() + i);
+        }
+    }
+}
+
+void fc_conditionManager::deleteConditionsWithFewerThanHits(int _numHits) {
+    if(conditions.size() > 0) {
+        for(int i = conditions.size() - 1 ; i >= 0 ; i -- ) {
+            if(conditions[i] -> numberHits < _numHits) conditions.erase(conditions.begin() + i);
+        }
+    }
+}
+
+void fc_conditionManager::deleteConditionsWithMoreThanHits(int _numHits) {
+    if(conditions.size() > 0) {
+        for(int i = conditions.size() - 1 ; i >= 0 ; i -- ) {
+            if(conditions[i] -> numberHits > _numHits) conditions.erase(conditions.begin() + i);
+        }
     }
 }

@@ -15,10 +15,16 @@ public:
     void draw();
     void keyPressed(int key);
     void exit();
-
     
     int devSel = 0;
     
     fc_deviceManager deviceManager;
     fc_conditionManager conditionManager;
+    
+    ofxPanel gui;
+    ofxButton addCondition;
+    
+    void addConditionPressed();
+    
+    ofTrueTypeFont font;
 };

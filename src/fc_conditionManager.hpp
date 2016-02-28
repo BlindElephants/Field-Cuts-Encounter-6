@@ -66,6 +66,13 @@ public:
     void deleteDeviceCondition(int _deviceIndex);
     void deleteAllConditions();
     void deleteAllDeviceConditions(int _deviceIndex);
+    
+    void deleteConditionsOlderThan(float _age);
+    void deleteConditionsYoungerThan(float _age);
+    
+    void deleteConditionsWithFewerThanHits(int _numHits);
+    void deleteConditionsWithMoreThanHits(int _numHits);
+    
     void getNumDevices();
     
     string printCondition(int index);
@@ -77,6 +84,7 @@ private:
     
     int numberOfRelayChannels = 4;
     vector < bool > allRelayCounter;
+    vector < bool > hasConditionsToUpdate;
     
     ofTrueTypeFont font;
 };

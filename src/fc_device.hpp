@@ -29,8 +29,8 @@ public:
     void setRelay(int channel, bool set);
     
     float getLastAccelValue(Parameter ABS_DEL, Parameter X_Y_Z);
-    
-    string getDebug();
+
+    void drawDebug(float _x, float _y);
     
 private:
     ofxUDPManager udp;
@@ -49,6 +49,7 @@ private:
     
     relayChannel relayDevice[4];
     string mAddress;
+    ofTrueTypeFont font;
 };
 
 #endif /* fc_device_hpp */

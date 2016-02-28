@@ -30,6 +30,8 @@ class fc_condition {
 public:
     fc_condition() {};
     
+    bool now;
+    
     int sourceDevice;
     Parameter x_y_z;
     Parameter abs_del;
@@ -46,7 +48,9 @@ public:
     
     
     Lifespan conditionLifespan;
-    float conditionTimer;
+    float conditionTimer = 0;
+    float conditionActiveTime = 0;
+    int   conditionActiveNum = 0;
 };
 
 #endif /* fc_condition_hpp */

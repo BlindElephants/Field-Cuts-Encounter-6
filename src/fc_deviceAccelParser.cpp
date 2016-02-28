@@ -19,7 +19,7 @@ fc_deviceAccelParser::fc_deviceAccelParser() {
 void fc_deviceAccelParser::setDevices(vector<fc_device* > devices) {
     deviceReferences = devices;
     cout << deviceReferences.size() << endl;
-    cout << deviceReferences.at(0) -> getDebug() << endl;
+//    cout << deviceReferences.at(0) -> getDebug() << endl;
 }
 
 void fc_deviceAccelParser::update() {

@@ -27,6 +27,8 @@ void fc_device::connect(string address) {
         relayDevice[i].now  = false;
         relayDevice[i].last = false;
     }
+    
+    font.load("courier", 12);
 }
 
 void fc_device::closeConnection() {udp.Close();}
@@ -101,22 +103,45 @@ float fc_device::getLastAccelValue(Parameter ABS_DEL, Parameter X_Y_Z) {
     }
 }
 
-string fc_device::getDebug() {
-    string d = mAddress;
-    d += " | ";
-    d += " ACCEL ABS: ";
-    d += ofToString(accelAbs.back());
-    d += " | ";
-    d += " ACCEL DEL: ";
-    d += ofToString(accelDel.back());
-    d += " | ";
-    d += " RELAY: ";
+void fc_device::drawDebug(float _x, float _y) {
+    ofPushMatrix();
+    ofTranslate(_x, _y);
+    font.drawString(mAddress, 0, 0);
+    font.drawString(" | ", 100, 0);
+    font.drawString("ACCEL ABS: ", 124, 0);
+    font.drawString(ofToString(accelAbs.back()), 228, 0);
+    font.drawString("ACCEL DEL: ", 408, 0);
+    font.drawString(ofToString(accelDel.back()), 512, 0);
+    font.drawString(" | ", 692, 0);
+    font.drawString("RELAY: ", 722, 0);
     for(int i = 0 ; i < 4 ; i ++ ) {
         if(relayDevice[i].now) {
-            d += "TRUE ";
+            font.drawString("TRUE", 792 + (i * 60), 0);
         } else {
-            d += "FALSE ";
+            font.drawString("FALSE", 792 + (i * 60), 0);
         }
     }
-    return d;
+    
+    ofPopMatrix();
 }
+
+
+//string fc_device::getDebug() {
+//    string d = mAddress;
+//    d += " | ";
+//    d += " ACCEL ABS: ";
+//    d += ofToString(accelAbs.back());
+//    d += " | ";
+//    d += " ACCEL DEL: ";
+//    d += ofToString(accelDel.back());
+//    d += " | ";
+//    d += " RELAY: ";
+//    for(int i = 0 ; i < 4 ; i ++ ) {
+//        if(relayDevice[i].now) {
+//            d += "TRUE ";
+//        } else {
+//            d += "FALSE ";
+//        }
+//    }
+//    return d;
+//}

@@ -53,7 +53,7 @@ vector < fc_device* > fc_deviceManager::getDevices() {return devices;}
 void fc_deviceManager::drawDeviceDebug(float x, float y) {
     float _y = y;
     for(int i = 0 ; i < devices.size() ; i ++ ) {
-        font.drawString(devices[i] -> getDebug(), x, _y);
+        devices[i] -> drawDebug(x, _y);
         _y += font.getSize() + 2;
     }
 }

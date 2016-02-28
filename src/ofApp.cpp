@@ -2,14 +2,18 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    font.load("courier", 12);
+    
     conditionManager.setDevices(deviceManager.getDevices());
     
     ofBackground(ofColor::black);
     ofToggleFullscreen();
     
-    conditionManager.makeNewCondition(6, X, ABS, LT, 1300, 6, 1);
-    conditionManager.makeNewCondition(6, X, ABS, LT, 1300, 6, 3);
-    conditionManager.makeNewCondition(6, X, ABS, LT, 1200, 6, 0);
+    addCondition.addListener(this, &ofApp::addConditionPressed);
+    
+    gui.setup();
+    gui.add(addCondition.setup("add condition"));
+
 }
 
 //--------------------------------------------------------------
@@ -24,6 +28,10 @@ void ofApp::draw(){
     ofSetColor(ofColor::white);
     deviceManager.drawDeviceDebug(16, 16);
     conditionManager.drawAllConditions(16, 500);
+    gui.draw();
+    
+    ofSetColor(ofColor::white);
+    font.drawString(ofToString(ofGetFrameRate()), ofGetWidth() - 80, ofGetHeight() - 16);
 }
 
 //--------------------------------------------------------------
@@ -50,8 +58,13 @@ void ofApp::keyPressed(int key){
     
     if(key == '+') ofToggleFullscreen();
     if(key == 'p') deviceManager.setPingAll(true, 0.075);
+    if(key == 'c') conditionManager.deleteRandomCondition();
 }
 
 void ofApp::exit() {
+    
+}
+
+void ofApp::addConditionPressed() {
     
 }
