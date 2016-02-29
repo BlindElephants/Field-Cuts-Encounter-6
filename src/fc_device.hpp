@@ -33,6 +33,9 @@ public:
     void drawDebug(float _x, float _y);
     void setHasRelay(bool _hasRelay);
     
+    void setSetDuration(bool _useSetDuration, float _setDuration);
+    void setSetRecovery(bool _useSetRecovery, float _setRecovery);
+    
 private:
     ofxUDPManager udp;
     
@@ -45,8 +48,17 @@ private:
     
     struct relayChannel {
         bool now;
-        bool last; 
+        bool last;
+        
+        float durationTimer = 0;
+        float recoveryTimer = 0;
     };
+    
+    float setDuration;
+    float setRecovery;
+    
+    bool useSetDuration = false;
+    bool useSetRecovery = false;
     
     bool hasRelay;
     

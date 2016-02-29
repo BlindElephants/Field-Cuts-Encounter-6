@@ -27,6 +27,9 @@ public:
     void drawDeviceDebug(float x, float y);
     void togglePingAll();
     
+    void setSetDuration(bool _useSetDuration, float _setDuration);
+    void setSetRecovery(bool _useSetRecovery, float _setRecovery);
+    
     
 private:
     vector < fc_device* > devices;

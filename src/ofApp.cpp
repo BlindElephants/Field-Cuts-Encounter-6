@@ -88,6 +88,13 @@ void ofApp::keyPressed(int key){
     if(key == 'c') {
         performers[HALEY] -> makeNewCondition((int) ofRandom(4), performers[MEG] -> getWristIndex(), X, ABS, LT, 2200, OPEN, (int) ofRandom(4), DIE_AFTER_TRIGGER_NUM, (int) ofRandom(10) + 1);
     }
+    
+    if(key == 'd') deviceManager.setSetDuration(true, 5);
+    if(key == 'e') deviceManager.setSetDuration(false, 5);
+    
+    if(key == 's') deviceManager.setSetRecovery(true, 5);
+    if(key == 'w') deviceManager.setSetRecovery(false, 5);
+    
 }
 
 void ofApp::exit() {

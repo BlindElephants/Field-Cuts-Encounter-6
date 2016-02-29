@@ -52,9 +52,7 @@ void fc_device::updateAccelAverages() {
     accelDelAvg /= accelDel.size();
 }
 
-void fc_device::ping() {
-    udp.Send(" ", 1);
-}
+void fc_device::ping() {udp.Send(" ", 1);}
 
 void fc_device::sendRelayMessage(int channel, bool set) {
     if(hasRelay && channel >= 0 && channel < 4) {
@@ -67,9 +65,31 @@ void fc_device::sendRelayMessage(int channel, bool set) {
 void fc_device::checkAndUpdateRelays() {
     if(hasRelay) {
         for(int i = 0 ; i < 4 ; i ++ ) {
+            if(useSetDuration) {
+                if(relayDevice[i].last && relayDevice[i].durationTimer < setDuration) {
+                    relayDevice[i].durationTimer += ofGetLastFrameTime();
+                    relayDevice[i].now = true;
+                    cout << "duration timer: " << relayDevice[i].durationTimer << endl;
+                    
+                } else if(relayDevice[i].last && relayDevice[i].durationTimer >= setDuration) {
+                    relayDevice[i].now = false;
+                    if(useSetRecovery) relayDevice[i].recoveryTimer = 0;
+                    cout << "duration limit reached" << endl;
+                    cout << "now: " << relayDevice[i].now << ", last: " << relayDevice[i].last << endl;
+                }
+            }
+            if(useSetRecovery) {
+                if((!relayDevice[i].last) && relayDevice[i].recoveryTimer < setRecovery) {
+                    relayDevice[i].recoveryTimer += ofGetLastFrameTime();
+                    cout << "recovery timer: " << relayDevice[i].recoveryTimer << endl;
+                    relayDevice[i].now = false;
+                }
+            }
             if(relayDevice[i].now != relayDevice[i].last) {
                 sendRelayMessage(i, relayDevice[i].now);
                 relayDevice[i].last = relayDevice[i].now;
+                relayDevice[i].durationTimer = 0;
+                relayDevice[i].recoveryTimer = 0;
             }
         }
     }
@@ -133,4 +153,17 @@ void fc_device::drawDebug(float _x, float _y) {
 
 void fc_device::setHasRelay(bool _hasRelay) {
     hasRelay = _hasRelay;
+}
+
+void fc_device::setSetDuration(bool _useSetDuration, float _setDuration) {
+    useSetDuration = _useSetDuration;
+    setDuration    = _setDuration;
+}
+
+void fc_device::setSetRecovery(bool _useSetRecovery, float _setRecovery) {
+    useSetRecovery = _useSetRecovery;
+    setRecovery    = _setRecovery;
+    for(int i = 0 ; i < 4 ; i ++ ) {
+        relayDevice[i].recoveryTimer = setRecovery;
+    }
 }

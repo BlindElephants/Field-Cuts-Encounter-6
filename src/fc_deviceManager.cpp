@@ -21,7 +21,6 @@ int fc_deviceManager::makeNewDevice(string _address, bool hasRelay) {
     deviceAccelParser.setDevices(devices);
 
     return devices.size() - 1;
-    
 }
 
 
@@ -64,4 +63,16 @@ void fc_deviceManager::drawDeviceDebug(float x, float y) {
 
 void fc_deviceManager::togglePingAll(){
     pingAll = !pingAll;
+}
+
+void fc_deviceManager::setSetDuration(bool _useSetDuration, float _setDuration) {
+    for(int i = 0 ; i < devices.size() ; i ++ ) {
+        devices[i] -> setSetDuration(_useSetDuration, _setDuration);
+    }
+}
+
+void fc_deviceManager::setSetRecovery(bool _useSetRecovery, float _setRecovery) {
+    for(int i = 0 ; i < devices.size() ; i ++ ) {
+        devices[i] -> setSetRecovery(_useSetRecovery, _setRecovery);
+    }
 }

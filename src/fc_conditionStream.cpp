@@ -15,17 +15,14 @@ fc_conditionStream::fc_conditionStream(int _thisDeviceIndex, int _thisRelayChann
     thisRelayChannelIndex = _thisRelayChannelIndex;
 }
 
-void fc_conditionStream::setDevices(vector<fc_device *> _devices) {
-    devices = _devices;
-    cout << devices.size() << endl;
-}
+void fc_conditionStream::setDevices(vector<fc_device *> _devices) {devices = _devices;}
 
 void fc_conditionStream::checkAllConditions() {
     numActiveConditions = 0;
     if(conditions.size() > 0) {
         bool relaySetting = false;
         for(int i = conditions.size() - 1 ; i >= 0 ; i -- ) {
-            cout << "condition: " << i << " condition timer: " << conditions[i] -> conditionTimer << " active timer: " << conditions[i] -> conditionActiveTime << " active num: " << conditions[i] -> conditionActiveNum << endl;;
+//            cout << "condition: " << i << " condition timer: " << conditions[i] -> conditionTimer << " active timer: " << conditions[i] -> conditionActiveTime << " active num: " << conditions[i] -> conditionActiveNum << endl;;
             conditions[i] -> conditionTimer += ofGetLastFrameTime();
             if(conditions[i] -> isActive) conditions[i] -> conditionActiveTime += ofGetLastFrameTime();
             if(!(conditions[i] -> isActive) && (conditions[i] -> conditionLifespan == DIE_AFTER_TRIGGER_NUM) && (conditions[i] -> conditionActiveNum >= conditions[i] -> conditionActiveNumLimit)) {
