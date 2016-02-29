@@ -4,7 +4,6 @@
 void ofApp::setup(){
     font.load("courier", 12);
     
-    conditionManager.setDevices(deviceManager.getDevices());
     
     ofBackground(ofColor::black);
     ofToggleFullscreen();
@@ -14,16 +13,37 @@ void ofApp::setup(){
     gui.setup();
     gui.add(addCondition.setup("add condition"));
     
-    for(int i = 0 ; i < 12 ; i ++ ) {
-        conditionManager.makeNewCondition((int)ofRandom(6), X, ABS, MT, ofRandom(1800, 3200), (int)ofRandom(4, 7), (int)ofRandom(4));
+    
+    fc_performer *_a = new fc_performer(MEG);
+    _a -> setDevices(deviceManager.makeNewDevice("10.0.1.4", false),
+                     deviceManager.makeNewDevice("10.0.1.8", true),
+                     4);
+    performers.push_back(_a);
+    
+    fc_performer *_b = new fc_performer(JACOB);
+    _b -> setDevices(deviceManager.makeNewDevice("10.0.1.5", false),
+                     deviceManager.makeNewDevice("10.0.1.9", true),
+                     4);
+    performers.push_back(_b);
+    
+    fc_performer *_c = new fc_performer(HALEY);
+    _c -> setDevices(deviceManager.makeNewDevice("10.0.1.6", false),
+                     deviceManager.makeNewDevice("10.0.1.10", true),
+                     4);
+    performers.push_back(_c);
+    
+    for(int i = 0 ; i < performers.size() ; i ++ ) {
+        performers[i] -> setDeviceReferences(deviceManager.getDevices());
     }
-
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    for(int i = 0 ; i < performers.size() ; i ++ ) {
+        performers[i] -> update();
+    }
+    
     deviceManager.update();
-    conditionManager.checkAllConditions();
     scoreManager.update();
 
 }
@@ -32,7 +52,6 @@ void ofApp::update(){
 void ofApp::draw(){
     ofSetColor(ofColor::white);
     deviceManager.drawDeviceDebug(16, 16);
-    conditionManager.drawAllConditions(16, 500);
     gui.draw();
     
     scoreManager.draw(0, ofGetHeight() - 60, ofGetWidth(), 24);
@@ -61,13 +80,14 @@ void ofApp::keyPressed(int key){
     if(key == '6') devSel = 6;
     if(key == '7') devSel = 7;
     
-    if(key == ' ') conditionManager.getNumDevices();
-    
     if(key == '+') ofToggleFullscreen();
-    if(key == 'p') deviceManager.setPingAll(true, 0.075);
-    if(key == 'c') conditionManager.deleteRandomCondition();
+    if(key == 'p') deviceManager.togglePingAll();
     
     if(key == 's') scoreManager.toggleRun();
+    
+    if(key == 'c') {
+        performers[HALEY] -> makeNewCondition((int) ofRandom(4), performers[MEG] -> getWristIndex(), X, ABS, LT, 2200, OPEN, (int) ofRandom(4), DIE_AFTER_TRIGGER_NUM, (int) ofRandom(10) + 1);
+    }
 }
 
 void ofApp::exit() {

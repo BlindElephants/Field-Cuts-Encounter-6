@@ -10,50 +10,28 @@
 #define fc_conditionManager_hpp
 
 #include "ofMain.h"
-#include "fc_condition.hpp"
 #include "fc_device.hpp"
-
+#include "fc_conditionStream.hpp"
 
 class fc_conditionManager {
 public:
-    fc_conditionManager();
+    fc_conditionManager(vector < fc_device* > _devices, int _thisDeviceIndex, int _numRelayChannels);
     
-    void setDevices(vector < fc_device* > _devices);
+    void setDeviceReference(vector < fc_device* > _devices);
+    
     void checkAllConditions();
+    void makeNewCondition(int _targetRelayChannel, int _sourceDevice, Parameter _x_y_z, Parameter _abs_del, Parameter _MT_LT, float _threshold, TriggerType _triggerType, float _triggerSetDuration, Lifespan _conditionLifespan, float _conditionTimer);
     
-    void makeNewCondition(int _sourceDevice, Parameter _x_y_z, Parameter _abs_del, Parameter _MT_LT, float _threshold, int _targetDevice, int _targetRelay);
-    void makeNewCondition(int _sourceDevice, Parameter _x_y_z, Parameter _abs_del, Parameter _MT_LT, float _threshold, int _targetDevice, int _targetRelay, TriggerType _triggerType, float _triggerSetDuration);
-    void makeNewCondition(int _sourceDevice, Parameter _x_y_z, Parameter _abs_del, Parameter _MT_LT, float _threshold, int _targetDevice, int _targetRelay, Lifespan _conditionLifespan, float _conditionTimer);
-    void makeNewCondition(int _sourceDevice, Parameter _x_y_z, Parameter _abs_del, Parameter _MT_LT, float _threshold, int _targetDevice, int _targetRelay, TriggerType _triggerType, float _triggerSetDuration, Lifespan _conditionLifespan, float _conditionTimer);
+    int getNumberConditionsInRelay(int _relayChannel);
+    int getNumberActiveConditionsInRelay(int _relayChannel);
     
-    void deleteCondition(int _conditionIndex);
-    void deleteRandomCondition();
-    void deleteDeviceCondition(int _deviceIndex);
-    void deleteAllConditions();
-    void deleteAllDeviceConditions(int _deviceIndex);
-    
-    void deleteConditionsOlderThan(float _age);
-    void deleteConditionsYoungerThan(float _age);
-    
-    void deleteConditionsWithFewerThanHits(int _numHits);
-    void deleteConditionsWithMoreThanHits(int _numHits);
-    
-    void setAllConditionDurations(TriggerType _durationType, float _durationLength);
-    
-    void getNumDevices();
-    
-    string printCondition(int index);
-    void drawAllConditions(float x, float y);
+    int getNumberConditions();
+    int getNumberActiveConditions();
     
 private:
-    vector < fc_condition* > conditions;
     vector < fc_device* > devices;
-    
-    int numberOfRelayChannels = 4;
-    vector < bool > allRelayCounter;
-    vector < bool > hasConditionsToUpdate;
-    
-    ofTrueTypeFont font;
+    vector < fc_conditionStream* > conditionStreams;
+    int thisDeviceIndex;
 };
 
 #endif /* fc_conditionManager_hpp */

@@ -10,19 +10,18 @@
 
 fc_deviceManager::fc_deviceManager() {
     font.load("courier", 12);
-    
-    for(int i = 0 ; i < 8 ; i ++ ) {
-        fc_device *_f = new fc_device();
-            _f -> connect("10.0.1." + ofToString(i + 4));
-//            _f -> setHasRelay(false);
-//            _f -> connect("10.0.1." + ofToString(i + 5));
-            _f -> setHasRelay(true);
-        
-        
-        devices.push_back(_f);
-    }
-    
+
+}
+
+int fc_deviceManager::makeNewDevice(string _address, bool hasRelay) {
+    fc_device *_f = new fc_device();
+    _f -> connect(_address);
+    _f -> setHasRelay(hasRelay);
+    devices.push_back(_f);
     deviceAccelParser.setDevices(devices);
+
+    return devices.size() - 1;
+    
 }
 
 
@@ -63,7 +62,6 @@ void fc_deviceManager::drawDeviceDebug(float x, float y) {
     }
 }
 
-void fc_deviceManager::setPingAll(bool _pingAll, float _period){
-    pingAll = _pingAll;
-    pingAllPeriod = _period;
+void fc_deviceManager::togglePingAll(){
+    pingAll = !pingAll;
 }

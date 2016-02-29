@@ -134,24 +134,3 @@ void fc_device::drawDebug(float _x, float _y) {
 void fc_device::setHasRelay(bool _hasRelay) {
     hasRelay = _hasRelay;
 }
-
-
-//string fc_device::getDebug() {
-//    string d = mAddress;
-//    d += " | ";
-//    d += " ACCEL ABS: ";
-//    d += ofToString(accelAbs.back());
-//    d += " | ";
-//    d += " ACCEL DEL: ";
-//    d += ofToString(accelDel.back());
-//    d += " | ";
-//    d += " RELAY: ";
-//    for(int i = 0 ; i < 4 ; i ++ ) {
-//        if(relayDevice[i].now) {
-//            d += "TRUE ";
-//        } else {
-//            d += "FALSE ";
-//        }
-//    }
-//    return d;
-//}

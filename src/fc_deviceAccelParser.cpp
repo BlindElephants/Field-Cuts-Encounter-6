@@ -17,8 +17,6 @@ fc_deviceAccelParser::fc_deviceAccelParser() {
 
 void fc_deviceAccelParser::setDevices(vector<fc_device* > devices) {
     deviceReferences = devices;
-    cout << deviceReferences.size() << endl;
-//    cout << deviceReferences.at(0) -> getDebug() << endl;
 }
 
 void fc_deviceAccelParser::update() {
@@ -29,8 +27,21 @@ void fc_deviceAccelParser::update() {
         if(msg!="") {
             vector < string > splitMsg;
             splitMsg = ofSplitString(msg, " ");
-            int thisIndex = ofToInt(splitMsg[0]);
-            thisIndex -= 4;
+            int thisIndex = 0;
+            if(splitMsg[0] == "4") {
+                thisIndex = 0;
+            } else if(splitMsg[0] == "8") {
+                thisIndex = 1;
+            } else if(splitMsg[0] == "5") {
+                thisIndex = 2;
+            } else if(splitMsg[0] == "9") {
+                thisIndex = 3;
+            } else if(splitMsg[0] == "6") {
+                thisIndex = 4;
+            } else if(splitMsg[0] == "10") {
+                thisIndex = 5;
+            }
+            
             deviceReferences[thisIndex] -> updateAccelerometer(ofToFloat(splitMsg[1]),
                                                                ofToFloat(splitMsg[2]),
                                                                ofToFloat(splitMsg[3]));

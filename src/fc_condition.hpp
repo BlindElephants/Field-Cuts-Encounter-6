@@ -30,6 +30,8 @@ class fc_condition {
 public:
     fc_condition() {};
     
+    bool isActive;
+    
     int sourceDevice;
     Parameter x_y_z;
     Parameter abs_del;
@@ -37,18 +39,19 @@ public:
     
     float threshold;
     
-    int targetDevice;
-    int targetRelayChannel;
-    
-    
     TriggerType triggerType;
     float triggerSetDuration;
     
     
     Lifespan conditionLifespan;
     float conditionTimer = 0;
+    
     float conditionActiveTime = 0;
+    
+    float conditionTimerLimit = 0;
+    
     int   conditionActiveNum = 0;
+    int   conditionActiveNumLimit = 0;
 };
 
 #endif /* fc_condition_hpp */

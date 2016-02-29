@@ -6,7 +6,8 @@
 #include "ofxOsc.h"
 
 #include "fc_deviceManager.hpp"
-#include "fc_conditionManager.hpp"
+
+#include "fc_performer.hpp"
 
 #include "fc_scoreManager.hpp"
 
@@ -21,7 +22,8 @@ public:
     int devSel = 0;
     
     fc_deviceManager deviceManager;
-    fc_conditionManager conditionManager;
+    
+    vector < fc_performer* > performers;
     
     ofxPanel gui;
     ofxButton addCondition;

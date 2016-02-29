@@ -18,12 +18,14 @@ class fc_deviceManager {
 public:
     fc_deviceManager();
     
+    int makeNewDevice(string _address, bool hasRelay);
+    
     void update();
     void sendToDevice(int _device, int _relayChannel, bool _gate);
     vector < fc_device* > getDevices();
     
     void drawDeviceDebug(float x, float y);
-    void setPingAll(bool _pingAll, float _period);
+    void togglePingAll();
     
     
 private:
@@ -34,7 +36,7 @@ private:
     bool pingAll = false;
     bool shouldPing = false;
     float pingAllTimer = 0.0;
-    float pingAllPeriod = 0.5;
+    float pingAllPeriod = 0.075;
 };
 
 
