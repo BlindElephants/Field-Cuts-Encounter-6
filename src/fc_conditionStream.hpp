@@ -24,6 +24,8 @@ public:
     int getNumberConditions();
     int getNumberActiveConditions();
     
+    float drawAllConditions(float _x, float _y);
+    
 private:
     vector < fc_condition* > conditions;
     vector < fc_device* > devices;

@@ -39,8 +39,12 @@ public:
     
     float threshold;
     
+    
+    //these aren't needed-------
     TriggerType triggerType;
     float triggerSetDuration;
+    //--------------------------
+
     
     
     Lifespan conditionLifespan;

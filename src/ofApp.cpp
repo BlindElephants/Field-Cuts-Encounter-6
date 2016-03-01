@@ -58,6 +58,9 @@ void ofApp::draw(){
     
     ofSetColor(ofColor::white);
     font.drawString(ofToString(ofGetFrameRate()), ofGetWidth() - 80, ofGetHeight() - 16);
+    
+    ofSetColor(ofColor::white);
+    performers[2] -> drawConditions(24, 300);
 }
 
 //--------------------------------------------------------------
@@ -86,7 +89,7 @@ void ofApp::keyPressed(int key){
     if(key == 's') scoreManager.toggleRun();
     
     if(key == 'c') {
-        performers[HALEY] -> makeNewCondition((int) ofRandom(4), performers[MEG] -> getWristIndex(), X, ABS, LT, 2200, OPEN, (int) ofRandom(4), DIE_AFTER_TRIGGER_NUM, (int) ofRandom(10) + 1);
+        performers[HALEY] -> makeNewCondition(3, performers[MEG] -> getWristIndex(), X, ABS, LT, 2200, DIE_AFTER_TRIGGER_NUM, (int) ofRandom(10) + 1);
     }
     
     if(key == 'd') deviceManager.setSetDuration(true, 5);

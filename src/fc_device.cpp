@@ -69,19 +69,14 @@ void fc_device::checkAndUpdateRelays() {
                 if(relayDevice[i].last && relayDevice[i].durationTimer < setDuration) {
                     relayDevice[i].durationTimer += ofGetLastFrameTime();
                     relayDevice[i].now = true;
-                    cout << "duration timer: " << relayDevice[i].durationTimer << endl;
-                    
                 } else if(relayDevice[i].last && relayDevice[i].durationTimer >= setDuration) {
                     relayDevice[i].now = false;
                     if(useSetRecovery) relayDevice[i].recoveryTimer = 0;
-                    cout << "duration limit reached" << endl;
-                    cout << "now: " << relayDevice[i].now << ", last: " << relayDevice[i].last << endl;
                 }
             }
             if(useSetRecovery) {
                 if((!relayDevice[i].last) && relayDevice[i].recoveryTimer < setRecovery) {
                     relayDevice[i].recoveryTimer += ofGetLastFrameTime();
-                    cout << "recovery timer: " << relayDevice[i].recoveryTimer << endl;
                     relayDevice[i].now = false;
                 }
             }
@@ -147,7 +142,6 @@ void fc_device::drawDebug(float _x, float _y) {
             }
         }
     }
-    
     ofPopMatrix();
 }
 

@@ -69,3 +69,12 @@ int fc_conditionManager::getNumberActiveConditions() {
     }
     return _c;
 }
+
+void fc_conditionManager::drawConditions(float _x, float _y) {
+    if(conditionStreams.size() > 0) {
+        float y = 0;
+        for(int i = 0 ; i < conditionStreams.size() ; i ++ ) {
+            y = conditionStreams[i] -> drawAllConditions(_x, _y + y) - _y;
+        }
+    }
+}

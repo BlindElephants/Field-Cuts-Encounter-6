@@ -84,3 +84,56 @@ void fc_conditionStream::makeNewCondition(int _sourceDevice, Parameter _x_y_z, P
 
 int fc_conditionStream::getNumberConditions() {return conditions.size();}
 int fc_conditionStream::getNumberActiveConditions() {return numActiveConditions;}
+
+float fc_conditionStream::drawAllConditions(float _x, float _y) {
+    if(conditions.size() > 0) {
+        ofPushMatrix();
+        ofTranslate(_x, 0);
+        for(int i = 0 ; i < conditions.size() ; i ++ ) {
+            if(conditions[i] -> isActive) {
+                font.drawString("TRUE", 0, _y);
+            } else {
+                font.drawString("FALSE", 0, _y);
+            }
+            
+            font.drawString(" | ", 60, _y);
+            font.drawString("source: " + ofToString(conditions[i] -> sourceDevice), 90, _y);
+            font.drawString(" | ", 190, _y);
+            if(conditions[i] -> x_y_z == X) {
+                font.drawString("X", 220, _y);
+            } else if(conditions[i] -> x_y_z == Y) {
+                font.drawString("Y", 220, _y);
+            } else if(conditions[i] -> x_y_z == Z) {
+                font.drawString("Z", 220, _y);
+            }
+            
+            if(conditions[i] -> abs_del == ABS) {
+                font.drawString("ABS", 240, _y);
+            } else if(conditions[i] -> abs_del == DEL) {
+                font.drawString("DEL", 240, _y);
+            }
+            
+            if(conditions[i] -> MT_LT == MT) {
+                font.drawString(">", 280, _y);
+            } else if(conditions[i] -> MT_LT) {
+                font.drawString("<", 280, _y);
+            }
+            
+            font.drawString(ofToString(conditions[i] -> threshold), 310, _y);
+            
+            if(conditions[i] -> conditionLifespan == DIE_AFTER_TIME) {
+                font.drawString("TIME LIMIT: ", 390, _y);
+                font.drawString(ofToString(conditions[i] -> conditionTimer), 540, _y);
+            } else if(conditions[i] -> conditionLifespan == DIE_AFTER_TRIGGER_DURATION) {
+                font.drawString("ACTIVE TIMER: ", 390, _y);
+                font.drawString(ofToString(conditions[i] -> conditionActiveTime), 540, _y);
+            } else if(conditions[i] -> conditionLifespan == DIE_AFTER_TRIGGER_NUM) {
+                font.drawString("ON MSGS: ", 390, _y);
+                font.drawString(ofToString(conditions[i] -> conditionActiveNum), 540, _y);
+            }
+            _y += 16;
+        }
+        ofPopMatrix();
+        return _y;
+    }
+}

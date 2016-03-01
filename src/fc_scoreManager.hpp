@@ -10,19 +10,53 @@
 #define fc_scoreManager_hpp
 
 #include "ofMain.h"
+#include "fc_condition.hpp"
+#include "fc_performer.hpp"
+
+enum DeviceType {
+    WRIST, PACK
+};
 
 class fc_scoreManager {
 public:
-    fc_scoreManager() {};
+    fc_scoreManager();
     
     void toggleRun();
     void update();
     void draw(float _x, float _y, float _w, float _h);
     
+    void makeConditionEventRandom();
+    void makeConditionEventRandomAbs();
+    void makeConditionEventRandomDel();
+    
+    
 private:
     bool runScore;
     float scoreTimer = 0;
-    float scoreLength = 60 * 2;
+    float scoreLength = 60 * 35;
+    ofTrueTypeFont font;
+    
+    struct conditionEvent {
+        float triggerAtTime;
+        
+        fc_condition c;
+        PerformerName targetName;
+        PerformerName sourceName;
+        DeviceType sourceDevice;
+    };
+    
+    struct triggerLimitingEvent {
+        float triggerAtTime;
+        
+        bool useSetDuration;
+        float setDuration;
+        
+        bool useSetRecovery;
+        float setRecovery;
+    };
+    
+    vector < conditionEvent > conditionEvents;
+    vector < triggerLimitingEvent > triggerLimitingEvents;
 };
 
 #endif /* fc_scoreManager_hpp */
