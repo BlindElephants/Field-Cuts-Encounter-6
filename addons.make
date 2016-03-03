@@ -1,4 +1,5 @@
 ofxAnimatable
+ofxGaussian
 ofxGui
 ofxNetwork
 ofxOsc

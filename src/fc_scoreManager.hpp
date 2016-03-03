@@ -10,6 +10,8 @@
 #define fc_scoreManager_hpp
 
 #include "ofMain.h"
+#include "ofxGaussian.h"
+
 #include "fc_condition.hpp"
 #include "fc_performer.hpp"
 
@@ -17,24 +19,9 @@ enum DeviceType {
     WRIST, PACK
 };
 
+
 class fc_scoreManager {
 public:
-    fc_scoreManager();
-    
-    void toggleRun();
-    void update();
-    void draw(float _x, float _y, float _w, float _h);
-    
-    void makeConditionEventRandom();
-    void makeConditionEventRandomAbs();
-    void makeConditionEventRandomDel();
-    
-    
-private:
-    bool runScore;
-    float scoreTimer = 0;
-    float scoreLength = 60 * 35;
-    ofTrueTypeFont font;
     
     struct conditionEvent {
         float triggerAtTime;
@@ -55,8 +42,37 @@ private:
         float setRecovery;
     };
     
+    fc_scoreManager();
+    
+    void toggleRun();
+    void update();
+    void draw(float _x, float _y, float _w, float _h);
+    
+//    void makeConditionEventRandom();
+//    void makeConditionEventRandomAbs();
+//    void makeConditionEventRandomDel();
+//    
+//    void addConditionEventToScore(conditionEvent _c);
+//    void addTriggerLimitingEventToScore(triggerLimitingEvent _t);
+    
+    void addConditionInOrder(conditionEvent _c);
+    void addTriggerLimitingEventInOrder(triggerLimitingEvent _t);
+    
+    
+private:
+    bool runScore;
+    float scoreTimer = 0;
+    float scoreLength = 60 * 35;
+    ofTrueTypeFont font;
+    
+    
+    
+    struct
+    
     vector < conditionEvent > conditionEvents;
     vector < triggerLimitingEvent > triggerLimitingEvents;
+    
+    
 };
 
 #endif /* fc_scoreManager_hpp */

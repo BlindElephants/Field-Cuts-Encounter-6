@@ -21,6 +21,7 @@ fc_scoreManager::fc_scoreManager() {
         c.triggerAtTime = currentTime;
         
         int _t = (int)ofRandom(3);
+        
         if(_t == 0) {
             c.targetName = MEG;
         } else if(_t == 1) {
@@ -44,6 +45,9 @@ fc_scoreManager::fc_scoreManager() {
         } else if(_sd == 1){
             c.sourceDevice = PACK;
         }
+        
+        
+        
     }
 }
 
@@ -66,4 +70,34 @@ void fc_scoreManager::draw(float _x, float _y, float _w, float _h) {
     ofDrawRectangle(_x, _y, ofMap(scoreTimer, 0, scoreLength, 0, _w), _h);
     
     font.drawString(ofToString(scoreTimer) + " / " + ofToString(scoreLength), _x + 8, _y + _h + 16);
+}
+
+void fc_scoreManager::addConditionInOrder(conditionEvent _c) {
+    if(conditionEvents.size() == 0) {
+        conditionEvents.push_back(_c);
+    } else if(_c.triggerAtTime > conditionEvents[conditionEvents.size()-1].triggerAtTime) {
+        conditionEvents.push_back(_c);
+    } else {
+        for(int i = 0 ; i < conditionEvents.size() ; i ++ ) {
+            if(_c.triggerAtTime > conditionEvents[i].triggerAtTime) {
+                conditionEvents.insert(conditionEvents.begin() + (i + 1), _c);
+                break;
+            }
+        }
+    }
+}
+
+void fc_scoreManager::addTriggerLimitingEventInOrder(triggerLimitingEvent _t) {
+    if(triggerLimitingEvents.size() == 0) {
+        triggerLimitingEvents.push_back(_t);
+    } else if(_t.triggerAtTime > triggerLimitingEvents[triggerLimitingEvents.size() - 1].triggerAtTime) {
+        triggerLimitingEvents.push_back(_t);
+    } else {
+        for(int i = 0 ; i < triggerLimitingEvents.size() ; i ++ ) {
+            if(_t.triggerAtTime > triggerLimitingEvents[i].triggerAtTime) {
+                triggerLimitingEvents.insert(triggerLimitingEvents.begin() + (i + 1), _t);
+                break;
+            }
+        }
+    }
 }
