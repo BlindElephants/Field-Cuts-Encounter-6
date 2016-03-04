@@ -59,6 +59,7 @@ void fc_device::sendRelayMessage(int channel, bool set) {
         int m = channel * 2;
         if(!set) m += 1;
         udp.Send(ofToString(m).c_str(), 1);
+        cout << "msg sent to device" << endl << endl;
     }
 }
 

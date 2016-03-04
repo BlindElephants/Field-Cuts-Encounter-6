@@ -28,6 +28,7 @@ void fc_conditionManager::setDeviceReference(vector<fc_device *> _devices) {
 }
 
 void fc_conditionManager::checkAllConditions() {
+    
     for(int i = 0 ; i < conditionStreams.size() ; i ++ ) {
         conditionStreams[i] -> checkAllConditions();
     }
@@ -35,6 +36,9 @@ void fc_conditionManager::checkAllConditions() {
 
 void fc_conditionManager::makeNewCondition(int _targetRelayChannel, int _sourceDevice, Parameter _x_y_z, Parameter _abs_del, Parameter _MT_LT, float _threshold, TriggerType _triggerType, float _triggerSetDuration, Lifespan _conditionLifespan, float _conditionTimer) {
     conditionStreams[_targetRelayChannel] -> makeNewCondition(_sourceDevice, _x_y_z, _abs_del, _MT_LT, _threshold, _triggerType, _triggerSetDuration, _conditionLifespan, _conditionTimer);
+    for(int i = 0 ; i < conditionStreams.size() ; i ++ ) {
+        cout << " | " << i << ": " << conditionStreams[i] ->getNumberConditions() << endl;
+    }
 }
 
 int fc_conditionManager::getNumberConditionsInRelay(int _relayChannel) {
@@ -74,7 +78,7 @@ void fc_conditionManager::drawConditions(float _x, float _y) {
     if(conditionStreams.size() > 0) {
         float y = 0;
         for(int i = 0 ; i < conditionStreams.size() ; i ++ ) {
-            y = conditionStreams[i] -> drawAllConditions(_x, _y + y) - _y;
+            y = conditionStreams[i] -> drawAllConditions(_x, _y + y);
         }
     }
 }

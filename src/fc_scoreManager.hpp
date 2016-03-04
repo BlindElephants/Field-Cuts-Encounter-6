@@ -19,6 +19,10 @@ enum DeviceType {
     WRIST, PACK
 };
 
+enum DeleteType {
+    del_ALL, del_MEG, del_JACOB, del_HALEY
+};
+
 
 class fc_scoreManager {
 public:
@@ -28,6 +32,7 @@ public:
         
         fc_condition c;
         PerformerName targetName;
+        int targetRelayChannel;
         PerformerName sourceName;
         DeviceType sourceDevice;
     };
@@ -40,6 +45,11 @@ public:
         
         bool useSetRecovery;
         float setRecovery;
+    };
+    
+    struct deleteEvent {
+        float triggerAtTime;
+        DeleteType delType;
     };
     
     fc_scoreManager();
@@ -58,6 +68,7 @@ public:
     void addConditionInOrder(conditionEvent _c);
     void addTriggerLimitingEventInOrder(triggerLimitingEvent _t);
     
+    void setPerformersRef(vector < fc_performer* > _pr);
     
 private:
     bool runScore;
@@ -65,13 +76,14 @@ private:
     float scoreLength = 60 * 35;
     ofTrueTypeFont font;
     
+    float nextConditionEvent = 0;
     
+    vector < fc_performer* > performersRef;
     
-    struct
-    
+    vector < float > sectionStartTimes;
     vector < conditionEvent > conditionEvents;
     vector < triggerLimitingEvent > triggerLimitingEvents;
-    
+    vector < deleteEvent > deleteEvents;
     
 };
 

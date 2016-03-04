@@ -10,6 +10,7 @@ void ofApp::setup(){
     
     addCondition.addListener(this, &ofApp::addConditionPressed);
     
+    
     gui.setup();
     gui.add(addCondition.setup("add condition"));
     
@@ -35,6 +36,11 @@ void ofApp::setup(){
     for(int i = 0 ; i < performers.size() ; i ++ ) {
         performers[i] -> setDeviceReferences(deviceManager.getDevices());
     }
+    
+    scoreManager.setPerformersRef(performers);
+    
+    deviceManager.setSetDuration(false, 0);
+    deviceManager.setSetRecovery(false, 0);
 }
 
 //--------------------------------------------------------------
@@ -60,7 +66,11 @@ void ofApp::draw(){
     font.drawString(ofToString(ofGetFrameRate()), ofGetWidth() - 80, ofGetHeight() - 16);
     
     ofSetColor(ofColor::white);
-    performers[2] -> drawConditions(24, 300);
+    
+    performers[0] -> drawConditions(12, 200);
+    performers[1] -> drawConditions(492, 400);
+    performers[2] -> drawConditions(972, 600);
+    
 }
 
 //--------------------------------------------------------------
@@ -91,6 +101,11 @@ void ofApp::keyPressed(int key){
     if(key == 'c') {
         performers[HALEY] -> makeNewCondition(3, performers[MEG] -> getWristIndex(), X, ABS, LT, 2200, DIE_AFTER_TRIGGER_NUM, (int) ofRandom(10) + 1);
     }
+    
+    if(key == 'v') {
+        performers[JACOB] -> makeNewCondition(3, performers[HALEY] -> getWristIndex(), X, ABS, LT, 2200, DIE_AFTER_TRIGGER_NUM, (int) ofRandom(10) + 1);
+    }
+    
     
     if(key == 'd') deviceManager.setSetDuration(true, 5);
     if(key == 'e') deviceManager.setSetDuration(false, 5);

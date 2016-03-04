@@ -14,7 +14,7 @@
 #include "fc_device.hpp"
 
 enum PerformerName {
-    MEG, JACOB, HALEY
+    MEG, JACOB, HALEY, NUM_PERFORMERS
 };
 
 class fc_performer {

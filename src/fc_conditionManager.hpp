@@ -30,6 +30,7 @@ public:
     
     void drawConditions(float _x, float _y);
     
+    
 private:
     vector < fc_device* > devices;
     vector < fc_conditionStream* > conditionStreams;

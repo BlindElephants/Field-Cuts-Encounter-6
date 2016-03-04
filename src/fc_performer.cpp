@@ -29,6 +29,7 @@ void fc_performer::setDeviceReferences(vector < fc_device* > _devices) {
 
 void fc_performer::makeNewCondition(int _targetRelayChannel, int _sourceDevice, Parameter _x_y_z, Parameter _abs_del, Parameter _MT_LT, float _threshold, Lifespan _conditionLifespan, float _conditionTimer) {
     conditionManager -> makeNewCondition(_targetRelayChannel, _sourceDevice, _x_y_z, _abs_del, _MT_LT, _threshold, OPEN, 0, _conditionLifespan, _conditionTimer);
+    cout << "------ condition created ------" << endl;
 }
 
 int fc_performer::getWristIndex() {

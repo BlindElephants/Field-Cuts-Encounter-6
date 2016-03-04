@@ -10,7 +10,7 @@
 
 fc_conditionStream::fc_conditionStream(int _thisDeviceIndex, int _thisRelayChannelIndex) {
     conditions.clear();
-    font.load("courier", 12);
+    font.load("courier", 8);
     thisDeviceIndex = _thisDeviceIndex;
     thisRelayChannelIndex = _thisRelayChannelIndex;
 }
@@ -36,7 +36,7 @@ void fc_conditionStream::checkAllConditions() {
                 cout << "erased because timer high" << endl;
             } else {
                 float val = devices[conditions[i] -> sourceDevice] -> getLastAccelValue(conditions[i] -> abs_del, conditions[i] -> x_y_z);
-                if(conditions[i] -> MT_LT == MT) {
+                if(conditions[i] -> MT_LT == LT) {
                     if(conditions[i] -> threshold > val) {
                         relaySetting = true;
                         if(!(conditions[i] -> isActive)) {
@@ -60,6 +60,7 @@ void fc_conditionStream::checkAllConditions() {
                 if(conditions[i] -> isActive) numActiveConditions ++ ;
             }
         }
+        cout << "num active conditions: " << numActiveConditions << endl;
         devices[thisDeviceIndex] -> setRelay(thisRelayChannelIndex, relaySetting);
     }
 }
@@ -131,9 +132,9 @@ float fc_conditionStream::drawAllConditions(float _x, float _y) {
                 font.drawString("ON MSGS: ", 390, _y);
                 font.drawString(ofToString(conditions[i] -> conditionActiveNum), 540, _y);
             }
-            _y += 16;
+            _y += 12;
         }
         ofPopMatrix();
-        return _y;
+        return (conditions.size() * 12);
     }
 }
