@@ -58,7 +58,7 @@ fc_scoreManager::fc_scoreManager() {
     sectionStartTimes.push_back(section_4_start_time);
     sectionStartTimes.push_back(section_5_start_time);
     
-    int section_1_num_conditions = 15;
+    int section_1_num_conditions = 40;
     int section_2_num_conditions = 11;
     int section_3_num_conditions = 29;
     int section_4_num_conditions = 13;
@@ -79,7 +79,6 @@ fc_scoreManager::fc_scoreManager() {
         cout << "CONDITION:" << endl;
 //        cout << "------ time: " << section_1_start_time, section_1_end_time) << endl;
         float thisCondition = ofRandom(1);
-        _c.triggerAtTime = ofWrap(getNormal((section_1_start_time - section_1_end_time) * 0.25, (section_1_start_time - section_1_end_time) / 2), section_1_start_time, section_1_end_time);
         _c.triggerAtTime = ofRandom(section_1_start_time, section_1_end_time - ((section_1_end_time - section_1_start_time) * 0.1));
         
         if(thisCondition <= probJacob) {
@@ -175,12 +174,12 @@ void fc_scoreManager::update() {
                     int sourceDeviceIndex;
                     
                     if(conditionEvents[0].c.sourceDevice == PACK) {
-                        sourceDeviceIndex = performersRef[conditionEvents[0].sourceName] -> getPackIndex();
+                        sourceDeviceIndex = performersRef -> at(conditionEvents[0].sourceName).getPackIndex();
                     } else {
-                        sourceDeviceIndex = performersRef[conditionEvents[0].sourceName] -> getWristIndex();
+                        sourceDeviceIndex = performersRef -> at(conditionEvents[0].sourceName).getWristIndex();
                     }
                     
-                    performersRef[conditionEvents[0].targetName] -> makeNewCondition(conditionEvents[0].targetRelayChannel, sourceDeviceIndex, conditionEvents[0].c.x_y_z, conditionEvents[0].c.abs_del, conditionEvents[0].c.MT_LT, conditionEvents[0].c.threshold, conditionEvents[0].c.conditionLifespan, 0);
+                    performersRef -> at(conditionEvents[0].targetName).makeNewCondition(conditionEvents[0].targetRelayChannel, sourceDeviceIndex, conditionEvents[0].c.x_y_z, conditionEvents[0].c.abs_del, conditionEvents[0].c.MT_LT, conditionEvents[0].c.threshold, conditionEvents[0].c.conditionLifespan, 0);
                     cout << endl << "condition event at " << scoreTimer << endl;
                     conditionEvents.erase(conditionEvents.begin());
                 }
@@ -251,6 +250,6 @@ void fc_scoreManager::addTriggerLimitingEventInOrder(triggerLimitingEvent _t) {
     }
 }
 
-void fc_scoreManager::setPerformersRef(vector<fc_performer *> _pr) {
+void fc_scoreManager::setPerformersRef(vector<fc_performer> * _pr) {
     performersRef = _pr;
 }

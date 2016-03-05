@@ -17,18 +17,14 @@ public:
     void update();
     void draw();
     void keyPressed(int key);
-    void exit();
     
     int devSel = 0;
     
     fc_deviceManager deviceManager;
     
-    vector < fc_performer* > performers;
+    vector < fc_performer > performers;
+
     
-    ofxPanel gui;
-    ofxButton addCondition;
-    
-    void addConditionPressed();
     
     ofTrueTypeFont font;
     

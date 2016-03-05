@@ -15,6 +15,7 @@
 #include "fc_condition.hpp"
 #include "fc_performer.hpp"
 
+
 enum DeviceType {
     WRIST, PACK
 };
@@ -68,7 +69,7 @@ public:
     void addConditionInOrder(conditionEvent _c);
     void addTriggerLimitingEventInOrder(triggerLimitingEvent _t);
     
-    void setPerformersRef(vector < fc_performer* > _pr);
+    void setPerformersRef(vector < fc_performer > *_pr);
     
 private:
     bool runScore;
@@ -78,7 +79,7 @@ private:
     
     float nextConditionEvent = 0;
     
-    vector < fc_performer* > performersRef;
+    vector < fc_performer > *performersRef;
     
     vector < float > sectionStartTimes;
     vector < conditionEvent > conditionEvents;
