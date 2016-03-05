@@ -1,3 +1,4 @@
+
 //
 //  fc_device.cpp
 //  Field_Cuts_6_SCORE
@@ -59,7 +60,6 @@ void fc_device::sendRelayMessage(int channel, bool set) {
         int m = channel * 2;
         if(!set) m += 1;
         udp.Send(ofToString(m).c_str(), 1);
-        cout << "msg sent to device" << endl << endl;
     }
 }
 
@@ -161,4 +161,25 @@ void fc_device::setSetRecovery(bool _useSetRecovery, float _setRecovery) {
     for(int i = 0 ; i < 4 ; i ++ ) {
         relayDevice[i].recoveryTimer = setRecovery;
     }
+}
+
+void fc_device::drawSetDurRec(float _x, float _y) {
+    ofSetColor(ofColor::white);
+    ofPushMatrix();
+    ofTranslate(_x, _y);
+    
+    font.drawString("set duration: ", 0, 0);
+    if(useSetDuration) {
+        font.drawString("TRUE -" + ofToString(setDuration), 168, 0);
+    } else {
+        font.drawString("FALSE", 168, 0);
+    }
+    
+    font.drawString("set recovery: ", 0, 14);
+    if(useSetRecovery) {
+        font.drawString("TRUE - " + ofToString(setRecovery), 168, 14);
+    } else {
+        font.drawString("FALSE", 168, 14);
+    }
+    ofPopMatrix();
 }

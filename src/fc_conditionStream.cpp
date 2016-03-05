@@ -60,7 +60,6 @@ void fc_conditionStream::checkAllConditions() {
                 if(conditions[i] -> isActive) numActiveConditions ++ ;
             }
         }
-        cout << "num active conditions: " << numActiveConditions << endl;
         devices[thisDeviceIndex] -> setRelay(thisRelayChannelIndex, relaySetting);
     }
 }
@@ -86,55 +85,67 @@ void fc_conditionStream::makeNewCondition(int _sourceDevice, Parameter _x_y_z, P
 int fc_conditionStream::getNumberConditions() {return conditions.size();}
 int fc_conditionStream::getNumberActiveConditions() {return numActiveConditions;}
 
-float fc_conditionStream::drawAllConditions(float _x, float _y) {
+void fc_conditionStream::drawConditions(float _x, float _y) {
     if(conditions.size() > 0) {
         ofPushMatrix();
-        ofTranslate(_x, 0);
+        ofTranslate(_x, _y);
         for(int i = 0 ; i < conditions.size() ; i ++ ) {
+            ofSetColor(ofColor::white);
+            font.drawString(ofToString(i) + ": ", 0, 0);
             if(conditions[i] -> isActive) {
-                font.drawString("TRUE", 0, _y);
+                ofSetColor(ofColor::red);
+                font.drawString("TRUE ", 16, 0);
             } else {
-                font.drawString("FALSE", 0, _y);
+                ofSetColor(ofColor::white);
+                font.drawString("FALSE", 16, 0);
             }
             
-            font.drawString(" | ", 60, _y);
-            font.drawString("source: " + ofToString(conditions[i] -> sourceDevice), 90, _y);
-            font.drawString(" | ", 190, _y);
+            int _source = conditions[i] -> sourceDevice / 2;
+            int _sourceDevice = conditions[i] -> sourceDevice % 2;
+            
+            if(_source == 0) {
+                font.drawString("MEG", 64, 0);
+            } else if(_source == 1) {
+                font.drawString("JACOB", 64, 0);
+            } else if(_source == 2) {
+                font.drawString("HALEY", 64, 0);
+            }
+            
+            if(_sourceDevice == 0) {
+                font.drawString("WRIST", 112, 0);
+            } else if(_sourceDevice == 1) {
+                font.drawString("PACK", 112, 0);
+            }
+            
             if(conditions[i] -> x_y_z == X) {
-                font.drawString("X", 220, _y);
+                font.drawString("X", 160, 0);
             } else if(conditions[i] -> x_y_z == Y) {
-                font.drawString("Y", 220, _y);
+                font.drawString("Y", 160, 0);
             } else if(conditions[i] -> x_y_z == Z) {
-                font.drawString("Z", 220, _y);
+                font.drawString("Z", 160, 0);
             }
             
             if(conditions[i] -> abs_del == ABS) {
-                font.drawString("ABS", 240, _y);
+                font.drawString("ABS", 172, 0);
             } else if(conditions[i] -> abs_del == DEL) {
-                font.drawString("DEL", 240, _y);
+                font.drawString("DEL", 172, 0);
             }
             
             if(conditions[i] -> MT_LT == MT) {
-                font.drawString(">", 280, _y);
-            } else if(conditions[i] -> MT_LT) {
-                font.drawString("<", 280, _y);
+                font.drawString(" > ", 204, 0);
+            } else if(conditions[i] -> MT_LT == LT) {
+                font.drawString(" < ", 204, 0);
             }
+            font.drawString(ofToString(conditions[i] -> threshold), 228, 0);
             
-            font.drawString(ofToString(conditions[i] -> threshold), 310, _y);
+            font.drawString(" | ", 276, 0);
+            font.drawString(ofToString(conditions[i] -> conditionActiveNum), 300, 0);
+            font.drawString(ofToString(conditions[i] -> conditionActiveTime), 348, 0);
+            font.drawString(ofToString(conditions[i] -> conditionTimer), 400, 0);
             
-            if(conditions[i] -> conditionLifespan == DIE_AFTER_TIME) {
-                font.drawString("TIME LIMIT: ", 390, _y);
-                font.drawString(ofToString(conditions[i] -> conditionTimer), 540, _y);
-            } else if(conditions[i] -> conditionLifespan == DIE_AFTER_TRIGGER_DURATION) {
-                font.drawString("ACTIVE TIMER: ", 390, _y);
-                font.drawString(ofToString(conditions[i] -> conditionActiveTime), 540, _y);
-            } else if(conditions[i] -> conditionLifespan == DIE_AFTER_TRIGGER_NUM) {
-                font.drawString("ON MSGS: ", 390, _y);
-                font.drawString(ofToString(conditions[i] -> conditionActiveNum), 540, _y);
-            }
-            _y += 12;
+            
+            ofTranslate(0, 10);
         }
         ofPopMatrix();
-        return (conditions.size() * 12);
     }
 }

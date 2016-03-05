@@ -25,12 +25,11 @@ public:
     void setDevices(int _wristIndex, int _packIndex, int _numberRelayChannels);
     void update();
     void makeNewCondition(int _targetRelayChannel, int _sourceDevice, Parameter _x_y_z, Parameter _abs_del, Parameter _MT_LT, float _threshold, Lifespan _conditionLifespan, float _conditionTimer);
-    
     int getWristIndex();
     int getPackIndex();
-    
     void drawConditions(float _x, float _y);
-    
+    void drawDeviceDurRec(float _x, float _y);
+        
 private:
     fc_conditionManager* conditionManager;
     

@@ -74,11 +74,14 @@ int fc_conditionManager::getNumberActiveConditions() {
     return _c;
 }
 
-void fc_conditionManager::drawConditions(float _x, float _y) {
+void fc_conditionManager::drawConditionStreams(float _x, float _y, float _gap) {
     if(conditionStreams.size() > 0) {
-        float y = 0;
+        ofPushMatrix();
+        ofTranslate(_x, _y);
         for(int i = 0 ; i < conditionStreams.size() ; i ++ ) {
-            y = conditionStreams[i] -> drawAllConditions(_x, _y + y);
+            conditionStreams[i] -> drawConditions(0, 0);
+            ofTranslate(0, _gap);
         }
+        ofPopMatrix();
     }
 }

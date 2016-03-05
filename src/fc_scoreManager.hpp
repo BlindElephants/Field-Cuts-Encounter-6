@@ -30,7 +30,6 @@ public:
     
     struct conditionEvent {
         float triggerAtTime;
-        
         fc_condition c;
         PerformerName targetName;
         int targetRelayChannel;
@@ -40,10 +39,8 @@ public:
     
     struct triggerLimitingEvent {
         float triggerAtTime;
-        
         bool useSetDuration;
         float setDuration;
-        
         bool useSetRecovery;
         float setRecovery;
     };
@@ -59,13 +56,7 @@ public:
     void update();
     void draw(float _x, float _y, float _w, float _h);
     
-//    void makeConditionEventRandom();
-//    void makeConditionEventRandomAbs();
-//    void makeConditionEventRandomDel();
-//    
-//    void addConditionEventToScore(conditionEvent _c);
-//    void addTriggerLimitingEventToScore(triggerLimitingEvent _t);
-    
+
     void addConditionInOrder(conditionEvent _c);
     void addTriggerLimitingEventInOrder(triggerLimitingEvent _t);
     

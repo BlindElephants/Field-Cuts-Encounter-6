@@ -77,18 +77,17 @@ fc_scoreManager::fc_scoreManager() {
     for(int i = 0 ; i < section_1_num_conditions ; i ++ ) {
         conditionEvent _c;
         cout << "CONDITION:" << endl;
-//        cout << "------ time: " << section_1_start_time, section_1_end_time) << endl;
         float thisCondition = ofRandom(1);
         _c.triggerAtTime = ofRandom(section_1_start_time, section_1_end_time - ((section_1_end_time - section_1_start_time) * 0.1));
         
         if(thisCondition <= probJacob) {
-            cout << "------ target: JACOB" << endl;
+            cout << "------ target: JACOB";
             _c.targetName = JACOB;
         } else if(thisCondition <= probMeg) {
-            cout << "------ target: MEG" << endl;
+            cout << "------ target: MEG";
             _c.targetName = MEG;
         } else {
-            cout << "------ target: HALEY" << endl;
+            cout << "------ target: HALEY";
             _c.targetName = HALEY;
         }
         int _x_y_z = (int) ofRandom(3);
@@ -130,7 +129,7 @@ fc_scoreManager::fc_scoreManager() {
             sourceName.erase(sourceName.begin() + _c.targetName);
             _c.sourceName = sourceName[(int) ofRandom(2)];
         }
-        if((int) ofRandom(2) == 0) {
+        if(ofRandom(1) <= 0.5) {
             _c.sourceDevice = WRIST;
         } else {
             _c.sourceDevice = PACK;
@@ -139,10 +138,10 @@ fc_scoreManager::fc_scoreManager() {
         _c.c.conditionLifespan = INFINITE;
         if(_c.c.abs_del == ABS) {
             if(_c.c.MT_LT == MT) {
-                _c.c.threshold = getNormal(100, 3200);
+                _c.c.threshold = getNormal(180, 2800);
                 cout << _c.c.threshold << endl;
             } else {
-                _c.c.threshold = getNormal(100, 800);
+                _c.c.threshold = getNormal(180, 1200);
                 cout << _c.c.threshold << endl;
             }
         } else {
@@ -173,7 +172,7 @@ void fc_scoreManager::update() {
                     
                     int sourceDeviceIndex;
                     
-                    if(conditionEvents[0].c.sourceDevice == PACK) {
+                    if(conditionEvents[0].sourceDevice == PACK) {
                         sourceDeviceIndex = performersRef -> at(conditionEvents[0].sourceName).getPackIndex();
                     } else {
                         sourceDeviceIndex = performersRef -> at(conditionEvents[0].sourceName).getWristIndex();
@@ -242,8 +241,8 @@ void fc_scoreManager::addTriggerLimitingEventInOrder(triggerLimitingEvent _t) {
         triggerLimitingEvents.push_back(_t);
     } else {
         for(int i = 0 ; i < triggerLimitingEvents.size() ; i ++ ) {
-            if(_t.triggerAtTime > triggerLimitingEvents[i].triggerAtTime) {
-                triggerLimitingEvents.insert(triggerLimitingEvents.begin() + (i + 1), _t);
+            if(_t.triggerAtTime < triggerLimitingEvents[i].triggerAtTime) {
+                triggerLimitingEvents.insert(triggerLimitingEvents.begin() + (i), _t);
                 break;
             }
         }

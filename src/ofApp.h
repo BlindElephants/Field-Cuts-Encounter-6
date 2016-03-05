@@ -18,15 +18,8 @@ public:
     void draw();
     void keyPressed(int key);
     
-    int devSel = 0;
-    
-    fc_deviceManager deviceManager;
-    
-    vector < fc_performer > performers;
-
-    
-    
     ofTrueTypeFont font;
-    
+    fc_deviceManager deviceManager;
+    vector < fc_performer > performers;
     fc_scoreManager scoreManager;
 };

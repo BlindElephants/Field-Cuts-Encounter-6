@@ -28,8 +28,7 @@ public:
     int getNumberConditions();
     int getNumberActiveConditions();
     
-    void drawConditions(float _x, float _y);
-    
+    void drawConditionStreams(float _x, float _y, float _gap);
     
 private:
     vector < fc_device* > devices;

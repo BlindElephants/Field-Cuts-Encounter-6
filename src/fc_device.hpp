@@ -35,6 +35,7 @@ public:
     
     void setSetDuration(bool _useSetDuration, float _setDuration);
     void setSetRecovery(bool _useSetRecovery, float _setRecovery);
+    void drawSetDurRec(float _x, float _y);
     
 private:
     ofxUDPManager udp;
