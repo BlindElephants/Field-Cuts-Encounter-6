@@ -32,6 +32,7 @@ public:
     void deleteAllConditions();
     void deleteMostActiveCondition();
     
+    void sendOffMessage();
         
 private:
     fc_conditionManager* conditionManager;

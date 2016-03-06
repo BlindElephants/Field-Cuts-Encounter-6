@@ -18,8 +18,12 @@ public:
     void draw();
     void keyPressed(int key);
     
+    void sendOffMessage(int performer_index);
+    
     ofTrueTypeFont font;
     fc_deviceManager deviceManager;
     vector < fc_performer > performers;
     fc_scoreManager scoreManager;
+    
+    bool runAll = true;
 };

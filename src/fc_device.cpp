@@ -183,3 +183,11 @@ void fc_device::drawSetDurRec(float _x, float _y) {
     }
     ofPopMatrix();
 }
+
+void fc_device::sendOffMessages() {
+    if(hasRelay) {
+        for(int i = 0 ; i < 4 ; i ++ ) {
+            sendRelayMessage(i, false);
+        }
+    }
+}

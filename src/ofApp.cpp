@@ -33,8 +33,10 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    if(runAll) {
     for(int i = 0 ; i < performers.size() ; i ++ ) performers[i].update();
     scoreManager.update();
+    }
     deviceManager.update();
 }
 
@@ -62,4 +64,14 @@ void ofApp::keyPressed(int key){
     if(key == '+') ofToggleFullscreen();
     if(key == 'p') deviceManager.togglePingAll();
     if(key == 's') scoreManager.toggleRun();
+    if(key == '1') sendOffMessage(0);
+    if(key == '2') sendOffMessage(1);
+    if(key == '3') sendOffMessage(2);
+    if(key == 'P') runAll = !runAll;
+}
+
+void ofApp::sendOffMessage(int performer_index) {
+    if(performers.size() > performer_index) {
+        performers[performer_index].sendOffMessage();
+    }
 }

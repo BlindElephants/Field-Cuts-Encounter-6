@@ -54,3 +54,7 @@ void fc_performer::deleteAllConditions() {
 void fc_performer::deleteMostActiveCondition() {
     conditionManager -> deleteMostActiveCondition();
 }
+
+void fc_performer::sendOffMessage() {
+    devices[packIndex] -> sendOffMessages();
+}

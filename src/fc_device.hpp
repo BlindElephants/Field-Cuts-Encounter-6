@@ -37,6 +37,8 @@ public:
     void setSetRecovery(bool _useSetRecovery, float _setRecovery);
     void drawSetDurRec(float _x, float _y);
     
+    void sendOffMessages();
+    
 private:
     ofxUDPManager udp;
     
