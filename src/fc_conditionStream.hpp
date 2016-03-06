@@ -26,6 +26,12 @@ public:
     
     void drawConditions(float _x, float _y);
     
+    void deleteAllConditions();
+    void deleteCondition(int _index);
+    
+    int getMostActiveCondition();
+    float getActiveTimer(int _index);
+    
     
 private:
     vector < fc_condition* > conditions;
@@ -33,7 +39,6 @@ private:
     
     int thisDeviceIndex;
     int thisRelayChannelIndex;
-    
     int numActiveConditions = 0;
     
     ofTrueTypeFont font;

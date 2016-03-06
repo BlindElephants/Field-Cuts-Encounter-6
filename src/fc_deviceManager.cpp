@@ -76,3 +76,11 @@ void fc_deviceManager::setSetRecovery(bool _useSetRecovery, float _setRecovery) 
         devices[i] -> setSetRecovery(_useSetRecovery, _setRecovery);
     }
 }
+
+void fc_deviceManager::setSetDurationDevice(int _deviceIndex, bool _useSetDuration, float _setDuration) {
+    devices[_deviceIndex] -> setSetDuration(_useSetDuration, _setDuration);
+}
+
+void fc_deviceManager::setSetRecoveryDevice(int _deviceIndex, bool _useSetRecovery, float _setRecovery) {
+    devices[_deviceIndex] -> setSetRecovery(_useSetRecovery, _setRecovery);
+}

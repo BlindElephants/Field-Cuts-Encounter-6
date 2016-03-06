@@ -27,6 +27,8 @@ void ofApp::setup(){
     }
     deviceManager.setSetDuration(true, ofRandom(0.1, 1.2));
     deviceManager.setSetRecovery(true, ofRandom(1, 8));
+    
+    scoreManager.setDevicesRef(&deviceManager);
 }
 
 //--------------------------------------------------------------
@@ -53,7 +55,6 @@ void ofApp::draw(){
             performers[i].drawConditions(12 + (i * 464), 200);
         }
     }
-    
 }
 
 //--------------------------------------------------------------

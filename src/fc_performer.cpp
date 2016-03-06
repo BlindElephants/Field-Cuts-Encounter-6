@@ -46,3 +46,11 @@ void fc_performer::drawConditions(float _x, float _y) {
 void fc_performer::drawDeviceDurRec(float _x, float _y) {
     devices[packIndex] -> drawSetDurRec(_x, _y);
 }
+
+void fc_performer::deleteAllConditions() {
+    conditionManager -> deleteAllConditions();
+}
+
+void fc_performer::deleteMostActiveCondition() {
+    conditionManager -> deleteMostActiveCondition();
+}

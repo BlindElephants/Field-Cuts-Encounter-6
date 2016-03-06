@@ -85,3 +85,26 @@ void fc_conditionManager::drawConditionStreams(float _x, float _y, float _gap) {
         ofPopMatrix();
     }
 }
+
+void fc_conditionManager::deleteAllConditions() {
+    for(int i = 0 ; i < conditionStreams.size() ; i ++ ) conditionStreams[i] -> deleteAllConditions();
+}
+
+void fc_conditionManager::deleteMostActiveCondition() {
+    int _streamIndex = 0;
+    int _conditionIndex = 0;
+    float _activeTime = 0;
+    
+    for(int i = 0 ; i < conditionStreams.size() ; i ++ ) {
+        int thisIndex = conditionStreams[i] -> getMostActiveCondition();
+        if(conditionStreams[i] -> getActiveTimer(thisIndex) > _activeTime) {
+            _activeTime = conditionStreams[i] -> getActiveTimer(thisIndex);
+            _conditionIndex = thisIndex;
+            _streamIndex = i;
+        }
+    }
+    
+    if(_streamIndex != -1 && _conditionIndex != -1) {
+        conditionStreams[_streamIndex] -> deleteCondition(_conditionIndex);
+    }
+}

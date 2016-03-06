@@ -29,6 +29,9 @@ public:
     int getPackIndex();
     void drawConditions(float _x, float _y);
     void drawDeviceDurRec(float _x, float _y);
+    void deleteAllConditions();
+    void deleteMostActiveCondition();
+    
         
 private:
     fc_conditionManager* conditionManager;

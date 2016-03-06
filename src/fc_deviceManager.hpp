@@ -30,6 +30,8 @@ public:
     void setSetDuration(bool _useSetDuration, float _setDuration);
     void setSetRecovery(bool _useSetRecovery, float _setRecovery);
     
+    void setSetDurationDevice(int _deviceIndex, bool _useSetDuration, float _setDuration);
+    void setSetRecoveryDevice(int _deviceIndex, bool _useSetRecovery, float _setRecovery);
     
 private:
     vector < fc_device* > devices;

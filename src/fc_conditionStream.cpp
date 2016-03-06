@@ -149,3 +149,37 @@ void fc_conditionStream::drawConditions(float _x, float _y) {
         ofPopMatrix();
     }
 }
+
+void fc_conditionStream::deleteAllConditions() {
+    conditions.clear();
+}
+
+void fc_conditionStream::deleteCondition(int _index) {
+    if(conditions.size() > _index) {
+        conditions.erase(conditions.begin() + _index);
+    }
+}
+
+int fc_conditionStream::getMostActiveCondition() {
+    if(conditions.size() > 0) {
+        float activeTime = 0;
+        int index = 0;
+        for(int i = 0 ; i < conditions.size() ; i ++ ) {
+            if(conditions[i] -> conditionActiveTime > activeTime) {
+                activeTime = conditions[i] -> conditionActiveTime;
+                index = i;
+            }
+        }
+        return index;
+    } else {
+        return -1;
+    }
+}
+
+float fc_conditionStream::getActiveTimer(int _index) {
+    if(conditions.size() > _index) {
+        return conditions[_index] -> conditionActiveTime;
+    } else {
+        return -1;
+    }
+}

@@ -30,6 +30,9 @@ public:
     
     void drawConditionStreams(float _x, float _y, float _gap);
     
+    void deleteAllConditions();
+    void deleteMostActiveCondition();
+    
 private:
     vector < fc_device* > devices;
     vector < fc_conditionStream* > conditionStreams;

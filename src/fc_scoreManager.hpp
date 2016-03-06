@@ -12,6 +12,7 @@
 #include "ofMain.h"
 #include "ofxGaussian.h"
 
+#include "fc_deviceManager.hpp"
 #include "fc_condition.hpp"
 #include "fc_performer.hpp"
 
@@ -21,9 +22,8 @@ enum DeviceType {
 };
 
 enum DeleteType {
-    del_ALL, del_MEG, del_JACOB, del_HALEY
+    ALL, MOSTACTIVE
 };
-
 
 class fc_scoreManager {
 public:
@@ -39,6 +39,8 @@ public:
     
     struct triggerLimitingEvent {
         float triggerAtTime;
+        PerformerName targetName;
+        
         bool useSetDuration;
         float setDuration;
         bool useSetRecovery;
@@ -47,7 +49,8 @@ public:
     
     struct deleteEvent {
         float triggerAtTime;
-        DeleteType delType;
+        PerformerName targetName;
+        DeleteType deleteType;
     };
     
     fc_scoreManager();
@@ -55,12 +58,13 @@ public:
     void toggleRun();
     void update();
     void draw(float _x, float _y, float _w, float _h);
-    
 
     void addConditionInOrder(conditionEvent _c);
     void addTriggerLimitingEventInOrder(triggerLimitingEvent _t);
+    void addDeleteEventInOrder(deleteEvent _d);
     
     void setPerformersRef(vector < fc_performer > *_pr);
+    void setDevicesRef(fc_deviceManager *_deviceManager);
     
 private:
     bool runScore;
@@ -69,8 +73,11 @@ private:
     ofTrueTypeFont font;
     
     float nextConditionEvent = 0;
+    float nextTriggerLimitingEvent = 0;
+    float nextDeleteEvent = 0;
     
     vector < fc_performer > *performersRef;
+    fc_deviceManager *deviceManagerRef;
     
     vector < float > sectionStartTimes;
     vector < conditionEvent > conditionEvents;
