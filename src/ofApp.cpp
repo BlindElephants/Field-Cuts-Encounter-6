@@ -35,6 +35,10 @@ void ofApp::setup(){
     
     deviceManager.setAllDeviceOscRefs(&sendToFloor, &sendToSound);
     
+    for(int i = 0 ; i < performers.size() ; i ++ ) {
+        performers[i].setConditionManagerOscRefs(&sendToFloor, &sendToSound);
+    }
+    
 }
 
 //--------------------------------------------------------------

@@ -12,6 +12,7 @@
 #include "ofMain.h"
 #include "fc_conditionManager.hpp"
 #include "fc_device.hpp"
+#include "ofxOsc.h"
 
 enum PerformerName {
     MEG, JACOB, HALEY, NUM_PERFORMERS
@@ -33,7 +34,7 @@ public:
     void deleteMostActiveCondition();
     
     void sendOffMessage();
-        
+    void setConditionManagerOscRefs(ofxOscSender *toFloor, ofxOscSender *toSound);
 private:
     fc_conditionManager* conditionManager;
     

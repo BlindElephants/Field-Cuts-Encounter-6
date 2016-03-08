@@ -35,12 +35,33 @@ vector < int > fc_conditionStream::checkAllConditions() {
             if(conditions[i] -> isActive) conditions[i] -> conditionActiveTime += ofGetLastFrameTime();
             if(!(conditions[i] -> isActive) && (conditions[i] -> conditionLifespan == DIE_AFTER_TRIGGER_NUM) && (conditions[i] -> conditionActiveNum >= conditions[i] -> conditionActiveNumLimit)) {
                 conditions.erase(conditions.begin() + i);
+                if(sendToOsc) {
+                    ofxOscMessage m;
+                    m.setAddress("delete_condition");
+                    m.addIntArg(thisDeviceIndex);
+                    sendToFloor -> sendMessage(m);
+                    sendToSound -> sendMessage(m);
+                }
                 cout << "erased because trigger number high" << endl;
             } else if((conditions[i] -> conditionLifespan == DIE_AFTER_TRIGGER_DURATION) && (conditions[i] -> conditionActiveTime >= conditions[i] -> conditionTimerLimit)) {
                 conditions.erase(conditions.begin() + i);
+                if(sendToOsc) {
+                    ofxOscMessage m;
+                    m.setAddress("delete_condition");
+                    m.addIntArg(thisDeviceIndex);
+                    sendToFloor -> sendMessage(m);
+                    sendToSound -> sendMessage(m);
+                }
                 cout << "erased because trigger duration number high " << endl;
             } else if((conditions[i] -> conditionLifespan == DIE_AFTER_TIME) && (conditions[i] -> conditionTimer >= conditions[i] -> conditionTimerLimit)) {
                 conditions.erase(conditions.begin() + i);
+                if(sendToOsc) {
+                    ofxOscMessage m;
+                    m.setAddress("delete_condition");
+                    m.addIntArg(thisDeviceIndex);
+                    sendToFloor -> sendMessage(m);
+                    sendToSound -> sendMessage(m);
+                }
                 cout << "erased because timer high" << endl;
             } else {
                 float val = devices[conditions[i] -> sourceDevice] -> getLastAccelValue(conditions[i] -> abs_del, conditions[i] -> x_y_z);
@@ -91,6 +112,15 @@ void fc_conditionStream::makeNewCondition(int _sourceDevice, Parameter _x_y_z, P
         c -> conditionTimerLimit = _conditionTimer;
     }
     conditions.push_back(c);
+    
+    if(sendToOsc) {
+        ofxOscMessage m;
+        m.setAddress("/make_condition");
+        m.addIntArg(_sourceDevice);
+        m.addIntArg(thisDeviceIndex);
+        sendToFloor -> sendMessage(m);
+        sendToSound -> sendMessage(m);
+    }
 }
 
 int fc_conditionStream::getNumberConditions() {return conditions.size();}
@@ -162,12 +192,28 @@ void fc_conditionStream::drawConditions(float _x, float _y) {
 }
 
 void fc_conditionStream::deleteAllConditions() {
+    if(conditions.size() > 0 && sendToOsc) {
+        ofxOscMessage m;
+        m.setAddress("delete_condition");
+        m.addIntArg(thisDeviceIndex);
+        sendToFloor -> sendMessage(m);
+        sendToSound -> sendMessage(m);
+    }
+    
     conditions.clear();
+    
 }
 
 void fc_conditionStream::deleteCondition(int _index) {
     if(conditions.size() > _index) {
         conditions.erase(conditions.begin() + _index);
+        if(sendToOsc) {
+            ofxOscMessage m;
+            m.setAddress("delete_condition");
+            m.addIntArg(thisDeviceIndex);
+            sendToFloor -> sendMessage(m);
+            sendToSound -> sendMessage(m);
+        }
     }
 }
 
@@ -193,4 +239,10 @@ float fc_conditionStream::getActiveTimer(int _index) {
     } else {
         return -1;
     }
+}
+
+void fc_conditionStream::setOscRefs(ofxOscSender *toFloor, ofxOscSender *toSound) {
+    sendToFloor = toFloor;
+    sendToSound = toSound;
+    sendToOsc = true;
 }

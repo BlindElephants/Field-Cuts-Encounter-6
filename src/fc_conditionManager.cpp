@@ -41,9 +41,10 @@ void fc_conditionManager::checkAllConditions() {
 
 void fc_conditionManager::makeNewCondition(int _targetRelayChannel, int _sourceDevice, Parameter _x_y_z, Parameter _abs_del, Parameter _MT_LT, float _threshold, TriggerType _triggerType, float _triggerSetDuration, Lifespan _conditionLifespan, float _conditionTimer) {
     conditionStreams[_targetRelayChannel] -> makeNewCondition(_sourceDevice, _x_y_z, _abs_del, _MT_LT, _threshold, _triggerType, _triggerSetDuration, _conditionLifespan, _conditionTimer);
-    for(int i = 0 ; i < conditionStreams.size() ; i ++ ) {
-        cout << " | " << i << ": " << conditionStreams[i] ->getNumberConditions() << endl;
-    }
+    
+//    for(int i = 0 ; i < conditionStreams.size() ; i ++ ) {
+//        cout << " | " << i << ": " << conditionStreams[i] ->getNumberConditions() << endl;
+//    }
 }
 
 int fc_conditionManager::getNumberConditionsInRelay(int _relayChannel) {
@@ -111,5 +112,11 @@ void fc_conditionManager::deleteMostActiveCondition() {
     
     if(_streamIndex != -1 && _conditionIndex != -1) {
         conditionStreams[_streamIndex] -> deleteCondition(_conditionIndex);
+    }
+}
+
+void fc_conditionManager::setOscRefs(ofxOscSender *toFloor, ofxOscSender *toSound) {
+    for(int i = 0 ; i < conditionStreams.size() ; i ++ ) {
+        conditionStreams[i] -> setOscRefs(toFloor, toSound);
     }
 }

@@ -67,6 +67,7 @@ void fc_device::sendRelayMessage(int channel, bool set, int _thisDeviceIndex) {
                 m.addIntArg(_thisDeviceIndex);
                 m.addIntArg(channel);
                 sendToSound -> sendMessage(m);
+                cout << "on message sent to sound" << endl;
                 
                 if(relayDevice[channel].conditionSources.size() > 0) {
                     for(int i = 0 ; i < relayDevice[channel].conditionSources.size() ; i ++ ) {
@@ -76,6 +77,7 @@ void fc_device::sendRelayMessage(int channel, bool set, int _thisDeviceIndex) {
                         n.addIntArg(channel);
                         n.addIntArg(relayDevice[channel].conditionSources[i]);
                         sendToFloor -> sendMessage(n);
+                        cout << "on message sent to floor" << endl;
                     }
                 }
             } else {
@@ -84,12 +86,14 @@ void fc_device::sendRelayMessage(int channel, bool set, int _thisDeviceIndex) {
                 m.addIntArg(_thisDeviceIndex);
                 m.addIntArg(channel);
                 sendToSound -> sendMessage(m);
+                cout << "OFF message sent to sound" << endl;
                 
                 ofxOscMessage n;
                 n.setAddress("/off");
                 n.addIntArg(_thisDeviceIndex);
                 n.addIntArg(channel);
                 sendToFloor -> sendMessage(n);
+                cout << "OFF message sent to floor" << endl;
             }
         }
     }

@@ -56,5 +56,9 @@ void fc_performer::deleteMostActiveCondition() {
 }
 
 void fc_performer::sendOffMessage() {
-    devices[packIndex] -> sendOffMessages();
+    devices[packIndex] -> sendOffMessages(packIndex);
+}
+
+void fc_performer::setConditionManagerOscRefs(ofxOscSender *toFloor, ofxOscSender *toSound) {
+    conditionManager -> setOscRefs(toFloor, toSound);
 }

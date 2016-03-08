@@ -12,6 +12,7 @@
 #include "ofMain.h"
 #include "fc_device.hpp"
 #include "fc_conditionStream.hpp"
+#include "ofxOsc.h"
 
 class fc_conditionManager {
 public:
@@ -33,10 +34,13 @@ public:
     void deleteAllConditions();
     void deleteMostActiveCondition();
     
+    void setOscRefs(ofxOscSender *toFloor, ofxOscSender *toSound);
+    
 private:
     vector < fc_device* > devices;
     vector < fc_conditionStream* > conditionStreams;
     int thisDeviceIndex;
+
 };
 
 #endif /* fc_conditionManager_hpp */

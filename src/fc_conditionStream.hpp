@@ -12,6 +12,7 @@
 #include "ofMain.h"
 #include "fc_condition.hpp"
 #include "fc_device.hpp"
+#include "ofxOsc.h"
 
 class fc_conditionStream {
 public:
@@ -32,6 +33,7 @@ public:
     int getMostActiveCondition();
     float getActiveTimer(int _index);
     
+    void setOscRefs(ofxOscSender *toFloor, ofxOscSender *toSound);
     
 private:
     vector < fc_condition* > conditions;
@@ -42,6 +44,10 @@ private:
     int numActiveConditions = 0;
     
     ofTrueTypeFont font;
+    
+    bool sendToOsc = false;
+    ofxOscSender *sendToFloor;
+    ofxOscSender *sendToSound;
 };
 
 #endif /* fc_conditionStream_hpp */
