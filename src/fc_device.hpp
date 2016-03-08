@@ -78,8 +78,8 @@ private:
     ofTrueTypeFont font;
     
     bool sendToOsc = false;
-    ofxOscSender *sendToFloor;
-    ofxOscSender *sendToSound;
+    ofxOscSender* sendToFloor;
+    ofxOscSender* sendToSound;
 };
 
 #endif /* fc_device_hpp */

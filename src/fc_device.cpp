@@ -63,12 +63,14 @@ void fc_device::sendRelayMessage(int channel, bool set, int _thisDeviceIndex) {
         if(sendToOsc) {
             if(set) {
                 ofxOscMessage m;
-                m.setAddress("/on");
-                m.addIntArg(_thisDeviceIndex);
-                m.addIntArg(channel);
+                int _thisPerfNum;
+                if(_thisDeviceIndex == 1) _thisPerfNum = 1;
+                if(_thisDeviceIndex == 3) _thisPerfNum = 2;
+                if(_thisDeviceIndex == 5) _thisPerfNum = 3;
+                m.setAddress("/fieldcuts/perf_" + ofToString(_thisPerfNum));
+                m.addStringArg("trig_" + ofToString(channel + 1));
+                m.addStringArg("on");
                 sendToSound -> sendMessage(m);
-                cout << "on message sent to sound" << endl;
-                
                 if(relayDevice[channel].conditionSources.size() > 0) {
                     for(int i = 0 ; i < relayDevice[channel].conditionSources.size() ; i ++ ) {
                         ofxOscMessage n;
@@ -77,23 +79,30 @@ void fc_device::sendRelayMessage(int channel, bool set, int _thisDeviceIndex) {
                         n.addIntArg(channel);
                         n.addIntArg(relayDevice[channel].conditionSources[i]);
                         sendToFloor -> sendMessage(n);
-                        cout << "on message sent to floor" << endl;
                     }
+                } else {
+                    ofxOscMessage n;
+                    n.setAddress("/on");
+                    n.addIntArg(_thisDeviceIndex);
+                    n.addIntArg(channel);
+                    n.addIntArg(0);
+                    sendToFloor -> sendMessage(n);
                 }
             } else {
                 ofxOscMessage m;
-                m.setAddress("/off");
-                m.addIntArg(_thisDeviceIndex);
-                m.addIntArg(channel);
+                int _thisPerfNum;
+                if(_thisDeviceIndex == 1) _thisPerfNum = 1;
+                if(_thisDeviceIndex == 3) _thisPerfNum = 2;
+                if(_thisDeviceIndex == 5) _thisPerfNum = 3;
+                m.setAddress("/fieldcuts/perf_" + ofToString(_thisPerfNum));
+                m.addStringArg("trig_" + ofToString(channel + 1));
+                m.addStringArg("off");
                 sendToSound -> sendMessage(m);
-                cout << "OFF message sent to sound" << endl;
-                
                 ofxOscMessage n;
                 n.setAddress("/off");
                 n.addIntArg(_thisDeviceIndex);
                 n.addIntArg(channel);
                 sendToFloor -> sendMessage(n);
-                cout << "OFF message sent to floor" << endl;
             }
         }
     }
@@ -151,7 +160,7 @@ float fc_device::getLastAccelValue(Parameter ABS_DEL, Parameter X_Y_Z) {
             return accelDel.back().z;
         }
     } else {
-        throw "error in fc_device::getLastAccelValue";
+//        throw "error in fc_device::getLastAccelValue";
         return -1;
     }
 }
@@ -249,5 +258,8 @@ void fc_device::setRelayChannelConditionSources(int _relayChannelIndex, vector <
 void fc_device::setOscRefs(ofxOscSender *toFloor, ofxOscSender *toSound) {
     sendToFloor = toFloor;
     sendToSound = toSound;
+    
+
+    cout << "osc refs set" << endl;
     sendToOsc = true;
 }

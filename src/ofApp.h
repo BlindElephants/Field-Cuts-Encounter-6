@@ -31,4 +31,6 @@ public:
     
     ofxOscSender sendToFloor;
     ofxOscSender sendToSound;
+    
+    bool globalLights = false;
 };

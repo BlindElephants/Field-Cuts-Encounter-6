@@ -242,7 +242,6 @@ fc_scoreManager::fc_scoreManager() {
         float thisConditionTimeRange = section_2_start_time + (section_2_duration / (section_2_num_conditions + 1)) * i;
         _c.triggerAtTime = ofRandom(section_2_start_time, thisConditionTimeRange);
         int thisConditionTarget = ofRandom(3);
-        
         if(thisConditionTarget == 0) {
             _c.targetName = MEG;
         } else if(thisConditionTarget == 1) {
@@ -887,7 +886,6 @@ fc_scoreManager::fc_scoreManager() {
         } else if(i == 2) {
             _de.targetName = HALEY;
         }
-        
         addDeleteEventInOrder(_de);
     }
 }

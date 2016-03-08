@@ -37,30 +37,43 @@ vector < int > fc_conditionStream::checkAllConditions() {
                 conditions.erase(conditions.begin() + i);
                 if(sendToOsc) {
                     ofxOscMessage m;
-                    m.setAddress("delete_condition");
+                    m.setAddress("/delete_condition");
                     m.addIntArg(thisDeviceIndex);
                     sendToFloor -> sendMessage(m);
-                    sendToSound -> sendMessage(m);
+                    
+                    
+                    ofxOscMessage n;
+                    n.setAddress("/fieldcuts/connect");
+                    n.addStringArg("off");
+                    sendToSound -> sendMessage(n);
                 }
                 cout << "erased because trigger number high" << endl;
             } else if((conditions[i] -> conditionLifespan == DIE_AFTER_TRIGGER_DURATION) && (conditions[i] -> conditionActiveTime >= conditions[i] -> conditionTimerLimit)) {
                 conditions.erase(conditions.begin() + i);
                 if(sendToOsc) {
                     ofxOscMessage m;
-                    m.setAddress("delete_condition");
+                    m.setAddress("/delete_condition");
                     m.addIntArg(thisDeviceIndex);
                     sendToFloor -> sendMessage(m);
-                    sendToSound -> sendMessage(m);
+                    
+                    ofxOscMessage n;
+                    n.setAddress("/fieldcuts/connect");
+                    n.addStringArg("off");
+                    sendToSound -> sendMessage(n);
                 }
                 cout << "erased because trigger duration number high " << endl;
             } else if((conditions[i] -> conditionLifespan == DIE_AFTER_TIME) && (conditions[i] -> conditionTimer >= conditions[i] -> conditionTimerLimit)) {
                 conditions.erase(conditions.begin() + i);
                 if(sendToOsc) {
                     ofxOscMessage m;
-                    m.setAddress("delete_condition");
+                    m.setAddress("/delete_condition");
                     m.addIntArg(thisDeviceIndex);
                     sendToFloor -> sendMessage(m);
-                    sendToSound -> sendMessage(m);
+                    
+                    ofxOscMessage n;
+                    n.setAddress("/fieldcuts/connect");
+                    n.addStringArg("off");
+                    sendToSound -> sendMessage(n);
                 }
                 cout << "erased because timer high" << endl;
             } else {
@@ -119,7 +132,11 @@ void fc_conditionStream::makeNewCondition(int _sourceDevice, Parameter _x_y_z, P
         m.addIntArg(_sourceDevice);
         m.addIntArg(thisDeviceIndex);
         sendToFloor -> sendMessage(m);
-        sendToSound -> sendMessage(m);
+        
+        ofxOscMessage n;
+        n.setAddress("/fieldcuts/connect");
+        n.addStringArg("on");
+        sendToSound -> sendMessage(n);
     }
 }
 
@@ -194,10 +211,14 @@ void fc_conditionStream::drawConditions(float _x, float _y) {
 void fc_conditionStream::deleteAllConditions() {
     if(conditions.size() > 0 && sendToOsc) {
         ofxOscMessage m;
-        m.setAddress("delete_condition");
+        m.setAddress("/delete_condition");
         m.addIntArg(thisDeviceIndex);
         sendToFloor -> sendMessage(m);
-        sendToSound -> sendMessage(m);
+        
+        ofxOscMessage n;
+        n.setAddress("/fieldcuts/connect");
+        n.addStringArg("off");
+        sendToSound -> sendMessage(n);
     }
     
     conditions.clear();
@@ -209,10 +230,14 @@ void fc_conditionStream::deleteCondition(int _index) {
         conditions.erase(conditions.begin() + _index);
         if(sendToOsc) {
             ofxOscMessage m;
-            m.setAddress("delete_condition");
+            m.setAddress("/delete_condition");
             m.addIntArg(thisDeviceIndex);
             sendToFloor -> sendMessage(m);
-            sendToSound -> sendMessage(m);
+            
+            ofxOscMessage n;
+            n.setAddress("/fieldcuts/connect");
+            n.addStringArg("off");
+            sendToSound -> sendMessage(n);
         }
     }
 }

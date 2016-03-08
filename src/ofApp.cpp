@@ -31,14 +31,13 @@ void ofApp::setup(){
     scoreManager.setDevicesRef(&deviceManager);
     
     sendToSound.setup("10.0.1.13", 57120);
-    sendToFloor.setup("10.0.1.14", 8010);
+    sendToFloor.setup("10.0.1.15", 8010);
     
     deviceManager.setAllDeviceOscRefs(&sendToFloor, &sendToSound);
     
     for(int i = 0 ; i < performers.size() ; i ++ ) {
         performers[i].setConditionManagerOscRefs(&sendToFloor, &sendToSound);
     }
-    
 }
 
 //--------------------------------------------------------------
@@ -72,9 +71,7 @@ void ofApp::keyPressed(int key){
     if(key == '+') ofToggleFullscreen();
     if(key == 'p') deviceManager.togglePingAll();
     if(key == 's') scoreManager.toggleRun();
-    if(key == '1') sendOffMessage(0);
-    if(key == '2') sendOffMessage(1);
-    if(key == '3') sendOffMessage(2);
+
     if(key == 'P') runAll = !runAll;
     
     if(key == '!') deviceManager.sendSignalDirect(performers[0].getPackIndex(), 0, true);
@@ -91,23 +88,33 @@ void ofApp::keyPressed(int key){
     if(key == 'S') deviceManager.sendSignalDirect(performers[2].getPackIndex(), 1, true);
     if(key == 'D') deviceManager.sendSignalDirect(performers[2].getPackIndex(), 2, true);
     if(key == 'F') deviceManager.sendSignalDirect(performers[2].getPackIndex(), 3, true);
+    
+    if(key == '1') deviceManager.sendSignalDirect(performers[0].getPackIndex(), 0, false);
+    if(key == '2') deviceManager.sendSignalDirect(performers[0].getPackIndex(), 1, false);
+    if(key == '3') deviceManager.sendSignalDirect(performers[0].getPackIndex(), 2, false);
+    if(key == '4') deviceManager.sendSignalDirect(performers[0].getPackIndex(), 3, false);
+    
+    if(key == 'q') deviceManager.sendSignalDirect(performers[1].getPackIndex(), 0, false);
+    if(key == 'w') deviceManager.sendSignalDirect(performers[1].getPackIndex(), 1, false);
+    if(key == 'e') deviceManager.sendSignalDirect(performers[1].getPackIndex(), 2, false);
+    if(key == 'r') deviceManager.sendSignalDirect(performers[1].getPackIndex(), 3, false);
+    
+    if(key == 'a') deviceManager.sendSignalDirect(performers[2].getPackIndex(), 0, false);
+    if(key == 's') deviceManager.sendSignalDirect(performers[2].getPackIndex(), 1, false);
+    if(key == 'd') deviceManager.sendSignalDirect(performers[2].getPackIndex(), 2, false);
+    if(key == 'f') deviceManager.sendSignalDirect(performers[2].getPackIndex(), 3, false);
+    
+    if(key == 'L') {
+        globalLights = !globalLights;
+        ofxOscMessage m;
+        m.setAddress("/global_lights");
+        m.addBoolArg(globalLights);
+        sendToFloor.sendMessage(m);
+    }
 }
 
 void ofApp::keyReleased(int key) {
-    if(key == '!') deviceManager.sendSignalDirect(performers[0].getPackIndex(), 0, false);
-    if(key == '@') deviceManager.sendSignalDirect(performers[0].getPackIndex(), 1, false);
-    if(key == '#') deviceManager.sendSignalDirect(performers[0].getPackIndex(), 2, false);
-    if(key == '$') deviceManager.sendSignalDirect(performers[0].getPackIndex(), 3, false);
     
-    if(key == 'Q') deviceManager.sendSignalDirect(performers[1].getPackIndex(), 0, false);
-    if(key == 'W') deviceManager.sendSignalDirect(performers[1].getPackIndex(), 1, false);
-    if(key == 'E') deviceManager.sendSignalDirect(performers[1].getPackIndex(), 2, false);
-    if(key == 'R') deviceManager.sendSignalDirect(performers[1].getPackIndex(), 3, false);
-    
-    if(key == 'A') deviceManager.sendSignalDirect(performers[2].getPackIndex(), 0, false);
-    if(key == 'S') deviceManager.sendSignalDirect(performers[2].getPackIndex(), 1, false);
-    if(key == 'D') deviceManager.sendSignalDirect(performers[2].getPackIndex(), 2, false);
-    if(key == 'F') deviceManager.sendSignalDirect(performers[2].getPackIndex(), 3, false);
 }
 
 void ofApp::sendOffMessage(int performer_index) {
