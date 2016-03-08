@@ -177,14 +177,14 @@ fc_scoreManager::fc_scoreManager() {
             tle.setDuration = ofRandom(0.05, 1.0);
             tle.useSetRecovery = true;
             if(tle.setDuration >= 1) {
-                tle.setRecovery = ofRandom(3, 12.5);
+                tle.setRecovery = ofRandom(4, 12.5);
             } else {
-                tle.setRecovery = ofRandom(tle.setDuration, 8);
+                tle.setRecovery = ofRandom(tle.setDuration * 3, 8);
             }
             addTriggerLimitingEventInOrder(tle);
         }
         
-        int numberLongHeldSections = ofRandom(3, 6);
+        int numberLongHeldSections = ofRandom(5, 7);
         
         for(int i = 0 ; i < numberLongHeldSections ; i ++ ) {
             triggerLimitingEvent tle;
@@ -313,9 +313,9 @@ fc_scoreManager::fc_scoreManager() {
         tle.setDuration = ofRandom(0.05, 1.25);
         tle.useSetRecovery = true;
         if(tle.setDuration > 0.8) {
-            tle.setRecovery = ofRandom(0.8, 3);
+            tle.setRecovery = ofRandom(2, 10);
         } else {
-            tle.setRecovery = ofRandom(0.1, 2);
+            tle.setRecovery = ofRandom(0.5, 10);
         }
         tle.targetName = MEG;
         addTriggerLimitingEventInOrder(tle);
@@ -332,7 +332,7 @@ fc_scoreManager::fc_scoreManager() {
         tle.useSetDuration = true;
         tle.setDuration = ofRandom(3, 8);
         tle.useSetRecovery = true;
-        tle.setRecovery = ofRandom(tle.setDuration, tle.setDuration + 4);
+        tle.setRecovery = ofRandom(tle.setDuration + 4, tle.setDuration + 10);
         tle.targetName = MEG;
         addTriggerLimitingEventInOrder(tle);
         tle.targetName = JACOB;

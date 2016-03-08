@@ -30,13 +30,13 @@ void fc_deviceAccelParser::update() {
             int thisIndex = 0;
             if(splitMsg[0] == "4") {
                 thisIndex = 0;
-            } else if(splitMsg[0] == "8") {
+            } else if(splitMsg[0] == "9") {
                 thisIndex = 1;
             } else if(splitMsg[0] == "5") {
                 thisIndex = 2;
-            } else if(splitMsg[0] == "9") {
+            } else if(splitMsg[0] == "11") {
                 thisIndex = 3;
-            } else if(splitMsg[0] == "6") {
+            } else if(splitMsg[0] == "7") {
                 thisIndex = 4;
             } else if(splitMsg[0] == "10") {
                 thisIndex = 5;

@@ -33,6 +33,8 @@ public:
     void setSetDurationDevice(int _deviceIndex, bool _useSetDuration, float _setDuration);
     void setSetRecoveryDevice(int _deviceIndex, bool _useSetRecovery, float _setRecovery);
     
+    void sendSignalDirect(int _deviceIndex, int _relayChannel, bool _gate);
+    
 private:
     vector < fc_device* > devices;
     fc_deviceAccelParser deviceAccelParser;

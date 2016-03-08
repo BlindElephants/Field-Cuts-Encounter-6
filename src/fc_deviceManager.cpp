@@ -84,3 +84,9 @@ void fc_deviceManager::setSetDurationDevice(int _deviceIndex, bool _useSetDurati
 void fc_deviceManager::setSetRecoveryDevice(int _deviceIndex, bool _useSetRecovery, float _setRecovery) {
     devices[_deviceIndex] -> setSetRecovery(_useSetRecovery, _setRecovery);
 }
+
+void fc_deviceManager::sendSignalDirect(int _deviceIndex, int _relayChannel, bool _gate) {
+    if(_deviceIndex < devices.size()) {
+        devices[_deviceIndex] -> sendRelayMessage(_relayChannel, _gate);
+    }
+}

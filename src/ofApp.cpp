@@ -9,16 +9,16 @@ void ofApp::setup(){
     
     fc_performer _a = *new fc_performer(MEG);
     _a.setDevices(deviceManager.makeNewDevice("10.0.1.4", false),
-                     deviceManager.makeNewDevice("10.0.1.8", true),
+                     deviceManager.makeNewDevice("10.0.1.9", true),
                      4);
     performers.push_back(_a);
     fc_performer _b = *new fc_performer(JACOB);
     _b.setDevices(deviceManager.makeNewDevice("10.0.1.5", false),
-                     deviceManager.makeNewDevice("10.0.1.9", true),
+                     deviceManager.makeNewDevice("10.0.1.11", true),
                      4);
     performers.push_back(_b);
     fc_performer _c = *new fc_performer(HALEY);
-    _c.setDevices(deviceManager.makeNewDevice("10.0.1.6", false),
+    _c.setDevices(deviceManager.makeNewDevice("10.0.1.7", false),
                      deviceManager.makeNewDevice("10.0.1.10", true),
                      4);
     performers.push_back(_c);
@@ -33,10 +33,8 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    if(runAll) {
     for(int i = 0 ; i < performers.size() ; i ++ ) performers[i].update();
-    scoreManager.update();
-    }
+    if(runAll) scoreManager.update();
     deviceManager.update();
 }
 
@@ -68,6 +66,38 @@ void ofApp::keyPressed(int key){
     if(key == '2') sendOffMessage(1);
     if(key == '3') sendOffMessage(2);
     if(key == 'P') runAll = !runAll;
+    
+    if(key == '!') deviceManager.sendSignalDirect(performers[0].getPackIndex(), 0, true);
+    if(key == '@') deviceManager.sendSignalDirect(performers[0].getPackIndex(), 1, true);
+    if(key == '#') deviceManager.sendSignalDirect(performers[0].getPackIndex(), 2, true);
+    if(key == '$') deviceManager.sendSignalDirect(performers[0].getPackIndex(), 3, true);
+    
+    if(key == 'Q') deviceManager.sendSignalDirect(performers[1].getPackIndex(), 0, true);
+    if(key == 'W') deviceManager.sendSignalDirect(performers[1].getPackIndex(), 1, true);
+    if(key == 'E') deviceManager.sendSignalDirect(performers[1].getPackIndex(), 2, true);
+    if(key == 'R') deviceManager.sendSignalDirect(performers[1].getPackIndex(), 3, true);
+    
+    if(key == 'A') deviceManager.sendSignalDirect(performers[2].getPackIndex(), 0, true);
+    if(key == 'S') deviceManager.sendSignalDirect(performers[2].getPackIndex(), 1, true);
+    if(key == 'D') deviceManager.sendSignalDirect(performers[2].getPackIndex(), 2, true);
+    if(key == 'F') deviceManager.sendSignalDirect(performers[2].getPackIndex(), 3, true);
+}
+
+void ofApp::keyReleased(int key) {
+    if(key == '!') deviceManager.sendSignalDirect(performers[0].getPackIndex(), 0, false);
+    if(key == '@') deviceManager.sendSignalDirect(performers[0].getPackIndex(), 1, false);
+    if(key == '#') deviceManager.sendSignalDirect(performers[0].getPackIndex(), 2, false);
+    if(key == '$') deviceManager.sendSignalDirect(performers[0].getPackIndex(), 3, false);
+    
+    if(key == 'Q') deviceManager.sendSignalDirect(performers[1].getPackIndex(), 0, false);
+    if(key == 'W') deviceManager.sendSignalDirect(performers[1].getPackIndex(), 1, false);
+    if(key == 'E') deviceManager.sendSignalDirect(performers[1].getPackIndex(), 2, false);
+    if(key == 'R') deviceManager.sendSignalDirect(performers[1].getPackIndex(), 3, false);
+    
+    if(key == 'A') deviceManager.sendSignalDirect(performers[2].getPackIndex(), 0, false);
+    if(key == 'S') deviceManager.sendSignalDirect(performers[2].getPackIndex(), 1, false);
+    if(key == 'D') deviceManager.sendSignalDirect(performers[2].getPackIndex(), 2, false);
+    if(key == 'F') deviceManager.sendSignalDirect(performers[2].getPackIndex(), 3, false);
 }
 
 void ofApp::sendOffMessage(int performer_index) {
