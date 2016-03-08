@@ -30,7 +30,12 @@ void fc_conditionManager::setDeviceReference(vector<fc_device *> _devices) {
 void fc_conditionManager::checkAllConditions() {
     
     for(int i = 0 ; i < conditionStreams.size() ; i ++ ) {
-        conditionStreams[i] -> checkAllConditions();
+
+//        conditionStreams[i] -> checkAllConditions();
+        
+//TODO:IT GOES HERE!!!!!-----------------
+        devices[thisDeviceIndex] -> clearRelayChannelConditionSources(i);
+        devices[thisDeviceIndex] -> setRelayChannelConditionSources(i, conditionStreams[i] -> checkAllConditions());
     }
 }
 

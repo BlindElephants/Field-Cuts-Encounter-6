@@ -18,7 +18,7 @@ public:
     fc_conditionStream(int _thisDeviceIndex, int _thisRelayChannelIndex);
     
     void setDevices(vector < fc_device* > _devices);
-    void checkAllConditions();
+    vector < int > checkAllConditions();
     void makeNewCondition(int _sourceDevice, Parameter _x_y_z, Parameter _abs_del, Parameter _MT_LT, float _threshold, TriggerType _triggerType, float _triggerSetDuration, Lifespan _conditionLifespan, float _conditionTimer);
     
     int getNumberConditions();

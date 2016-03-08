@@ -11,6 +11,7 @@
 
 #include "fc_scoreManager.hpp"
 
+
 class ofApp : public ofBaseApp{
 public:
     void setup();
@@ -27,4 +28,7 @@ public:
     fc_scoreManager scoreManager;
     
     bool runAll = true;
+    
+    ofxOscSender sendToFloor;
+    ofxOscSender sendToSound;
 };

@@ -23,12 +23,11 @@ void fc_device::connect(string address) {
         accelAbs.push_back(ofVec3f(0,0,0));
         accelDel.push_back(ofVec3f(0,0,0));
     }
-    
     for(int i = 0 ; i < 4 ; i ++ ) {
         relayDevice[i].now  = false;
         relayDevice[i].last = false;
+        relayDevice[i].conditionSources.clear();
     }
-    
     font.load("courier", 12);
 }
 
@@ -55,15 +54,48 @@ void fc_device::updateAccelAverages() {
 
 void fc_device::ping() {udp.Send(" ", 1);}
 
-void fc_device::sendRelayMessage(int channel, bool set) {
+void fc_device::sendRelayMessage(int channel, bool set, int _thisDeviceIndex) {
     if(hasRelay && channel >= 0 && channel < 4) {
         int m = channel * 2;
         if(!set) m += 1;
         udp.Send(ofToString(m).c_str(), 1);
+        
+        if(sendToOsc) {
+            if(set) {
+                ofxOscMessage m;
+                m.setAddress("/on");
+                m.addIntArg(_thisDeviceIndex);
+                m.addIntArg(channel);
+                sendToSound -> sendMessage(m);
+                
+                if(relayDevice[channel].conditionSources.size() > 0) {
+                    for(int i = 0 ; i < relayDevice[channel].conditionSources.size() ; i ++ ) {
+                        ofxOscMessage n;
+                        n.setAddress("/on");
+                        n.addIntArg(_thisDeviceIndex);
+                        n.addIntArg(channel);
+                        n.addIntArg(relayDevice[channel].conditionSources[i]);
+                        sendToFloor -> sendMessage(n);
+                    }
+                }
+            } else {
+                ofxOscMessage m;
+                m.setAddress("/off");
+                m.addIntArg(_thisDeviceIndex);
+                m.addIntArg(channel);
+                sendToSound -> sendMessage(m);
+                
+                ofxOscMessage n;
+                n.setAddress("/off");
+                n.addIntArg(_thisDeviceIndex);
+                n.addIntArg(channel);
+                sendToFloor -> sendMessage(n);
+            }
+        }
     }
 }
 
-void fc_device::checkAndUpdateRelays() {
+void fc_device::checkAndUpdateRelays(int _thisDeviceIndex) {
     if(hasRelay) {
         for(int i = 0 ; i < 4 ; i ++ ) {
             if(useSetDuration) {
@@ -82,7 +114,7 @@ void fc_device::checkAndUpdateRelays() {
                 }
             }
             if(relayDevice[i].now != relayDevice[i].last) {
-                sendRelayMessage(i, relayDevice[i].now);
+                sendRelayMessage(i, relayDevice[i].now, _thisDeviceIndex);
                 relayDevice[i].last = relayDevice[i].now;
                 relayDevice[i].durationTimer = 0;
                 relayDevice[i].recoveryTimer = 0;
@@ -184,10 +216,34 @@ void fc_device::drawSetDurRec(float _x, float _y) {
     ofPopMatrix();
 }
 
-void fc_device::sendOffMessages() {
+void fc_device::sendOffMessages(int _thisDeviceIndex) {
     if(hasRelay) {
         for(int i = 0 ; i < 4 ; i ++ ) {
-            sendRelayMessage(i, false);
+            sendRelayMessage(i, false, _thisDeviceIndex);
         }
     }
+}
+
+void fc_device::clearRelayChannelConditionSources(int _relayChannelIndex) {
+    if(_relayChannelIndex >= 0 && _relayChannelIndex < 4) {
+        relayDevice[_relayChannelIndex].conditionSources.clear();
+    }
+}
+
+void fc_device::clearAllRelayChannelConditionSource() {
+    for(int i = 0 ; i < 4 ; i ++ ) {
+        relayDevice[i].conditionSources.clear();
+    }
+}
+
+void fc_device::setRelayChannelConditionSources(int _relayChannelIndex, vector <int> _conditionSources) {
+    if(_relayChannelIndex >= 0 && _relayChannelIndex < 4) {
+        relayDevice[_relayChannelIndex].conditionSources = _conditionSources;
+    }
+}
+
+void fc_device::setOscRefs(ofxOscSender *toFloor, ofxOscSender *toSound) {
+    sendToFloor = toFloor;
+    sendToSound = toSound;
+    sendToOsc = true;
 }

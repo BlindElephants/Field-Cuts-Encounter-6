@@ -17,7 +17,15 @@ fc_conditionStream::fc_conditionStream(int _thisDeviceIndex, int _thisRelayChann
 
 void fc_conditionStream::setDevices(vector<fc_device *> _devices) {devices = _devices;}
 
-void fc_conditionStream::checkAllConditions() {
+
+/*TODO: need to add method of storing from whom the active conditions originate.
+ Fill a vector with the indices of the condition sources
+ Return this vector, need to get it to the fc_performer class which will then send the message to the needed destinations
+ */
+vector < int > fc_conditionStream::checkAllConditions() {
+    vector < int > activeConditionSources;
+    activeConditionSources.clear();                         //might not be needed?
+    
     numActiveConditions = 0;
     if(conditions.size() > 0) {
         bool relaySetting = false;
@@ -37,22 +45,24 @@ void fc_conditionStream::checkAllConditions() {
             } else {
                 float val = devices[conditions[i] -> sourceDevice] -> getLastAccelValue(conditions[i] -> abs_del, conditions[i] -> x_y_z);
                 if(conditions[i] -> MT_LT == LT) {
-                    if(conditions[i] -> threshold > val) {
+                    if(val < conditions[i] -> threshold) {
                         relaySetting = true;
                         if(!(conditions[i] -> isActive)) {
                             conditions[i] -> conditionActiveNum ++ ;
                         }
                         conditions[i] -> isActive = true;
+                        activeConditionSources.push_back(conditions[i] -> sourceDevice);
                     } else {
                         conditions[i] -> isActive = false;
                     }
                 } else {
-                    if(conditions[i] -> threshold < val) {
+                    if(val > conditions[i] -> threshold) {
                         relaySetting = true;
                         if(!(conditions[i] -> isActive)) {
                             conditions[i] -> conditionActiveNum ++ ;
                         }
                         conditions[i] -> isActive = true;
+                        activeConditionSources.push_back(conditions[i] -> sourceDevice);
                     } else {
                         conditions[i] -> isActive = false;
                     }
@@ -61,6 +71,7 @@ void fc_conditionStream::checkAllConditions() {
             }
         }
         devices[thisDeviceIndex] -> setRelay(thisRelayChannelIndex, relaySetting);
+        return activeConditionSources;
     }
 }
 

@@ -13,6 +13,8 @@
 #include "ofxUDPManager.h"
 
 #include "fc_condition.hpp"
+#include "ofxOsc.h"
+
 
 class fc_device {
 public:
@@ -23,8 +25,8 @@ public:
     void updateAccelerometer(float x, float y, float z);
     void updateAccelAverages();
     void ping();
-    void sendRelayMessage(int channel, bool set);
-    void checkAndUpdateRelays();
+    void sendRelayMessage(int channel, bool set, int _thisDeviceIndex);
+    void checkAndUpdateRelays(int _thisDeviceIndex);
     
     void setRelay(int channel, bool set);
     
@@ -37,7 +39,14 @@ public:
     void setSetRecovery(bool _useSetRecovery, float _setRecovery);
     void drawSetDurRec(float _x, float _y);
     
-    void sendOffMessages();
+    void sendOffMessages(int _thisDeviceIndex);
+    
+    void clearRelayChannelConditionSources(int _relayChannelIndex);
+    void clearAllRelayChannelConditionSource();
+    
+    void setRelayChannelConditionSources(int _relayChannelIndex, vector < int > _conditionSources);
+
+    void setOscRefs(ofxOscSender *toFloor, ofxOscSender *toSound);
     
 private:
     ofxUDPManager udp;
@@ -55,19 +64,22 @@ private:
         
         float durationTimer = 0;
         float recoveryTimer = 0;
+        
+        vector < int > conditionSources;
     };
     
     float setDuration;
     float setRecovery;
-    
     bool useSetDuration = false;
     bool useSetRecovery = false;
-    
     bool hasRelay;
-    
     relayChannel relayDevice[4];
     string mAddress;
     ofTrueTypeFont font;
+    
+    bool sendToOsc = false;
+    ofxOscSender *sendToFloor;
+    ofxOscSender *sendToSound;
 };
 
 #endif /* fc_device_hpp */

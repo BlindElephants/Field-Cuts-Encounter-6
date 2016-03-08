@@ -41,7 +41,7 @@ void fc_deviceManager::update() {
     //check each device for changes in relay channel states since last frame, if so, send message to device
     for(int i = 0 ; i < devices.size() ; i ++ ) {
         if(shouldPing) devices[i] -> ping();
-        devices[i] -> checkAndUpdateRelays();
+        devices[i] -> checkAndUpdateRelays(i);
     }
 }
 
@@ -87,6 +87,14 @@ void fc_deviceManager::setSetRecoveryDevice(int _deviceIndex, bool _useSetRecove
 
 void fc_deviceManager::sendSignalDirect(int _deviceIndex, int _relayChannel, bool _gate) {
     if(_deviceIndex < devices.size()) {
-        devices[_deviceIndex] -> sendRelayMessage(_relayChannel, _gate);
+        devices[_deviceIndex] -> sendRelayMessage(_relayChannel, _gate, _deviceIndex);
+    }
+}
+
+void fc_deviceManager::setAllDeviceOscRefs(ofxOscSender *toFloor, ofxOscSender *toSound) {
+    if(devices.size() > 0) {
+        for(int i = 0 ; i < devices.size() ; i ++ ) {
+            devices[i] -> setOscRefs(toFloor, toSound);
+        }
     }
 }

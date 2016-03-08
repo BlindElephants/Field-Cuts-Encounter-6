@@ -29,6 +29,12 @@ void ofApp::setup(){
     deviceManager.setSetRecovery(true, ofRandom(1, 8));
     
     scoreManager.setDevicesRef(&deviceManager);
+    
+    sendToSound.setup("10.0.1.13", 57120);
+    sendToFloor.setup("10.0.1.14", 8010);
+    
+    deviceManager.setAllDeviceOscRefs(&sendToFloor, &sendToSound);
+    
 }
 
 //--------------------------------------------------------------

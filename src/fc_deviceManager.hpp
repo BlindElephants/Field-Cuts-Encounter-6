@@ -14,6 +14,8 @@
 #include "fc_device.hpp"
 #include "fc_deviceAccelParser.hpp"
 
+#include "ofxOsc.h"
+
 class fc_deviceManager {
 public:
     fc_deviceManager();
@@ -34,7 +36,7 @@ public:
     void setSetRecoveryDevice(int _deviceIndex, bool _useSetRecovery, float _setRecovery);
     
     void sendSignalDirect(int _deviceIndex, int _relayChannel, bool _gate);
-    
+    void setAllDeviceOscRefs(ofxOscSender *toFloor, ofxOscSender *toSound);
 private:
     vector < fc_device* > devices;
     fc_deviceAccelParser deviceAccelParser;
