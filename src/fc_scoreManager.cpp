@@ -60,7 +60,7 @@ fc_scoreManager::fc_scoreManager() {
     sectionStartTimes.push_back(section_4_start_time);
     sectionStartTimes.push_back(section_5_start_time);
     
-    int section_1_num_conditions = ofRandom(9, 11);
+    int section_1_num_conditions = ofRandom(9, 10);
     int section_2_num_conditions = ofRandom(11, 14);
     int section_3_num_conditions = 29;
     int section_4_num_conditions = 13;
@@ -75,54 +75,45 @@ fc_scoreManager::fc_scoreManager() {
         conditionEvent _c;
         cout << "CONDITION:" << endl;
         float thisCondition = ofRandom(1);
-        _c.triggerAtTime = ofRandom(section_1_start_time, section_1_end_time - ((section_1_end_time - section_1_start_time) * 0.1));
         
         if(i == 0) {
             _c.targetName = MEG;
-            cout << "------ target: MEG";
+            _c.triggerAtTime = ofRandom(10, 30);
         } else if(i == 1) {
             _c.targetName = JACOB;
-            cout << "------ target: JACOB";
+            _c.triggerAtTime = ofRandom(10, 60);
         } else if(i == 2) {
             _c.targetName = HALEY;
-            cout << "------ target: HALEY";
+            _c.triggerAtTime = ofRandom(30, 90);
         } else if(thisCondition <= probJacob) {
-            cout << "------ target: JACOB";
             _c.targetName = JACOB;
+            _c.triggerAtTime = ofRandom(section_1_start_time + 60, section_1_end_time - ((section_1_end_time - section_1_start_time) * 0.1));
         } else if(thisCondition <= probMeg) {
-            cout << "------ target: MEG";
             _c.targetName = MEG;
+            _c.triggerAtTime = ofRandom(section_1_start_time + 60, section_1_end_time - ((section_1_end_time - section_1_start_time) * 0.1));
         } else {
-            cout << "------ target: HALEY";
             _c.targetName = HALEY;
+            _c.triggerAtTime = ofRandom(section_1_start_time + 60, section_1_end_time - ((section_1_end_time - section_1_start_time) * 0.1));
         }
         int _x_y_z = (int) ofRandom(3);
         if(_x_y_z == 0) {
-            cout << ", X";
             _c.c.x_y_z = X;
         } else if (_x_y_z == 1) {
-            cout << ", Y";
             _c.c.x_y_z = Y;
         } else if (_x_y_z == 2) {
-            cout << ", Z";
             _c.c.x_y_z = Z;
         }
         float _abs_del = ofRandom(1);
         if(_abs_del <= 0.9) {
-            cout << ", ABS";
             _c.c.abs_del = ABS;
             if((int)ofRandom(2) == 0) {
                 _c.c.MT_LT = MT;
-                cout << " > ";
             } else {
                 _c.c.MT_LT = LT;
-                cout << " < ";
             }
         } else {
-            cout << ", DEL";
             _c.c.abs_del = DEL;
             _c.c.MT_LT = MT;
-            cout << " > ";
         }
         if(ofRandom(1) <= 0.05) {
             _c.sourceName = _c.targetName;
@@ -141,13 +132,16 @@ fc_scoreManager::fc_scoreManager() {
             _c.sourceDevice = PACK;
         }
         _c.c.triggerType = OPEN;
-        _c.c.conditionLifespan = INFINITE;
+        _c.c.conditionLifespan = DIE_AFTER_TRIGGER_DURATION;
+        _c.c.conditionTimerLimit = 60;
+        cout << _c.c.conditionLifespan << " , " << _c.c.conditionTimerLimit << endl;
+
         if(_c.c.abs_del == ABS) {
             if(_c.c.MT_LT == MT) {
-                _c.c.threshold = getNormal(180, 2800);
+                _c.c.threshold = getNormal(180, 3100);
                 cout << _c.c.threshold << endl;
             } else {
-                _c.c.threshold = getNormal(180, 1200);
+                _c.c.threshold = getNormal(180, 1000);
                 cout << _c.c.threshold << endl;
             }
         } else {
@@ -905,7 +899,7 @@ void fc_scoreManager::update() {
                     } else {
                         sourceDeviceIndex = performersRef -> at(conditionEvents[0].sourceName).getWristIndex();
                     }
-                    performersRef -> at(conditionEvents[0].targetName).makeNewCondition(conditionEvents[0].targetRelayChannel, sourceDeviceIndex, conditionEvents[0].c.x_y_z, conditionEvents[0].c.abs_del, conditionEvents[0].c.MT_LT, conditionEvents[0].c.threshold, conditionEvents[0].c.conditionLifespan, 0);
+                    performersRef -> at(conditionEvents[0].targetName).makeNewCondition(conditionEvents[0].targetRelayChannel, sourceDeviceIndex, conditionEvents[0].c.x_y_z, conditionEvents[0].c.abs_del, conditionEvents[0].c.MT_LT, conditionEvents[0].c.threshold, conditionEvents[0].c.conditionLifespan, conditionEvents[0].c.conditionTimerLimit);
                     cout << endl << "condition event at " << scoreTimer << endl;
                     conditionEvents.erase(conditionEvents.begin());
                 }

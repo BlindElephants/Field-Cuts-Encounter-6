@@ -41,7 +41,6 @@ vector < int > fc_conditionStream::checkAllConditions() {
                     m.addIntArg(thisDeviceIndex);
                     sendToFloor -> sendMessage(m);
                     
-                    
                     ofxOscMessage n;
                     n.setAddress("/fieldcuts/connect");
                     n.addStringArg("off");
@@ -61,6 +60,8 @@ vector < int > fc_conditionStream::checkAllConditions() {
                     n.addStringArg("off");
                     sendToSound -> sendMessage(n);
                 }
+                
+                
                 cout << "erased because trigger duration number high " << endl;
             } else if((conditions[i] -> conditionLifespan == DIE_AFTER_TIME) && (conditions[i] -> conditionTimer >= conditions[i] -> conditionTimerLimit)) {
                 conditions.erase(conditions.begin() + i);
@@ -123,6 +124,7 @@ void fc_conditionStream::makeNewCondition(int _sourceDevice, Parameter _x_y_z, P
         c -> conditionActiveNumLimit = _conditionTimer;
     } else {
         c -> conditionTimerLimit = _conditionTimer;
+        cout << "timer limit, conditionstream line 127: " << c -> conditionTimerLimit << endl;
     }
     conditions.push_back(c);
     

@@ -8,19 +8,13 @@ void ofApp::setup(){
     scoreManager.setPerformersRef(&performers);
     
     fc_performer _a = *new fc_performer(MEG);
-    _a.setDevices(deviceManager.makeNewDevice("10.0.1.4", false),
-                     deviceManager.makeNewDevice("10.0.1.9", true),
-                     4);
+    _a.setDevices(deviceManager.makeNewDevice("10.0.1.4", false), deviceManager.makeNewDevice("10.0.1.9", true), 4);
     performers.push_back(_a);
     fc_performer _b = *new fc_performer(JACOB);
-    _b.setDevices(deviceManager.makeNewDevice("10.0.1.5", false),
-                     deviceManager.makeNewDevice("10.0.1.11", true),
-                     4);
+    _b.setDevices(deviceManager.makeNewDevice("10.0.1.5", false), deviceManager.makeNewDevice("10.0.1.11", true), 4);
     performers.push_back(_b);
     fc_performer _c = *new fc_performer(HALEY);
-    _c.setDevices(deviceManager.makeNewDevice("10.0.1.7", false),
-                     deviceManager.makeNewDevice("10.0.1.10", true),
-                     4);
+    _c.setDevices(deviceManager.makeNewDevice("10.0.1.7", false), deviceManager.makeNewDevice("10.0.1.10", true), 4);
     performers.push_back(_c);
     for(int i = 0 ; i < performers.size() ; i ++ ) {
         performers[i].setDeviceReferences(deviceManager.getDevices());
@@ -38,6 +32,32 @@ void ofApp::setup(){
     for(int i = 0 ; i < performers.size() ; i ++ ) {
         performers[i].setConditionManagerOscRefs(&sendToFloor, &sendToSound);
     }
+    
+    makeNewCondition_toggle.addListener(this, &ofApp::makeNewCondition);
+    
+    addGui.setup();
+    addGui.add(source_select_performer.setup("source performer", 0, 0, 2));
+    addGui.add(wrist_pack_toggle.setup("WRIST(true) / pack", true));
+    addGui.add(x_y_z_slider.setup("X Y Z", 0, 0, 2));
+    addGui.add(abs_del_toggle.setup("abs / DEL(true)", true));
+    addGui.add(mt_lt_toggle.setup("mt / LT(true)" , true));
+    addGui.add(threshold.setup("threshold", 140, 600, 3400));
+    addGui.add(target_select_performer.setup("target performer", 0, 0, 2));
+    addGui.add(target_relay_channel.setup("target relay channel", 0, 0, 3));
+    addGui.add(makeNewCondition_toggle.setup("make new condition"));
+    addGui.setPosition(ofGetWidth() - 204, 600);
+
+    
+    delete_all.addListener(this, &ofApp::deleteAllCondition);
+    delete_select.addListener(this, &ofApp::deleteSelectCondition);
+    
+    delGui.setup();
+    delGui.add(performer_select.setup("performer select", 0, 0, 2));
+    delGui.add(relay_channel_select.setup("relay channel", 0, 0, 3));
+    delGui.add(delete_all.setup("delete_all"));
+    delGui.add(condition_select.setup("condition select", 0, 0, 12));
+    delGui.add(delete_select.setup("delete select"));
+    delGui.setPosition(ofGetWidth() - 408, 600);
 }
 
 //--------------------------------------------------------------
@@ -64,13 +84,15 @@ void ofApp::draw(){
             performers[i].drawConditions(12 + (i * 464), 200);
         }
     }
+    addGui.draw();
+    delGui.draw();
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
     if(key == '+') ofToggleFullscreen();
     if(key == 'p') deviceManager.togglePingAll();
-    if(key == 's') scoreManager.toggleRun();
+    if(key == ' ') scoreManager.toggleRun();
 
     if(key == 'P') runAll = !runAll;
     
@@ -114,11 +136,41 @@ void ofApp::keyPressed(int key){
 }
 
 void ofApp::keyReleased(int key) {
-    
 }
 
 void ofApp::sendOffMessage(int performer_index) {
     if(performers.size() > performer_index) {
         performers[performer_index].sendOffMessage();
     }
+}
+
+void ofApp::makeNewCondition() {
+    int source_index;
+    if(wrist_pack_toggle) {
+        source_index = performers[source_select_performer].getWristIndex();
+    } else {
+        source_index = performers[source_select_performer].getPackIndex();
+    }
+    Parameter xyz;
+    if(x_y_z_slider == 0) xyz = X;
+    if(x_y_z_slider == 1) xyz = Y;
+    if(x_y_z_slider == 2) xyz = Z;
+    
+    Parameter absdel;
+    if(abs_del_toggle == 0) absdel = ABS;
+    if(abs_del_toggle == 1) absdel = DEL;
+    
+    Parameter mtlt;
+    if(mt_lt_toggle == 0) mtlt = MT;
+    if(mt_lt_toggle == 1) mtlt = LT;
+    
+    performers[target_select_performer].makeNewCondition(target_relay_channel, source_index , xyz, absdel, mtlt, threshold, INFINITE, 0);
+}
+
+void ofApp::deleteAllCondition() {
+    performers[performer_select].deleteAllConditions();
+}
+
+void ofApp::deleteSelectCondition() {
+    performers[performer_select].deleteSelectCondition(relay_channel_select, condition_select);
 }

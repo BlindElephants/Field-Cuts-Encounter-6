@@ -61,10 +61,8 @@ private:
     struct relayChannel {
         bool now;
         bool last;
-        
         float durationTimer = 0;
         float recoveryTimer = 0;
-        
         vector < int > conditionSources;
     };
     

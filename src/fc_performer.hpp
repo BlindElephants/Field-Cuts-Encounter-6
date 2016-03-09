@@ -32,6 +32,8 @@ public:
     void drawDeviceDurRec(float _x, float _y);
     void deleteAllConditions();
     void deleteMostActiveCondition();
+    void deleteRandomCondition();
+    void deleteSelectCondition(int _relayChannel, int _index);
     
     void sendOffMessage();
     void setConditionManagerOscRefs(ofxOscSender *toFloor, ofxOscSender *toSound);

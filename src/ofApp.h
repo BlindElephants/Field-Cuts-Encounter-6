@@ -33,4 +33,28 @@ public:
     ofxOscSender sendToSound;
     
     bool globalLights = false;
+    
+    ofxPanel addGui;
+    
+    ofxFloatSlider threshold;
+    ofxIntSlider x_y_z_slider;
+    ofxToggle mt_lt_toggle;
+    ofxToggle abs_del_toggle;
+    ofxIntSlider source_select_performer;
+    ofxToggle wrist_pack_toggle;
+    ofxIntSlider target_select_performer;
+    ofxIntSlider target_relay_channel;
+    ofxButton makeNewCondition_toggle;
+    
+    ofxPanel delGui;
+    ofxIntSlider performer_select;
+    ofxIntSlider relay_channel_select;
+    ofxButton delete_all;
+    ofxIntSlider condition_select;
+    ofxButton delete_select;
+    
+    void makeNewCondition();
+    void deleteAllCondition();
+    void deleteSelectCondition();
+    
 };

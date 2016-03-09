@@ -258,8 +258,5 @@ void fc_device::setRelayChannelConditionSources(int _relayChannelIndex, vector <
 void fc_device::setOscRefs(ofxOscSender *toFloor, ofxOscSender *toSound) {
     sendToFloor = toFloor;
     sendToSound = toSound;
-    
-
-    cout << "osc refs set" << endl;
     sendToOsc = true;
 }

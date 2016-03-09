@@ -55,6 +55,10 @@ void fc_performer::deleteMostActiveCondition() {
     conditionManager -> deleteMostActiveCondition();
 }
 
+void fc_performer::deleteSelectCondition(int _relayChannel, int _index) {
+    conditionManager -> deleteCondition(_relayChannel, _index);
+}
+
 void fc_performer::sendOffMessage() {
     devices[packIndex] -> sendOffMessages(packIndex);
 }

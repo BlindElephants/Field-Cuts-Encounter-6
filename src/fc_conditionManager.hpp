@@ -33,6 +33,7 @@ public:
     
     void deleteAllConditions();
     void deleteMostActiveCondition();
+    void deleteCondition(int _relayChannel, int _index);
     
     void setOscRefs(ofxOscSender *toFloor, ofxOscSender *toSound);
     

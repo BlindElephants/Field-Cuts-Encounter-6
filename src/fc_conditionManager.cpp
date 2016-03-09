@@ -120,3 +120,9 @@ void fc_conditionManager::setOscRefs(ofxOscSender *toFloor, ofxOscSender *toSoun
         conditionStreams[i] -> setOscRefs(toFloor, toSound);
     }
 }
+
+void fc_conditionManager::deleteCondition(int _relayChannel, int _index) {
+    if(_relayChannel >= 0 && _relayChannel < 4) {
+        conditionStreams[_relayChannel] -> deleteCondition(_index);
+    }
+}

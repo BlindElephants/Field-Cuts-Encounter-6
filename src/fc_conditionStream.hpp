@@ -48,6 +48,7 @@ private:
     bool sendToOsc = false;
     ofxOscSender *sendToFloor;
     ofxOscSender *sendToSound;
+    
 };
 
 #endif /* fc_conditionStream_hpp */
