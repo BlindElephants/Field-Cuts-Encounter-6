@@ -25,6 +25,10 @@ enum DeleteType {
     ALL, MOSTACTIVE
 };
 
+enum ThresholdType {
+    BASELINE, UNLIKELY, LIKELY, VERYLIKELY
+};
+
 class fc_scoreManager {
 public:
     
@@ -40,7 +44,6 @@ public:
     struct triggerLimitingEvent {
         float triggerAtTime;
         PerformerName targetName;
-        
         bool useSetDuration;
         float setDuration;
         bool useSetRecovery;
@@ -66,6 +69,41 @@ public:
     void setPerformersRef(vector < fc_performer > *_pr);
     void setDevicesRef(fc_deviceManager *_deviceManager);
     
+    int getParamThresholdCenter(DeviceType _wrist_pack, Parameter _x_y_z, Parameter _mt_lt);
+    void setConditionThreshold(conditionEvent &_c);
+    void setConditionThreshold(conditionEvent &_c, ThresholdType _thresholdType);
+    
+    PerformerName makePerformerName(float _probA, float _probB, float _probC);
+    PerformerName makePerformerName();
+    
+    void makeSourcePerformerName(conditionEvent &_c);
+    
+    DeviceType makeDeviceType(float _probA, float _probB);
+    DeviceType makeDeviceType();
+    
+    void makeXYZ_and_MTLT(conditionEvent &_c);
+    
+    void buildConditionEvent(conditionEvent &_c, float _probPerformerA, float _probPerformerB, float _probPerformerC, float _probWrist, float _probPack);
+    void buildConditionEvent(conditionEvent &_c, float _probPerformerA, float _probPerformerB, float _probPerformerC);
+    
+    void buildConditionEvent(conditionEvent &_c);
+    
+    void buildNormalLimitingEvent(float _time);
+    void buildNormalLimitingEvent(PerformerName _target, float _time);
+    
+    void buildRapidTriggerLimitingEvent(float _time, float _duration);
+    void buildRapidTriggerLimitingEvent(PerformerName _target, float _time, float _duration);
+    
+    void buildHeldTriggerLimitingEvent(float _time, float _duration);
+    void buildHeldTriggerLimitingEvent(PerformerName _target, float _time, float _duration);
+
+    void buildDeleteAllEvent(float _time);
+    void buildDeleteAllEvent(PerformerName _target, float _time);
+    
+    void buildDeleteMostActive(float _time);
+    void buildDeleteMostActive(PerformerName _target, float _time);
+//    void genFirstScore();
+    
 private:
     bool runScore;
     float scoreTimer = 0;
@@ -83,6 +121,7 @@ private:
     vector < conditionEvent > conditionEvents;
     vector < triggerLimitingEvent > triggerLimitingEvents;
     vector < deleteEvent > deleteEvents;
+    
     
 };
 

@@ -8,6 +8,8 @@
 
 #include "fc_conditionStream.hpp"
 
+//#include "fc_scoreManager.hpp"
+
 fc_conditionStream::fc_conditionStream(int _thisDeviceIndex, int _thisRelayChannelIndex) {
     conditions.clear();
     font.load("courier", 8);

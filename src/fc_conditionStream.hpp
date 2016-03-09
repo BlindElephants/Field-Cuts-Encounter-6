@@ -14,6 +14,8 @@
 #include "fc_device.hpp"
 #include "ofxOsc.h"
 
+//class fc_scoreManager;
+
 class fc_conditionStream {
 public:
     fc_conditionStream(int _thisDeviceIndex, int _thisRelayChannelIndex);
@@ -48,6 +50,8 @@ private:
     bool sendToOsc = false;
     ofxOscSender *sendToFloor;
     ofxOscSender *sendToSound;
+    
+//    fc_scoreManager *scoreManager;
     
 };
 
