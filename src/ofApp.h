@@ -38,7 +38,6 @@ public:
     bool globalLights = false;
     
     ofxPanel addGui;
-    
     ofxFloatSlider threshold;
     ofxIntSlider x_y_z_slider;
     ofxToggle mt_lt_toggle;
@@ -56,6 +55,11 @@ public:
     ofxIntSlider condition_select;
     ofxButton delete_select;
     
+    ofxPanel triggerLimGui;
+    ofxFloatSlider triggerDurationSet;
+    ofxFloatSlider triggerRecoverySet;
+    ofxButton triggerLimMake;
+    
     ofxPanel sectionGui;
     ofxButton sectionGui_sectionOne;
     ofxButton sectionGui_sectionTwo;
@@ -63,9 +67,20 @@ public:
     ofxButton sectionGui_sectionFour;
     ofxButton sectionGui_sectionFive;
     
+    ofxPanel lightsFaderGui;
+    ofxButton fadeInLights;
+    ofxButton fadeOutLights;
+    ofxButton fadeOutSound;
+    
     
     void makeNewCondition();
     void deleteAllCondition();
     void deleteSelectCondition();
+    
+    void toggleFadeInLights();
+    void toggleFadeOutLights();
+    void toggleFadeOutSound();
+    
+    void makeTriggerLimiterNow();
     
 };

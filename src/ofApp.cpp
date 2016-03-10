@@ -59,6 +59,16 @@ void ofApp::setup(){
     delGui.add(delete_select.setup("delete select"));
     delGui.setPosition(ofGetWidth() - 408, 600);
     
+    
+    triggerLimMake.addListener(this, &ofApp::makeTriggerLimiterNow);
+    
+    triggerLimGui.setup();
+    triggerLimGui.add(triggerDurationSet.setup("duration set", 0.05, 0.05, 8));
+    triggerLimGui.add(triggerRecoverySet.setup("recovery set", 0.05, 0.05, 12));
+    triggerLimGui.add(triggerLimMake.setup("make trigger limiter"));
+    
+    triggerLimGui.setPosition(ofGetWidth() - 612, 600);
+    
     sectionGui_sectionOne.addListener(this, &ofApp::jumpToSectionOne);
     sectionGui_sectionTwo.addListener(this, &ofApp::jumpToSectionTwo);
     sectionGui_sectionThree.addListener(this, &ofApp::jumpToSectionThree);
@@ -73,6 +83,17 @@ void ofApp::setup(){
     sectionGui.add(sectionGui_sectionFive.setup("section FIVE"));
     
     sectionGui.setPosition(ofGetWidth() - 612, 600);
+    
+    fadeInLights.addListener(this, &ofApp::toggleFadeInLights);
+    fadeOutLights.addListener(this, &ofApp::toggleFadeOutLights);
+    fadeOutSound.addListener(this, &ofApp::toggleFadeOutSound);
+    
+    lightsFaderGui.setup();
+    lightsFaderGui.add(fadeInLights.setup("fade IN lights"));
+    lightsFaderGui.add(fadeOutLights.setup("fade OUT lights"));
+    lightsFaderGui.add(fadeOutSound.setup("fade OUT sound"));
+    
+    lightsFaderGui.setPosition(ofGetWidth() - 816, 600);
 }
 
 //--------------------------------------------------------------
@@ -101,7 +122,11 @@ void ofApp::draw(){
     }
     addGui.draw();
     delGui.draw();
-    sectionGui.draw();
+    triggerLimGui.draw();
+    
+    
+//    sectionGui.draw();
+    lightsFaderGui.draw();
 }
 
 //--------------------------------------------------------------
@@ -191,3 +216,28 @@ void ofApp::jumpToSectionTwo() {scoreManager.goToSection2();}
 void ofApp::jumpToSectionThree() {scoreManager.goToSection3();}
 void ofApp::jumpToSectionFour() {scoreManager.goToSection4();}
 void ofApp::jumptoSectionFive() {scoreManager.goToSection5();}
+
+void ofApp::toggleFadeInLights() {
+    ofxOscMessage m;
+    m.setAddress("/global_lights");
+    m.addBoolArg(false);
+    sendToFloor.sendMessage(m);
+}
+
+void ofApp::toggleFadeOutLights() {
+    ofxOscMessage m;
+    m.setAddress("/global_lights");
+    m.addBoolArg(true);
+    sendToFloor.sendMessage(m);
+}
+
+void ofApp::toggleFadeOutSound() {
+    ofxOscMessage m;
+    m.setAddress("/fieldcuts/fadeOut");
+    sendToSound.sendMessage(m);
+}
+
+void ofApp::makeTriggerLimiterNow() {
+    deviceManager.setSetDuration(true, triggerDurationSet);
+    deviceManager.setSetRecovery(true, triggerRecoverySet);
+}
