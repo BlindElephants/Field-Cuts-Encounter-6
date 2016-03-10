@@ -8,6 +8,8 @@
 
 #include "fc_performer.hpp"
 
+#include "fc_scoreManager.hpp"
+
 fc_performer::fc_performer(PerformerName _name) {
     name = _name;
 }
@@ -65,4 +67,8 @@ void fc_performer::sendOffMessage() {
 
 void fc_performer::setConditionManagerOscRefs(ofxOscSender *toFloor, ofxOscSender *toSound) {
     conditionManager -> setOscRefs(toFloor, toSound);
+}
+
+void fc_performer::setScoreManagerRef(fc_scoreManager *_scoreManager) {
+    conditionManager -> setScoreManagerRef(_scoreManager);
 }

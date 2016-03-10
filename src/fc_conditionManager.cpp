@@ -7,6 +7,7 @@
 //
 
 #include "fc_conditionManager.hpp"
+#include "fc_scoreManager.hpp"
 
 fc_conditionManager::fc_conditionManager(vector < fc_device* > _devices, int _thisDeviceIndex, int _numRelayChannels) {
     devices.clear();
@@ -124,5 +125,13 @@ void fc_conditionManager::setOscRefs(ofxOscSender *toFloor, ofxOscSender *toSoun
 void fc_conditionManager::deleteCondition(int _relayChannel, int _index) {
     if(_relayChannel >= 0 && _relayChannel < 4) {
         conditionStreams[_relayChannel] -> deleteCondition(_index);
+    }
+}
+
+void fc_conditionManager::setScoreManagerRef(fc_scoreManager *_scoreManager) {
+    if(conditionStreams.size() > 0) {
+        for(int i = 0 ; i < conditionStreams.size() ; i ++ ) {
+            conditionStreams[i] -> setScoreManager(_scoreManager);
+        }
     }
 }

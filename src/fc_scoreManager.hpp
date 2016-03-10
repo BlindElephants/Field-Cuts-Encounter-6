@@ -64,12 +64,14 @@ public:
 
     void addConditionInOrder(conditionEvent _c);
     void addTriggerLimitingEventInOrder(triggerLimitingEvent _t);
+    void addTriggerLimitingPair(triggerLimitingEvent _t, triggerLimitingEvent _u);
+    
     void addDeleteEventInOrder(deleteEvent _d);
     
     void setPerformersRef(vector < fc_performer > *_pr);
     void setDevicesRef(fc_deviceManager *_deviceManager);
     
-    int getParamThresholdCenter(DeviceType _wrist_pack, Parameter _x_y_z, Parameter _mt_lt);
+    int getParamThresholdCenter(DeviceType _wrist_pack, Parameter _abs_del, Parameter _x_y_z, Parameter _mt_lt);
     void setConditionThreshold(conditionEvent &_c);
     void setConditionThreshold(conditionEvent &_c, ThresholdType _thresholdType);
     
@@ -83,10 +85,13 @@ public:
     
     void makeXYZ_and_MTLT(conditionEvent &_c);
     
-    void buildConditionEvent(conditionEvent &_c, float _probPerformerA, float _probPerformerB, float _probPerformerC, float _probWrist, float _probPack);
-    void buildConditionEvent(conditionEvent &_c, float _probPerformerA, float _probPerformerB, float _probPerformerC);
+    void buildConditionEvent(conditionEvent &_c, ThresholdType _thresholdType, float _probPerformerA, float _probPerformerB, float _probPerformerC, float _probWrist, float _probPack);
+    void buildConditionEvent(conditionEvent &_c, ThresholdType _thresholdType, float _probPerformerA, float _probPerformerB, float _probPerformerC);
     
-    void buildConditionEvent(conditionEvent &_c);
+    void buildConditionEvent(conditionEvent &_c, ThresholdType _thresholdType);
+    
+    void buildFollowingConditionEvent(fc_condition &_c);
+    
     
     void buildNormalLimitingEvent(float _time);
     void buildNormalLimitingEvent(PerformerName _target, float _time);
@@ -103,6 +108,13 @@ public:
     void buildDeleteMostActive(float _time);
     void buildDeleteMostActive(PerformerName _target, float _time);
 //    void genFirstScore();
+    
+    void goToTime(float _time);
+    void goToSection1();
+    void goToSection2();
+    void goToSection3();
+    void goToSection4();
+    void goToSection5();
     
 private:
     bool runScore;

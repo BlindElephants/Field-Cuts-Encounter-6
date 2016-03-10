@@ -8,7 +8,7 @@
 
 #include "fc_conditionStream.hpp"
 
-//#include "fc_scoreManager.hpp"
+#include "fc_scoreManager.hpp"
 
 fc_conditionStream::fc_conditionStream(int _thisDeviceIndex, int _thisRelayChannelIndex) {
     conditions.clear();
@@ -36,6 +36,8 @@ vector < int > fc_conditionStream::checkAllConditions() {
             conditions[i] -> conditionTimer += ofGetLastFrameTime();
             if(conditions[i] -> isActive) conditions[i] -> conditionActiveTime += ofGetLastFrameTime();
             if(!(conditions[i] -> isActive) && (conditions[i] -> conditionLifespan == DIE_AFTER_TRIGGER_NUM) && (conditions[i] -> conditionActiveNum >= conditions[i] -> conditionActiveNumLimit)) {
+                scoreManager -> buildFollowingConditionEvent(*conditions[i]);
+                
                 conditions.erase(conditions.begin() + i);
                 if(sendToOsc) {
                     ofxOscMessage m;
@@ -49,7 +51,12 @@ vector < int > fc_conditionStream::checkAllConditions() {
                     sendToSound -> sendMessage(n);
                 }
                 cout << "erased because trigger number high" << endl;
+            
+            
             } else if((conditions[i] -> conditionLifespan == DIE_AFTER_TRIGGER_DURATION) && (conditions[i] -> conditionActiveTime >= conditions[i] -> conditionTimerLimit)) {
+                scoreManager -> buildFollowingConditionEvent(*conditions[i]);
+                
+                
                 conditions.erase(conditions.begin() + i);
                 if(sendToOsc) {
                     ofxOscMessage m;
@@ -62,10 +69,12 @@ vector < int > fc_conditionStream::checkAllConditions() {
                     n.addStringArg("off");
                     sendToSound -> sendMessage(n);
                 }
-                
-                
                 cout << "erased because trigger duration number high " << endl;
+            
+            
             } else if((conditions[i] -> conditionLifespan == DIE_AFTER_TIME) && (conditions[i] -> conditionTimer >= conditions[i] -> conditionTimerLimit)) {
+                scoreManager -> buildFollowingConditionEvent(*conditions[i]);
+                
                 conditions.erase(conditions.begin() + i);
                 if(sendToOsc) {
                     ofxOscMessage m;
@@ -79,8 +88,11 @@ vector < int > fc_conditionStream::checkAllConditions() {
                     sendToSound -> sendMessage(n);
                 }
                 cout << "erased because timer high" << endl;
+            
+            
             } else {
                 float val = devices[conditions[i] -> sourceDevice] -> getLastAccelValue(conditions[i] -> abs_del, conditions[i] -> x_y_z);
+                
                 if(conditions[i] -> MT_LT == LT) {
                     if(val < conditions[i] -> threshold) {
                         relaySetting = true;
@@ -274,4 +286,8 @@ void fc_conditionStream::setOscRefs(ofxOscSender *toFloor, ofxOscSender *toSound
     sendToFloor = toFloor;
     sendToSound = toSound;
     sendToOsc = true;
+}
+
+void fc_conditionStream::setScoreManager(fc_scoreManager *_scoreManager) {
+    scoreManager = _scoreManager;
 }

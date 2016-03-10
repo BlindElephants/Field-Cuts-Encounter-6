@@ -67,7 +67,7 @@ void fc_device::sendRelayMessage(int channel, bool set, int _thisDeviceIndex) {
                 if(_thisDeviceIndex == 1) _thisPerfNum = 1;
                 if(_thisDeviceIndex == 3) _thisPerfNum = 2;
                 if(_thisDeviceIndex == 5) _thisPerfNum = 3;
-                m.setAddress("/fieldcuts/perf_" + ofToString(_thisPerfNum));
+                m.setAddress("/fieldcuts/perf_" + ofToString(4 - _thisPerfNum));
                 m.addStringArg("trig_" + ofToString(channel + 1));
                 m.addStringArg("on");
                 sendToSound -> sendMessage(m);
@@ -94,7 +94,7 @@ void fc_device::sendRelayMessage(int channel, bool set, int _thisDeviceIndex) {
                 if(_thisDeviceIndex == 1) _thisPerfNum = 1;
                 if(_thisDeviceIndex == 3) _thisPerfNum = 2;
                 if(_thisDeviceIndex == 5) _thisPerfNum = 3;
-                m.setAddress("/fieldcuts/perf_" + ofToString(_thisPerfNum));
+                m.setAddress("/fieldcuts/perf_" + ofToString(4 - _thisPerfNum));
                 m.addStringArg("trig_" + ofToString(channel + 1));
                 m.addStringArg("off");
                 sendToSound -> sendMessage(m);

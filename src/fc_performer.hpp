@@ -14,6 +14,8 @@
 #include "fc_device.hpp"
 #include "ofxOsc.h"
 
+class fc_scoreManager;
+
 enum PerformerName {
     MEG, JACOB, HALEY, NUM_PERFORMERS
 };
@@ -37,6 +39,8 @@ public:
     
     void sendOffMessage();
     void setConditionManagerOscRefs(ofxOscSender *toFloor, ofxOscSender *toSound);
+    void setScoreManagerRef(fc_scoreManager *_scoreManager);
+    
 private:
     fc_conditionManager* conditionManager;
     
@@ -46,6 +50,7 @@ private:
     int packIndex;
     int wristIndex;
     int conditionManagerIndex;
+    
 };
 
 #endif /* fc_performer_hpp */

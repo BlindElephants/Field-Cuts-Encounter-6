@@ -14,6 +14,8 @@
 #include "fc_conditionStream.hpp"
 #include "ofxOsc.h"
 
+class fc_scoreManager;
+
 class fc_conditionManager {
 public:
     fc_conditionManager(vector < fc_device* > _devices, int _thisDeviceIndex, int _numRelayChannels);
@@ -36,12 +38,12 @@ public:
     void deleteCondition(int _relayChannel, int _index);
     
     void setOscRefs(ofxOscSender *toFloor, ofxOscSender *toSound);
+    void setScoreManagerRef(fc_scoreManager *_scoreManager);
     
 private:
     vector < fc_device* > devices;
     vector < fc_conditionStream* > conditionStreams;
     int thisDeviceIndex;
-
 };
 
 #endif /* fc_conditionManager_hpp */

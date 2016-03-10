@@ -22,7 +22,6 @@ void ofApp::setup(){
     deviceManager.setSetDuration(true, ofRandom(0.1, 1.2));
     deviceManager.setSetRecovery(true, ofRandom(1, 8));
     
-    scoreManager.setDevicesRef(&deviceManager);
     
     sendToSound.setup("10.0.1.13", 57120);
     sendToFloor.setup("10.0.1.15", 8010);
@@ -31,7 +30,10 @@ void ofApp::setup(){
     
     for(int i = 0 ; i < performers.size() ; i ++ ) {
         performers[i].setConditionManagerOscRefs(&sendToFloor, &sendToSound);
+        performers[i].setScoreManagerRef(&scoreManager);
     }
+    
+    scoreManager.setDevicesRef(&deviceManager);
     
     makeNewCondition_toggle.addListener(this, &ofApp::makeNewCondition);
     
@@ -58,6 +60,21 @@ void ofApp::setup(){
     delGui.add(condition_select.setup("condition select", 0, 0, 12));
     delGui.add(delete_select.setup("delete select"));
     delGui.setPosition(ofGetWidth() - 408, 600);
+    
+    sectionGui_sectionOne.addListener(this, &ofApp::jumpToSectionOne);
+    sectionGui_sectionTwo.addListener(this, &ofApp::jumpToSectionTwo);
+    sectionGui_sectionThree.addListener(this, &ofApp::jumpToSectionThree);
+    sectionGui_sectionFour.addListener(this, &ofApp::jumpToSectionFour);
+    sectionGui_sectionFive.addListener(this, &ofApp::jumptoSectionFive);
+    
+    sectionGui.setup();
+    sectionGui.add(sectionGui_sectionOne.setup("section ONE"));
+    sectionGui.add(sectionGui_sectionTwo.setup("section TWO"));
+    sectionGui.add(sectionGui_sectionThree.setup("section THREE"));
+    sectionGui.add(sectionGui_sectionFour.setup("section FOUR"));
+    sectionGui.add(sectionGui_sectionFive.setup("section FIVE"));
+    
+    sectionGui.setPosition(ofGetWidth() - 612, 600);
 }
 
 //--------------------------------------------------------------
@@ -86,6 +103,7 @@ void ofApp::draw(){
     }
     addGui.draw();
     delGui.draw();
+    sectionGui.draw();
 }
 
 //--------------------------------------------------------------
@@ -174,3 +192,9 @@ void ofApp::deleteAllCondition() {
 void ofApp::deleteSelectCondition() {
     performers[performer_select].deleteSelectCondition(relay_channel_select, condition_select);
 }
+
+void ofApp::jumpToSectionOne() {scoreManager.goToSection1();}
+void ofApp::jumpToSectionTwo() {scoreManager.goToSection2();}
+void ofApp::jumpToSectionThree() {scoreManager.goToSection3();}
+void ofApp::jumpToSectionFour() {scoreManager.goToSection4();}
+void ofApp::jumptoSectionFive() {scoreManager.goToSection5();}
