@@ -22,7 +22,6 @@ void ofApp::setup(){
     deviceManager.setSetDuration(true, ofRandom(0.1, 1.2));
     deviceManager.setSetRecovery(true, ofRandom(1, 8));
     
-    
     sendToSound.setup("10.0.1.13", 57120);
     sendToFloor.setup("10.0.1.15", 8010);
     
@@ -48,7 +47,6 @@ void ofApp::setup(){
     addGui.add(target_relay_channel.setup("target relay channel", 0, 0, 3));
     addGui.add(makeNewCondition_toggle.setup("make new condition"));
     addGui.setPosition(ofGetWidth() - 204, 600);
-
     
     delete_all.addListener(this, &ofApp::deleteAllCondition);
     delete_select.addListener(this, &ofApp::deleteSelectCondition);
@@ -111,8 +109,6 @@ void ofApp::keyPressed(int key){
     if(key == '+') ofToggleFullscreen();
     if(key == 'p') deviceManager.togglePingAll();
     if(key == ' ') scoreManager.toggleRun();
-
-    if(key == 'P') runAll = !runAll;
     
     if(key == '!') deviceManager.sendSignalDirect(performers[0].getPackIndex(), 0, true);
     if(key == '@') deviceManager.sendSignalDirect(performers[0].getPackIndex(), 1, true);
@@ -153,9 +149,6 @@ void ofApp::keyPressed(int key){
     }
 }
 
-void ofApp::keyReleased(int key) {
-}
-
 void ofApp::sendOffMessage(int performer_index) {
     if(performers.size() > performer_index) {
         performers[performer_index].sendOffMessage();
@@ -177,7 +170,7 @@ void ofApp::makeNewCondition() {
     Parameter absdel;
     if(abs_del_toggle == 0) absdel = ABS;
     if(abs_del_toggle == 1) absdel = DEL;
-    
+
     Parameter mtlt;
     if(mt_lt_toggle == 0) mtlt = MT;
     if(mt_lt_toggle == 1) mtlt = LT;

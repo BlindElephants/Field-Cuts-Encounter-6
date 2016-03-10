@@ -31,29 +31,21 @@ public:
     fc_condition() {};
     
     bool isActive;
-    
     int sourceDevice;
     Parameter x_y_z;
     Parameter abs_del;
     Parameter MT_LT;
-    
     float threshold;
-    
     
     //these aren't needed-------
     TriggerType triggerType;
     float triggerSetDuration;
     //--------------------------
 
-    
-    
     Lifespan conditionLifespan;
     float conditionTimer = 0;
-    
     float conditionActiveTime = 0;
-    
     float conditionTimerLimit = 0;
-    
     int   conditionActiveNum = 0;
     int   conditionActiveNumLimit = 0;
 };
