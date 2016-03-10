@@ -123,8 +123,6 @@ void ofApp::draw(){
     addGui.draw();
     delGui.draw();
     triggerLimGui.draw();
-    
-    
 //    sectionGui.draw();
     lightsFaderGui.draw();
 }
