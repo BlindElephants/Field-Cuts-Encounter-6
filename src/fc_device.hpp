@@ -48,6 +48,8 @@ public:
 
     void setOscRefs(ofxOscSender *toFloor, ofxOscSender *toSound);
     
+    string getAddress();
+    
 private:
     ofxUDPManager udp;
     

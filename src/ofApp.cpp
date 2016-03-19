@@ -31,69 +31,8 @@ void ofApp::setup(){
         performers[i].setConditionManagerOscRefs(&sendToFloor, &sendToSound);
         performers[i].setScoreManagerRef(&scoreManager);
     }
-    
     scoreManager.setDevicesRef(&deviceManager);
-    
-    makeNewCondition_toggle.addListener(this, &ofApp::makeNewCondition);
-    
-    addGui.setup();
-    addGui.add(source_select_performer.setup("source performer", 0, 0, 2));
-    addGui.add(wrist_pack_toggle.setup("WRIST(true) / pack", true));
-    addGui.add(x_y_z_slider.setup("X Y Z", 0, 0, 2));
-    addGui.add(abs_del_toggle.setup("abs / DEL(true)", true));
-    addGui.add(mt_lt_toggle.setup("mt / LT(true)" , true));
-    addGui.add(threshold.setup("threshold", 140, 600, 3400));
-    addGui.add(target_select_performer.setup("target performer", 0, 0, 2));
-    addGui.add(target_relay_channel.setup("target relay channel", 0, 0, 3));
-    addGui.add(makeNewCondition_toggle.setup("make new condition"));
-    addGui.setPosition(ofGetWidth() - 204, 600);
-    
-    delete_all.addListener(this, &ofApp::deleteAllCondition);
-    delete_select.addListener(this, &ofApp::deleteSelectCondition);
-    
-    delGui.setup();
-    delGui.add(performer_select.setup("performer select", 0, 0, 2));
-    delGui.add(relay_channel_select.setup("relay channel", 0, 0, 3));
-    delGui.add(delete_all.setup("delete_all"));
-    delGui.add(condition_select.setup("condition select", 0, 0, 12));
-    delGui.add(delete_select.setup("delete select"));
-    delGui.setPosition(ofGetWidth() - 408, 600);
-    
-    
-    triggerLimMake.addListener(this, &ofApp::makeTriggerLimiterNow);
-    
-    triggerLimGui.setup();
-    triggerLimGui.add(triggerDurationSet.setup("duration set", 0.05, 0.05, 8));
-    triggerLimGui.add(triggerRecoverySet.setup("recovery set", 0.05, 0.05, 12));
-    triggerLimGui.add(triggerLimMake.setup("make trigger limiter"));
-    
-    triggerLimGui.setPosition(ofGetWidth() - 612, 600);
-    
-    sectionGui_sectionOne.addListener(this, &ofApp::jumpToSectionOne);
-    sectionGui_sectionTwo.addListener(this, &ofApp::jumpToSectionTwo);
-    sectionGui_sectionThree.addListener(this, &ofApp::jumpToSectionThree);
-    sectionGui_sectionFour.addListener(this, &ofApp::jumpToSectionFour);
-    sectionGui_sectionFive.addListener(this, &ofApp::jumptoSectionFive);
-    
-    sectionGui.setup();
-    sectionGui.add(sectionGui_sectionOne.setup("section ONE"));
-    sectionGui.add(sectionGui_sectionTwo.setup("section TWO"));
-    sectionGui.add(sectionGui_sectionThree.setup("section THREE"));
-    sectionGui.add(sectionGui_sectionFour.setup("section FOUR"));
-    sectionGui.add(sectionGui_sectionFive.setup("section FIVE"));
-    
-    sectionGui.setPosition(ofGetWidth() - 612, 600);
-    
-    fadeInLights.addListener(this, &ofApp::toggleFadeInLights);
-    fadeOutLights.addListener(this, &ofApp::toggleFadeOutLights);
-    fadeOutSound.addListener(this, &ofApp::toggleFadeOutSound);
-    
-    lightsFaderGui.setup();
-    lightsFaderGui.add(fadeInLights.setup("fade IN lights"));
-    lightsFaderGui.add(fadeOutLights.setup("fade OUT lights"));
-    lightsFaderGui.add(fadeOutSound.setup("fade OUT sound"));
-    
-    lightsFaderGui.setPosition(ofGetWidth() - 816, 600);
+    initGui();
 }
 
 //--------------------------------------------------------------
@@ -171,13 +110,11 @@ void ofApp::keyPressed(int key){
         sendToFloor.sendMessage(m);
     }
 }
-
 void ofApp::sendOffMessage(int performer_index) {
     if(performers.size() > performer_index) {
         performers[performer_index].sendOffMessage();
     }
 }
-
 void ofApp::makeNewCondition() {
     int source_index;
     if(wrist_pack_toggle) {
@@ -200,42 +137,97 @@ void ofApp::makeNewCondition() {
     
     performers[target_select_performer].makeNewCondition(target_relay_channel, source_index , xyz, absdel, mtlt, threshold, INFINITE, 0);
 }
-
 void ofApp::deleteAllCondition() {
     performers[performer_select].deleteAllConditions();
 }
-
 void ofApp::deleteSelectCondition() {
     performers[performer_select].deleteSelectCondition(relay_channel_select, condition_select);
 }
-
 void ofApp::jumpToSectionOne() {scoreManager.goToSection1();}
 void ofApp::jumpToSectionTwo() {scoreManager.goToSection2();}
 void ofApp::jumpToSectionThree() {scoreManager.goToSection3();}
 void ofApp::jumpToSectionFour() {scoreManager.goToSection4();}
 void ofApp::jumptoSectionFive() {scoreManager.goToSection5();}
-
 void ofApp::toggleFadeInLights() {
     ofxOscMessage m;
     m.setAddress("/global_lights");
     m.addBoolArg(false);
     sendToFloor.sendMessage(m);
 }
-
 void ofApp::toggleFadeOutLights() {
     ofxOscMessage m;
     m.setAddress("/global_lights");
     m.addBoolArg(true);
     sendToFloor.sendMessage(m);
 }
-
 void ofApp::toggleFadeOutSound() {
     ofxOscMessage m;
     m.setAddress("/fieldcuts/fadeOut");
     sendToSound.sendMessage(m);
 }
-
 void ofApp::makeTriggerLimiterNow() {
     deviceManager.setSetDuration(true, triggerDurationSet);
     deviceManager.setSetRecovery(true, triggerRecoverySet);
+}
+void ofApp::initGui() {
+    makeNewCondition_toggle.addListener(this, &ofApp::makeNewCondition);
+    
+    addGui.setup();
+    addGui.add(source_select_performer.setup("source performer", 0, 0, 2));
+    addGui.add(wrist_pack_toggle.setup("WRIST(true) / pack", true));
+    addGui.add(x_y_z_slider.setup("X Y Z", 0, 0, 2));
+    addGui.add(abs_del_toggle.setup("abs / DEL(true)", true));
+    addGui.add(mt_lt_toggle.setup("mt / LT(true)" , true));
+    addGui.add(threshold.setup("threshold", 140, 600, 3400));
+    addGui.add(target_select_performer.setup("target performer", 0, 0, 2));
+    addGui.add(target_relay_channel.setup("target relay channel", 0, 0, 3));
+    addGui.add(makeNewCondition_toggle.setup("make new condition"));
+    addGui.setPosition(ofGetWidth() - 204, 600);
+    
+    delete_all.addListener(this, &ofApp::deleteAllCondition);
+    delete_select.addListener(this, &ofApp::deleteSelectCondition);
+    
+    delGui.setup();
+    delGui.add(performer_select.setup("performer select", 0, 0, 2));
+    delGui.add(relay_channel_select.setup("relay channel", 0, 0, 3));
+    delGui.add(delete_all.setup("delete_all"));
+    delGui.add(condition_select.setup("condition select", 0, 0, 12));
+    delGui.add(delete_select.setup("delete select"));
+    delGui.setPosition(ofGetWidth() - 408, 600);
+    
+    
+    triggerLimMake.addListener(this, &ofApp::makeTriggerLimiterNow);
+    
+    triggerLimGui.setup();
+    triggerLimGui.add(triggerDurationSet.setup("duration set", 0.05, 0.05, 8));
+    triggerLimGui.add(triggerRecoverySet.setup("recovery set", 0.05, 0.05, 12));
+    triggerLimGui.add(triggerLimMake.setup("make trigger limiter"));
+    
+    triggerLimGui.setPosition(ofGetWidth() - 612, 600);
+    
+    sectionGui_sectionOne.addListener(this, &ofApp::jumpToSectionOne);
+    sectionGui_sectionTwo.addListener(this, &ofApp::jumpToSectionTwo);
+    sectionGui_sectionThree.addListener(this, &ofApp::jumpToSectionThree);
+    sectionGui_sectionFour.addListener(this, &ofApp::jumpToSectionFour);
+    sectionGui_sectionFive.addListener(this, &ofApp::jumptoSectionFive);
+    
+    sectionGui.setup();
+    sectionGui.add(sectionGui_sectionOne.setup("section ONE"));
+    sectionGui.add(sectionGui_sectionTwo.setup("section TWO"));
+    sectionGui.add(sectionGui_sectionThree.setup("section THREE"));
+    sectionGui.add(sectionGui_sectionFour.setup("section FOUR"));
+    sectionGui.add(sectionGui_sectionFive.setup("section FIVE"));
+    
+    sectionGui.setPosition(ofGetWidth() - 612, 600);
+    
+    fadeInLights.addListener(this, &ofApp::toggleFadeInLights);
+    fadeOutLights.addListener(this, &ofApp::toggleFadeOutLights);
+    fadeOutSound.addListener(this, &ofApp::toggleFadeOutSound);
+    
+    lightsFaderGui.setup();
+    lightsFaderGui.add(fadeInLights.setup("fade IN lights"));
+    lightsFaderGui.add(fadeOutLights.setup("fade OUT lights"));
+    lightsFaderGui.add(fadeOutSound.setup("fade OUT sound"));
+    
+    lightsFaderGui.setPosition(ofGetWidth() - 816, 600);
 }

@@ -260,3 +260,7 @@ void fc_device::setOscRefs(ofxOscSender *toFloor, ofxOscSender *toSound) {
     sendToSound = toSound;
     sendToOsc = true;
 }
+
+string fc_device::getAddress() {
+    return mAddress;
+}

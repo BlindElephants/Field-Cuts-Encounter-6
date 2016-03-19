@@ -23,6 +23,7 @@ public:
 private:
     ofxUDPManager udp;
     vector < fc_device* > deviceReferences;
+    vector < string > deviceAddresses;
     
 };
 

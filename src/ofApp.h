@@ -25,6 +25,8 @@ public:
     void jumpToSectionFour();
     void jumptoSectionFive();
     
+    void initGui();
+    
     ofTrueTypeFont font;
     fc_deviceManager deviceManager;
     vector < fc_performer > performers;
