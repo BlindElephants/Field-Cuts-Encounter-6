@@ -15,15 +15,12 @@ This object manages the sending of messages to each device, including the wrist 
 ###fc_deviceAccelParser
 This object receives all the accelerometer data from all objects and sorts it int other correct fc_device object based on matching the prefix on the received data to the IP address of the device. This object is contained within the fc_deviceManager class.
 
-
-
 ##Conditions
 ###fc_condition
 
 ###fc_conditionStream
 
 ###fc_conditionManager
-
 
 ##Score
 ###fc_performer
