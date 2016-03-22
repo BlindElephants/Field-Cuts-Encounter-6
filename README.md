@@ -11,6 +11,7 @@ This program consists of three parts necessary for this performance:
 This object manages the sending of messages to each device, including the wrist packs and the torso packs (which include relay). If the device includes a relay, this class manages the duration and recovery limiting times by blocking new messages from being forwarded to the device if it is in one of these periods. 
 
 ###fc_deviceManager
+This object manages all of the instances of the fc_device class.
 
 ###fc_deviceAccelParser
 This object receives all the accelerometer data from all objects and sorts it int other correct fc_device object based on matching the prefix on the received data to the IP address of the device. This object is contained within the fc_deviceManager class.
