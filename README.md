@@ -7,7 +7,15 @@ Footage of this performance can be found here: https://vimeo.com/159868244
 This program consists of three parts necessary for this performance:
 
 ##Device Manager
+###fc_device
+###fc_deviceManager
+###fc_deviceAccelParser
 
 ##Condition Manager
+###fc_condition
+###fc_conditionStream
+###fc_conditionManager
 
 ##Score Manager
+
+###fc_performer
