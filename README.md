@@ -18,7 +18,7 @@ This object receives all the accelerometer data from all objects and sorts it in
 
 ##Conditions
 ###fc_condition
-This object contains a set of parameters and variables which define a condition which creates virtual connections between input and output -- accelerometer data and relay/electrical stimulation.
+This object contains a set of parameters and variables which define a condition which creates virtual connections between input and output - accelerometer data and relay/electrical stimulation.
 
 ###fc_conditionStream
 
