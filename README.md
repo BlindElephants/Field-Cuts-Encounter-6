@@ -1,4 +1,5 @@
 # Field-Cuts-Encounter-6
+###this readme is still a work-in-progress, lots more description and comments to come
 
 This program (built using openFrameworks) was used in performance of Field Cuts: Encounter 6 at EMPAC Studio 2 on 03.10.2016
 
