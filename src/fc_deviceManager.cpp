@@ -8,10 +8,7 @@
 
 #include "fc_deviceManager.hpp"
 
-fc_deviceManager::fc_deviceManager() {
-    font.load("courier", 12);
-
-}
+fc_deviceManager::fc_deviceManager() {font.load("courier", 12);}
 
 int fc_deviceManager::makeNewDevice(string _address, bool hasRelay) {
     fc_device *_f = new fc_device();
@@ -19,10 +16,8 @@ int fc_deviceManager::makeNewDevice(string _address, bool hasRelay) {
     _f -> setHasRelay(hasRelay);
     devices.push_back(_f);
     deviceAccelParser.setDevices(devices);
-
     return devices.size() - 1;
 }
-
 
 void fc_deviceManager::update() {
     if(pingAll) {
@@ -34,10 +29,8 @@ void fc_deviceManager::update() {
             shouldPing = false;
         }
     }
-    
     //receive and distribute any new accelerometer data to devices
     deviceAccelParser.update();
-    
     //check each device for changes in relay channel states since last frame, if so, send message to device
     for(int i = 0 ; i < devices.size() ; i ++ ) {
         if(shouldPing) devices[i] -> ping();
@@ -61,9 +54,7 @@ void fc_deviceManager::drawDeviceDebug(float x, float y) {
     }
 }
 
-void fc_deviceManager::togglePingAll(){
-    pingAll = !pingAll;
-}
+void fc_deviceManager::togglePingAll(){pingAll = !pingAll;}
 
 void fc_deviceManager::setSetDuration(bool _useSetDuration, float _setDuration) {
     for(int i = 0 ; i < devices.size() ; i ++ ) {

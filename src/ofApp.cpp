@@ -16,9 +16,11 @@ void ofApp::setup(){
     fc_performer _c = *new fc_performer(HALEY);
     _c.setDevices(deviceManager.makeNewDevice("10.0.1.7", false), deviceManager.makeNewDevice("10.0.1.10", true), 4);
     performers.push_back(_c);
+    
     for(int i = 0 ; i < performers.size() ; i ++ ) {
         performers[i].setDeviceReferences(deviceManager.getDevices());
     }
+    
     deviceManager.setSetDuration(true, ofRandom(0.1, 1.2));
     deviceManager.setSetRecovery(true, ofRandom(1, 8));
     

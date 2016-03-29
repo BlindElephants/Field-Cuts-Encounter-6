@@ -92,7 +92,6 @@ public:
     
     void buildFollowingConditionEvent(fc_condition &_c);
     
-    
     void buildNormalLimitingEvent(float _time);
     void buildNormalLimitingEvent(PerformerName _target, float _time);
     
@@ -107,7 +106,6 @@ public:
     
     void buildDeleteMostActive(float _time);
     void buildDeleteMostActive(PerformerName _target, float _time);
-//    void genFirstScore();
     
     void goToTime(float _time);
     void goToSection1();
@@ -133,8 +131,6 @@ private:
     vector < conditionEvent > conditionEvents;
     vector < triggerLimitingEvent > triggerLimitingEvents;
     vector < deleteEvent > deleteEvents;
-    
-    
 };
 
 #endif /* fc_scoreManager_hpp */

@@ -35,7 +35,6 @@ void fc_deviceAccelParser::update() {
             vector < string > splitMsg;
             splitMsg = ofSplitString(msg, " ");
             int thisIndex = 0;
-            
             for(int i = 0 ; i < deviceAddresses.size() ; i ++ ) {
                 if(splitMsg[0] == deviceAddresses[i]) {
                     thisIndex = i;

@@ -27,25 +27,19 @@ public:
     void ping();
     void sendRelayMessage(int channel, bool set, int _thisDeviceIndex);
     void checkAndUpdateRelays(int _thisDeviceIndex);
-    
     void setRelay(int channel, bool set);
     
     float getLastAccelValue(Parameter ABS_DEL, Parameter X_Y_Z);
-
+    
     void drawDebug(float _x, float _y);
     void setHasRelay(bool _hasRelay);
-    
     void setSetDuration(bool _useSetDuration, float _setDuration);
     void setSetRecovery(bool _useSetRecovery, float _setRecovery);
     void drawSetDurRec(float _x, float _y);
-    
     void sendOffMessages(int _thisDeviceIndex);
-    
     void clearRelayChannelConditionSources(int _relayChannelIndex);
     void clearAllRelayChannelConditionSource();
-    
     void setRelayChannelConditionSources(int _relayChannelIndex, vector < int > _conditionSources);
-
     void setOscRefs(ofxOscSender *toFloor, ofxOscSender *toSound);
     
     string getAddress();
@@ -56,7 +50,6 @@ private:
     int historyLimit = 20;
     vector < ofVec3f > accelAbs;
     vector < ofVec3f > accelDel;
-    
     ofVec3f accelAbsAvg;
     ofVec3f accelDelAvg;
     
@@ -70,14 +63,17 @@ private:
     
     float setDuration;
     float setRecovery;
+    
     bool useSetDuration = false;
     bool useSetRecovery = false;
     bool hasRelay;
+    
     relayChannel relayDevice[4];
     string mAddress;
     ofTrueTypeFont font;
     
     bool sendToOsc = false;
+    
     ofxOscSender* sendToFloor;
     ofxOscSender* sendToSound;
 };

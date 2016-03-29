@@ -15,10 +15,8 @@ void fc_device::connect(string address) {
     udp.Connect(address.c_str(), 8888);
     udp.SetNonBlocking(true);
     mAddress = address;
-    
     accelAbs.clear();
     accelDel.clear();
-    
     for(int i = 0 ; i < historyLimit ; i ++ ) {
         accelAbs.push_back(ofVec3f(0,0,0));
         accelDel.push_back(ofVec3f(0,0,0));
@@ -36,7 +34,6 @@ void fc_device::closeConnection() {udp.Close();}
 void fc_device::updateAccelerometer(float x, float y, float z) {
     accelAbs.push_back(ofVec3f(x, y, z));
     accelDel.push_back(accelAbs[accelAbs.size() - 1] - accelAbs[accelAbs.size() - 2]);
-    
     while(accelAbs.size() > historyLimit) accelAbs.erase(accelAbs.begin());
     while(accelDel.size() > historyLimit) accelDel.erase(accelDel.begin());
 }
@@ -44,10 +41,8 @@ void fc_device::updateAccelerometer(float x, float y, float z) {
 void fc_device::updateAccelAverages() {
     accelAbsAvg = ofVec3f(0,0,0);
     accelDelAvg = ofVec3f(0,0,0);
-    
     for(int i = 0 ; i < accelAbs.size() ; i ++ ) accelAbsAvg += accelAbs[i];
     for(int i = 0 ; i < accelDel.size() ; i ++ ) accelDelAvg += accelDel[i];
-    
     accelAbsAvg /= accelAbs.size();
     accelDelAvg /= accelDel.size();
 }
@@ -59,7 +54,6 @@ void fc_device::sendRelayMessage(int channel, bool set, int _thisDeviceIndex) {
         int m = channel * 2;
         if(!set) m += 1;
         udp.Send(ofToString(m).c_str(), 1);
-        
         if(sendToOsc) {
             if(set) {
                 ofxOscMessage m;
@@ -160,7 +154,7 @@ float fc_device::getLastAccelValue(Parameter ABS_DEL, Parameter X_Y_Z) {
             return accelDel.back().z;
         }
     } else {
-//        throw "error in fc_device::getLastAccelValue";
+        throw "error in fc_device::getLastAccelValue";
         return -1;
     }
 }
@@ -191,9 +185,7 @@ void fc_device::drawDebug(float _x, float _y) {
     ofPopMatrix();
 }
 
-void fc_device::setHasRelay(bool _hasRelay) {
-    hasRelay = _hasRelay;
-}
+void fc_device::setHasRelay(bool _hasRelay) {hasRelay = _hasRelay;}
 
 void fc_device::setSetDuration(bool _useSetDuration, float _setDuration) {
     useSetDuration = _useSetDuration;
@@ -212,14 +204,12 @@ void fc_device::drawSetDurRec(float _x, float _y) {
     ofSetColor(ofColor::white);
     ofPushMatrix();
     ofTranslate(_x, _y);
-    
     font.drawString("set duration: ", 0, 0);
     if(useSetDuration) {
         font.drawString("TRUE -" + ofToString(setDuration), 168, 0);
     } else {
         font.drawString("FALSE", 168, 0);
     }
-    
     font.drawString("set recovery: ", 0, 14);
     if(useSetRecovery) {
         font.drawString("TRUE - " + ofToString(setRecovery), 168, 14);
@@ -261,6 +251,4 @@ void fc_device::setOscRefs(ofxOscSender *toFloor, ofxOscSender *toSound) {
     sendToOsc = true;
 }
 
-string fc_device::getAddress() {
-    return mAddress;
-}
+string fc_device::getAddress() {return mAddress;}
