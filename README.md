@@ -4,6 +4,9 @@ This program (built using openFrameworks) was used in performance of Field Cuts:
 
 Footage of this performance can be found here: https://vimeo.com/159868244 
 
+this readme is still a work-in-progress, lots more description and comments to come
+
+
 This program consists of three parts necessary for this performance:
 
 ##Devices
