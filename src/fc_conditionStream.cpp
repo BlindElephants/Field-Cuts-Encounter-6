@@ -230,15 +230,12 @@ void fc_conditionStream::deleteAllConditions() {
         m.setAddress("/delete_condition");
         m.addIntArg(thisDeviceIndex);
         sendToFloor -> sendMessage(m);
-        
         ofxOscMessage n;
         n.setAddress("/fieldcuts/connect");
         n.addStringArg("off");
         sendToSound -> sendMessage(n);
     }
-    
     conditions.clear();
-    
 }
 
 void fc_conditionStream::deleteCondition(int _index) {
@@ -249,7 +246,6 @@ void fc_conditionStream::deleteCondition(int _index) {
             m.setAddress("/delete_condition");
             m.addIntArg(thisDeviceIndex);
             sendToFloor -> sendMessage(m);
-            
             ofxOscMessage n;
             n.setAddress("/fieldcuts/connect");
             n.addStringArg("off");
@@ -288,6 +284,4 @@ void fc_conditionStream::setOscRefs(ofxOscSender *toFloor, ofxOscSender *toSound
     sendToOsc = true;
 }
 
-void fc_conditionStream::setScoreManager(fc_scoreManager *_scoreManager) {
-    scoreManager = _scoreManager;
-}
+void fc_conditionStream::setScoreManager(fc_scoreManager *_scoreManager) {scoreManager = _scoreManager;}

@@ -28,7 +28,6 @@ fc_scoreManager::fc_scoreManager() {
     float section_2_start_time = section_1_end_time;
     float section_2_end_time = section_2_start_time + (scoreLength * 0.1714) + ofRandom(-30, 30);
     float section_2_duration = section_2_end_time - section_2_start_time;
-
     
     float section_3_start_time = section_2_end_time;
     float section_3_end_time = section_3_start_time + (scoreLength * 0.314) + ofRandom(-30, 30);
