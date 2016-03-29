@@ -5,13 +5,9 @@
 //  Created by Blind Elephants on 2/27/16.
 //
 //
-
 #include "fc_performer.hpp"
-
 #include "fc_scoreManager.hpp"
-
 fc_performer::fc_performer(PerformerName _name) {name = _name;}
-
 void fc_performer::setDevices(int _wristIndex, int _packIndex, int _numberRelayChannels) {
     wristIndex = _wristIndex;
     packIndex  = _packIndex;
